@@ -1,4 +1,6 @@
 using AutoMapper;
+using ExperimentsData.Models.DAO;
+using ExperimentsData.Models.DTO;
 
 namespace ExperimentsData.Configuration
 {
@@ -6,7 +8,11 @@ namespace ExperimentsData.Configuration
     {
         public MapperProfile()
         {
-            
+
+            CreateMap<DatasetGroupedEntity, DatasetListDTO>().ReverseMap();
+            CreateMap<DatasetEntity, DatasetRegisterDTO>().ReverseMap();
+            CreateMap<SampleEntity,SampleRegisterDTO>().ReverseMap();
+
         }
     }
 

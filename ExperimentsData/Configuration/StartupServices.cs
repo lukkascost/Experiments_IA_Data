@@ -1,4 +1,6 @@
 using AutoMapper;
+using ExperimentsData.Repositories;
+using ExperimentsData.Repositories.Impl;
 using ExperimentsData.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +13,7 @@ namespace ExperimentsData.Configuration
         {
 
             services.AddScoped<IDatasetService,DatasetService>();
+            services.AddScoped<IDatasetRepository, DatasetRepository>();
             
             var mappingConfig = new MapperConfiguration(mc => { mc.AddProfile(new MapperProfile()); });
 

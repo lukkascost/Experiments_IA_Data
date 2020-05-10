@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ExperimentsData.Models;
 using ExperimentsData.Models.DAO;
+using ExperimentsData.Models.DTO;
 using ExperimentsData.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,35 +11,40 @@ using Microsoft.Extensions.Logging;
 
 namespace ExperimentsData.Controllers
 {
-    [Route("[controller]s")]
     public class DatasetController : ControllerBase
     {
         
         private readonly ILogger<DatasetController> _logger;
         private readonly IDatasetService _service;
-        private readonly DataContext _repository;
+        
 
-        public DatasetController(ILogger<DatasetController> logger, IDatasetService service, DataContext repository)
+        public DatasetController(ILogger<DatasetController> logger, IDatasetService service)
         {
             _logger = logger;
             _service = service;
-            _repository = repository;
         }
         
         [HttpGet]
-        [Route("")]
-        public List<DatasetEntity> Get()
+        [Route("/datasets")]
+        public List<DatasetListDTO> Get()
         {
-            return _repository.Datasets.ToList();
+            return _service.getAll();
+                
+        }
+        
+         
+        [HttpGet]
+        [Route("/datasets/{guid}")]
+        public DatasetRegisterDTO GetById(Guid guid)
+        {
+            return _service.getById(guid);
+                
         }
 
         [HttpPost]
         public DatasetEntity Create([FromBody] DatasetEntity datasetEntity)
         {
-            _repository.Datasets.Add(datasetEntity);
-            _repository.Entry(datasetEntity).State = EntityState.Added;
-            _repository.SaveChanges();
-            return datasetEntity;
+            return _service.Create(datasetEntity);
         }
     }
 }
