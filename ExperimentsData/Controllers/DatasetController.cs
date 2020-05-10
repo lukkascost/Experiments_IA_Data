@@ -42,9 +42,10 @@ namespace ExperimentsData.Controllers
         }
 
         [HttpPost]
-        public DatasetEntity Create([FromBody] DatasetEntity datasetEntity)
+        [Route("/datasets")]
+        public DatasetRegisterDTO Create([FromBody] DatasetRegisterDTO registerDto)
         {
-            return _service.Create(datasetEntity);
+            return _service.Create(registerDto);
         }
     }
 }

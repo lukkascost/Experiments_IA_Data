@@ -28,9 +28,9 @@ namespace ExperimentsData.Services
             return _mapper.Map<List<DatasetListDTO>>(result);
         }
 
-        public DatasetEntity Create(DatasetEntity datasetEntity)
+        public DatasetRegisterDTO Create(DatasetRegisterDTO datasetEntity)
         {
-            _repository.Save(datasetEntity);
+            _repository.Save(_mapper.Map<DatasetEntity>(datasetEntity));
             return datasetEntity;
         }
 
