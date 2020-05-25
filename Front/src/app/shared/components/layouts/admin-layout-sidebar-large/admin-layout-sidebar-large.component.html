@@ -1,0 +1,20 @@
+<ngx-spinner></ngx-spinner>
+<div class="app-admin-wrap layout-sidebar-large">
+    <div>
+        <app-header-sidebar-large (closeNavBarChild)="closeNavbarChild($event)"></app-header-sidebar-large>
+    </div>
+    <div class="side-content-wrap">
+        <app-sidebar-large [closeChild]="event"></app-sidebar-large>
+    </div>
+    <div [ngClass]="{'sidenav-open': navService.sidebarState.sidenavOpen}"
+         [perfectScrollbar]="{suppressScrollX: true}"
+         class="main-content-wrap d-flex flex-column">
+        <router-outlet></router-outlet>
+        <div class="flex-grow-1"></div>
+        <app-footer></app-footer>
+        <div *ngIf="moduleLoading" class="module-loader">
+            <div class="spinner spinner-bubble spinner-bubble-primary mr-3"></div>
+        </div>
+    </div>
+</div>
+<app-search *ngIf="searchService.searchOpen"></app-search>

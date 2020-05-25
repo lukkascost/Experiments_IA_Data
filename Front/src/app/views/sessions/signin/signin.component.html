@@ -1,0 +1,50 @@
+<div [@animate]="{value:'*',params:{y:'120px',opacity:'0',delay:'100ms', duration: '400ms'}}" class="card o-hidden">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="p-4">
+                <h1 class="mb-3 text-18">Login</h1>
+                <form #sessionForm="ngForm" (ngSubmit)="signin(sessionForm)" autocomplete="off">
+                    <div class="form-group">
+                        <label for="email">Endereço de e-mail</label>
+                        <input #email="ngModel" [(ngModel)]="user.email"
+                               [ngClass]="{ 'is-invalid': email.invalid && email.touched }"
+                               class="form-control form-control-rounded"
+                               email id="email" name="email"
+                               required type="email">
+                        <div *ngIf="email.touched" class="invalid-feedback">
+                            <div *ngIf="email.hasError('required')">O campo e-mail é obrigatório</div>
+                            <div *ngIf="email.hasError('email')">Insira um endereço de e-mail válido</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <input #password="ngModel" [(ngModel)]="user.password"
+                               [ngClass]="{ 'is-invalid': password.invalid && password.touched }"
+                               class="form-control form-control-rounded"
+                               id="password" name="password"
+                               required type="password">
+                        <div *ngIf="password.touched" class="invalid-feedback">
+                            <div *ngIf="password.hasError('required')">O campo senha é obrigatório</div>
+                        </div>
+                    </div>
+                    <button [disabled]="sessionForm.invalid || loading" [ngClass]="{loading: loading}"
+                            class="btn btn-primary btn-rounded btn-block mt-3"
+                            type="submit">
+                        <div *ngIf="loading" class="btn-spinner float-left"></div>
+                        <span *ngIf="!loading">
+                            Entrar
+                        </span>
+                        <span *ngIf="loading">{{loadingText}}</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6 text-center">
+            <div class="pr-3 auth-right">
+                <div class="text-center mb-4">
+                    <img alt="" src="assets/images/logo.svg">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using ExperimentsData.Models.DTO;
 using ExperimentsData.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace ExperimentsData.Controllers
 {
+    [EnableCors("CorsPolicy")]
+
     public class AttributeController
     {
         

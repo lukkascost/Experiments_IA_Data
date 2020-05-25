@@ -1,0 +1,106 @@
+<ng-template #modalConfirmOn let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Confirmação de Ativamento do Relé</h4>
+        <button (click)="finishOperation()" class="close"
+                type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="checkedMeters">
+            <p *ngIf="checkedMeters.length === 1"><strong>Você tem certeza que deseja ativar o relé do medidor de serial
+                <span class="text-primary">{{checkedMeters[0]}}</span>?</strong></p>
+            <p *ngIf="checkedMeters.length > 1">
+                <strong>
+                    Você tem certeza que deseja ativar os relés dos medidores de seriais
+                    <span *ngFor="let serial of checkedMeters" class="text-primary">{{serial}}</span>?</strong>
+            </p>
+        </div>
+        <div *ngIf="!checkedMeters">
+            <p><strong>Você tem certeza que deseja ativar o relé do medidor de serial
+                <span class="text-primary">{{meterSerial}}</span>?</strong></p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button (click)="finishOperation()"
+                class="btn btn-secondary btn-rounded btn-block mt-3 button"
+                title="Cancelar Ativamento do Relé do Medidor"
+                type="submit">Não
+        </button>
+        <button (click)="allRelayOn()"
+                class="btn btn-danger btn-rounded btn-block mt-3 button"
+                title="Ativar Relé do Medidor"
+                type="submit">
+            <span>Sim</span>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #modalConfirmOff let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Confirmação de Desativamento do Relé</h4>
+        <button (click)="finishOperation()" class="close"
+                type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="checkedMeters">
+            <p *ngIf="checkedMeters?.length === 1"><strong>Você tem certeza que deseja desativar o relé do medidor de
+                serial
+                <span class="text-primary">{{checkedMeters[0]}}</span>?</strong></p>
+            <p *ngIf="checkedMeters?.length > 1">
+                <strong>
+                    Você tem certeza que deseja desativar os relés dos medidores de seriais
+                    <span *ngFor="let serial of checkedMeters" class="text-primary">{{serial}}</span>?</strong>
+            </p>
+        </div>
+        <div *ngIf="!checkedMeters">
+            <p><strong>Você tem certeza que deseja desativar o relé do medidor de serial
+                <span class="text-primary">{{meterSerial}}</span>?</strong></p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button (click)="finishOperation()"
+                class="btn btn-secondary btn-rounded btn-block mt-3 button"
+                title="Cancelar Desativamento do Relé do Medidor"
+                type="submit">Não
+        </button>
+        <button (click)="allRelayOff()"
+                class="btn btn-danger btn-rounded btn-block mt-3 button"
+                title="Desativar Relé do Medidor"
+                type="submit">
+            <span>Sim</span>
+        </button>
+    </div>
+</ng-template>
+
+<div class="modal-footer" style="padding: 0; border-top: none; width: 100%;">
+    <button (click)="allGetRelay()"
+            [disabled]="requestingRelayStatus || (checkedMeters && !checkedMeters.length) || commandQueue > 0"
+            [ngClass]="{loading: requestingRelayStatus}" class="btn btn-primary btn-rounded btn-block mt-3"
+            title="Obter Estado"
+            type="submit">
+        <div *ngIf="requestingRelayStatus" class="btn-spinner float-left"></div>
+        <span *ngIf="!requestingRelayStatus">Obter Estado</span>
+        <span *ngIf="requestingRelayStatus">Obtendo Estado do Relé</span>
+    </button>
+    <button (click)="confirmRelayOperation(modalConfirmOff)"
+            [disabled]="relayDeactivating || (checkedMeters && !checkedMeters.length) || commandQueue > 0"
+            [ngClass]="{loading: relayDeactivating}" class="btn btn-danger btn-rounded btn-block mt-3"
+            title="Desativar Relé"
+            type="submit">
+        <div *ngIf="relayDeactivating" class="btn-spinner float-left"></div>
+        <span *ngIf="!relayDeactivating">Desativar</span>
+        <span *ngIf="relayDeactivating">Desativando</span>
+    </button>
+    <button (click)="confirmRelayOperation(modalConfirmOn)"
+            [disabled]="relayActivating || (checkedMeters && !checkedMeters.length) || commandQueue > 0"
+            [ngClass]="{loading: relayActivating}" class="btn btn-primary btn-rounded btn-block mt-3"
+            title="Ativar Relé"
+            type="submit">
+        <div *ngIf="relayActivating" class="btn-spinner float-left"></div>
+        <span *ngIf="!relayActivating">Ativar</span>
+        <span *ngIf="relayActivating">Ativando</span>
+    </button>
+</div>

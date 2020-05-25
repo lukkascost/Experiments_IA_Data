@@ -1,0 +1,18 @@
+<div class="card mb-4">
+    <div class="card-body">
+        <div *ngIf="!isLoading">
+            <div class="card-title d-flex align-items-center mb-3" style="color: #0C378B !important;">
+                <span class="text-17">Informações</span>
+                <span class="flex-grow-1"></span>
+            </div>
+            <ng-content></ng-content>
+        </div>
+        <div *ngIf="isLoading" class="row justify-content-md-center">
+            <div class="row justify-content-md-center">
+                <div class="col">
+                    <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

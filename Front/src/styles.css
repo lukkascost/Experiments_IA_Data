@@ -1,0 +1,71 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    display: flex !important;
+}
+
+* {
+    box-sizing: border-box !important;
+}
+
+
+.triangle {
+    border-color: transparent transparent #0C378B transparent !important;
+}
+
+
+.tooltip {
+    z-index: 10000000 !important;
+}
+
+.btn-primary {
+    color: #fff !important;
+    background-color: #0C378B !important;
+    border-color: #0C378B !important;
+}
+
+.badge-info {
+    color: #fff;
+    background-color: #0C378B !important;
+}
+
+.not-found-wrap {
+    width: 100vw;
+    height: 100vh;
+}
+
+.mega-menu .dropdown-menu {
+    overflow-y: hidden;
+    width: auto;
+}
+
+.mega-menu .dropdown-menu ul.links {
+    column-count: 1;
+}
+
+.dropdown-toggle:empty::after {
+    display: none;
+}
+
+.checkbox-outline-light .checkmark:after {
+    border-color: #0C378B !important;
+}
+
+#card-table-smc-meter .ngx-datatable.material .datatable-footer {
+    padding: 0.75rem 1.25rem !important;
+}
+
+.btn:disabled {
+    opacity: 0.3 !important;
+}
+
+.ngb-tp-input {
+    text-align: center;
+    width: 42px;
+}
+
+.checkbox input[disabled] ~ *, .radio input[disabled] ~ * {
+    color: rgba(0, 0, 0, 0.87) !important;
+}

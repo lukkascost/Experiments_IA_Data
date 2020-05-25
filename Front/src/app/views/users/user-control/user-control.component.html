@@ -1,0 +1,180 @@
+<div class="breadcrumb">
+    <h1>Configurações de Conta</h1>
+</div>
+
+<div class="separator-breadcrumb border-top"></div>
+
+<ng-template #modalLong let-modal>
+    <form #userForm="ngForm" (ngSubmit)="commitModalUser(userForm)" autocomplete="off">
+        <div class="modal-header">
+            <h4 class="modal-title">Modificar Usuário</h4>
+            <button (click)="finishOperation()" [disabled]="loading" class="close" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body form-group">
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label" for="name">Nome:</label>
+                <div class="col-sm-6">
+                    <input #name="ngModel" [(ngModel)]="data.name"
+                           [ngClass]="{ 'is-invalid': name.invalid && name.touched }" class="form-control"
+                           id="name" name="name"
+                           required type="text">
+                    <div *ngIf="name.touched" class="invalid-feedback">
+                        <div *ngIf="name.hasError('required')">O campo nome é obrigatório</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label" for="email">E-mail:</label>
+                <div class="col-sm-6">
+                    <input [(ngModel)]="data.email" [readOnly]="true" class="form-control" id="email"
+                           name="email" type="text">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label" for="password">Senha:</label>
+                <div class="col-sm-6">
+                    <input #password="ngModel" [(ngModel)]="data.password"
+                           [ngClass]="{ 'is-invalid': password.invalid && password.touched }"
+                           [required]="containsPasswordValue()"
+                           class="form-control" id="password"
+                           name="password"
+                           type="password">
+                    <div *ngIf="password.touched" class="invalid-feedback">
+                        <div *ngIf="password.hasError('required')">O campo senha é obrigatório
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label" for="confirmPassword">Digite a senha novamente:</label>
+                <div class="col-sm-6">
+                    <input #confirmPassword="ngModel" [(ngModel)]="data.confirmPassword"
+                           [ngClass]="{ 'is-invalid': confirmPassword.invalid && confirmPassword.touched }"
+                           [required]="containsPasswordValue()"
+                           class="form-control" id="confirmPassword"
+                           name="confirmPassword"
+                           pattern="{{ password.value }}" type="password">
+                    <div *ngIf="confirmPassword.touched" class="invalid-feedback">
+                        <div *ngIf="confirmPassword.hasError('required')">O campo confirmação de senha é obrigatório
+                        </div>
+                        <div *ngIf="confirmPassword.hasError('pattern')">As senhas não correspodem</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label" for="description">Descrição:</label>
+                <div class="col-sm-6">
+                    <input #description="ngModel" [(ngModel)]="data.description"
+                           [ngClass]="{ 'is-invalid': description.invalid && description.touched }" class="form-control"
+                           id="description" name="description"
+                           required
+                           type="text">
+                    <div *ngIf="description.touched" class="invalid-feedback">
+                        <div *ngIf="description.hasError('required')">O campo descrição é obrigatório</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label" for="meterType">Tipo de Usuário:</label>
+                <div class="col-sm-5">
+                    <select #userType="ngModel" [(ngModel)]="data.userType" [disabled]="!canModifyUser(data.userType)"
+                            [ngClass]="{ 'is-invalid': userType.invalid && userType.touched }" class="form-control"
+                            id="meterType"
+                            name="meterType" required>
+                        <option *ngFor="let reg of keys(UserType)" [value]="UserType[reg]">{{reg}}</option>
+                    </select>
+                    <div *ngIf="userType.touched" class="invalid-feedback">
+                        <div *ngIf="userType.hasError('required')">O campo tipo de usuário é obrigatório</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button (click)="finishOperation()"
+                    [disabled]="loading"
+                    class="btn btn-secondary btn-rounded btn-block mt-3 button"
+                    title="Cancelar"
+                    type="submit">Cancelar
+            </button>
+            <button [disabled]="loading || userForm.invalid"
+                    [ngClass]="{loading: loading}"
+                    class="btn btn-primary btn-rounded btn-block mt-3 button"
+                    title="Aplicar Alterações"
+                    type="submit">
+                <div *ngIf="loading" class="btn-spinner float-left"></div>
+                <span *ngIf="!loading">Modificar</span>
+                <span *ngIf="loading">Aplicando Alterações</span>
+            </button>
+        </div>
+    </form>
+</ng-template>
+
+<div class="card user-profile o-hidden mb-4">
+    <div class="header-cover" style="background-image: url('assets/images/photo-wide-4.jpg')"></div>
+    <div class="user-info">
+        <img alt="" class="profile-picture avatar-lg mb-2" src="assets/images/faces/1.png">
+        <p class="m-0 text-24">{{currentUser?.name | titlecase}}</p>
+        <p class="text-muted m-0">{{currentUser?.description}}</p>
+    </div>
+    <div class="card-body">
+        <ngb-tabset class="nav-center">
+            <ngb-tab title="Informações Pessoais">
+                <ng-template ngbTabContent>
+                    <h4>Suas Informações</h4><br><br>
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <div class="mb-4">
+                                <p class="text-primary mb-1"><i class="i-Calendar text-16 mr-1"></i> Nome</p>
+                                <span>{{currentUser?.name | titlecase}}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="mb-4">
+                                <p class="text-primary mb-1"><i class="i-Edit-Map text-16 mr-1"></i> Descrição</p>
+                                <span>{{currentUser?.description}}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="mb-4">
+                                <p class="text-primary mb-1"><i class="i-Globe text-16 mr-1"></i> E-mail</p>
+                                <span>{{currentUser?.email}}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="mb-4">
+                                <p class="text-primary mb-1"><i class="i-MaleFemale text-16 mr-1"></i> Tipo de Usuário
+                                </p>
+                                <span>{{UserType[currentUser.userType]}}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="mb-4">
+                                <p class="text-primary mb-1"><i class="i-Cloud-Weather text-16 mr-1"></i> Última
+                                    Modificação</p>
+                                <span>{{currentUser?.updatedAt | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="row justify-content-md-center">
+                        <div class="col-12 col-md-4">
+                            <button (click)="modalUser(modalLong, currentUser.email);"
+                                    class="btn btn-block"
+                                    style="margin-right: 2px;background-color: #0C378B; color: #fff;">
+                                <a>Editar informações</a>
+                            </button>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab *ngIf="authService.hasPermition(hardOperations)" title="Usuários">
+                <ng-template ngbTabContent>
+                    <app-user-table *ngIf="!isLoading" [users]="updatedList"></app-user-table>
+                    <app-table-loading *ngIf="isLoading"></app-table-loading>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+.app-footer {
+  width: 85vw;
+  margin-top: 2rem;
+  background-color: #FFF;
+  padding: 1.25rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+
+  .footer-bottom {
+    width: 100%;
+
+    .logo {
+      width: 6rem;
+      height: auto;
+      margin: 4px;
+    }
+  }
+}

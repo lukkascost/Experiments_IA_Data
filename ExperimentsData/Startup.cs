@@ -43,6 +43,17 @@ namespace ExperimentsData
                 options
                     .UseSqlite(CodeConstants.ConnectionString));
 
+            // CORS Configuration - START
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.SetIsOriginAllowed((host) => true)
+                        .AllowCredentials()
+                        .AllowAnyMethod()
+                        .WithMethods("GET", "PUT", "POST", "DELETE")
+                        .AllowAnyHeader());
+            });
+            // CORS Configuration - END
 
 
             services.AddSwaggerGen(c =>
@@ -54,6 +65,7 @@ namespace ExperimentsData
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+           
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -74,10 +86,15 @@ namespace ExperimentsData
             app.UseSwagger();
 
             app.UseRouting();
-
+            // CORS Configuration - START
+            app.UseCors("CorsPolicy");
+        
+            // CORS Configuration - END
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            
+          
         }
     }
 }

@@ -1,0 +1,57 @@
+<div (mouseenter)="closeNavChild()" class="main-header">
+    <div class="logo">
+        <a [routerLink]="['/meters/all']"><img alt="" src="./assets/images/logo.png"></a>
+    </div>
+
+    <div (click)="toggelSidebar()" class="menu-toggle">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <div style="margin: auto"></div>
+
+    <div class="header-part-right">
+        <i class="i-Full-Screen header-icon d-none d-sm-inline-block" fullScreenWindow role="button"></i>
+
+        <div [placement]="'bottom-right'" ngbDropdown>
+            <div class="badge-top-container">
+                <span class="badge badge-primary">{{configuredNotifications.length}}</span>
+                <i class="i-Bell text-muted header-icon" ngbDropdownToggle role="button"></i>
+            </div>
+            <div class="notification-dropdown rtl-ps-none" ngbDropdownMenu perfectScrollbar
+                 style="width: 500px !important;">
+                <div *ngFor="let item of configuredNotifications" [routerLink]="[item.link]"
+                     class="dropdown-item d-flex">
+                    <div class="notification-icon">
+                        <i class="{{item.icon}} text-{{item.status}}" style="font-size: 24px;"></i>
+                    </div>
+                    <div class="notification-details flex-grow-1">
+                        <p class="m-0 d-flex align-items-center">
+                            <span class="text-small">{{item.title}}</span>
+                            <span class="flex-grow-1"></span>
+                            <span *ngIf="item.isRead" class="badge badge-pill badge-info mr-3">Lido</span>
+                            <span *ngIf="!item.isRead" class="badge badge-pill badge-danger mr-3">Não lido</span>
+                            <span class="text-small text-muted ml-auto">{{item.time}}</span>
+                        </p>
+                        <p class="text-small text-muted m-0">{{item.text | excerpt:30}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div [placement]="'bottom-right'" class="user col align-self-end" ngbDropdown>
+            <img alt="" id="userDropdown" ngbDropdownToggle src="./assets/images/faces/1.png">
+
+            <div aria-labelledby="userDropdown" class="header-account-dropdown" ngbDropdownMenu>
+                <div class="dropdown-header">
+                    <i class="i-Lock-User mr-1"></i> {{auth.getuser()?.name | titlecase}}
+                </div>
+                <button [routerLink]="['/users']" class="dropdown-item">Configurações de Conta</button>
+                <button (click)="signout()" class="dropdown-item">Logout</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>

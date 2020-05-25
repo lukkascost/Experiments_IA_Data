@@ -1,0 +1,19 @@
+.button {
+  position: relative !important;
+  box-sizing: border-box !important;
+  transition: all .15s ease-in-out !important;
+  display: inline-block !important;
+  width: fit-content;
+
+  &.loading {
+    padding-left: 36px !important;
+  }
+
+  .btn-spinner {
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    margin: auto !important;
+    left: 10px !important;
+  }
+}

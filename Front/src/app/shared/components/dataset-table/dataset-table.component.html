@@ -1,0 +1,69 @@
+<div class="card o-hidden">
+    <ngx-datatable
+            columnMode="force"
+            [footerHeight]="50"
+            [headerHeight]="50"
+            [messages]="{emptyMessage: 'Nenhum Dataset encontrado'}"
+            [rowHeight]="60"
+            [rows]="data"
+            class="material fullscreen"
+            [scrollbarH]="false">
+
+        <ngx-datatable-column [canAutoResize]="true" [minWidth]="350" [resizeable]="true" [sortable]="true"
+                              cellClass="fcom-selectable fcom-ellipsible"
+                              name="Id"
+                              prop="id">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.id}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [canAutoResize]="true" [minWidth]="350" [resizeable]="true" [sortable]="true"
+                              cellClass="fcom-selectable fcom-ellipsible"
+                              name="Nome"
+                              prop="name">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.name}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [canAutoResize]="true" [minWidth]="150" [resizeable]="true" [sortable]="true"
+                              cellClass="fcom-selectable fcom-ellipsible"
+                              name="Número de amostras"
+                              prop="samples">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.samples}}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [width]="50"
+                              [canAutoResize]="true"
+                              cellClass="fcom-selectable fcom-ellipsible"
+        >
+            <ng-template let-collumn="collumn"
+                         ngx-datatable-header-template>
+                <button
+                        [title]="'Cadastrar medidor'"
+                        class="btn btn-success"
+                        style=" width:-webkit-fill-available;"><a
+                        class="fa fa-plus"></a></button>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div  class="row text-center">
+                    <div class="col-sm-6">
+                        <button
+                                [title]="'visualizar informações do dataset - '+row.name"
+                                class="btn btn-outline-info"
+                                style="margin-right: 0px; width:-webkit-fill-available;"><a
+                                class="fa fa-search"></a></button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button
+                                [title]="'Excluir informações do medidor - '+row.name"
+                                class="btn btn-outline-danger"
+                                style="margin-right: 0px; width:-webkit-fill-available;"><a
+                                class="fa fa-trash"></a></button>
+                    </div>
+                </div>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>

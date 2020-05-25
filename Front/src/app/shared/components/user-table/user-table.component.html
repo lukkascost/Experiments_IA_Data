@@ -1,0 +1,234 @@
+<ng-template #modalConfirm let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Confirmação de exclusão</h4>
+        <button (click)="finishOperation()" [disabled]="loading" class="close"
+                type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p><strong>Você tem certeza que deseja excluir o usuário de email <span
+                class="text-primary"></span> {{deletedUser.email}}?</strong></p>
+    </div>
+    <div class="modal-footer">
+        <button (click)="finishOperation()"
+                [disabled]="loading"
+                class="btn btn-secondary btn-rounded btn-block mt-3 button"
+                title="Cancelar Exclusão de Usuário"
+                type="submit">Não
+        </button>
+        <button (click)="deleteUser()"
+                [disabled]="loading"
+                [ngClass]="{loading: loading}"
+                class="btn btn-danger btn-rounded btn-block mt-3 button"
+                title="Excluir Usuário"
+                type="submit">
+            <div *ngIf="loading" class="btn-spinner float-left"></div>
+            <span *ngIf="!loading">Sim</span>
+            <span *ngIf="loading">Excluindo</span>
+        </button>
+    </div>
+</ng-template>
+<ng-template #modalLong let-modal>
+    <form #userForm="ngForm" (ngSubmit)="commitModalUser(userForm)" autocomplete="off">
+        <div class="modal-header">
+            <h4 class="modal-title">{{isEditing ? 'Modificar Usuário' : 'Cadastrar Usuário'}}</h4>
+            <button (click)="finishOperation()" [disabled]="loading" class="close" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body form-group">
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label" for="name">Nome:</label>
+                <div class="col-sm-6">
+                    <input #name="ngModel" [(ngModel)]="data.name"
+                           [ngClass]="{ 'is-invalid': name.invalid && name.touched }" class="form-control"
+                           id="name" name="name"
+                           required type="text">
+                    <div *ngIf="name.touched" class="invalid-feedback">
+                        <div *ngIf="name.hasError('required')">O campo nome é obrigatório</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label" for="email">E-mail:</label>
+                <div class="col-sm-6">
+                    <input #email="ngModel" [(ngModel)]="data.email"
+                           [ngClass]="{ 'is-invalid': email.invalid && email.touched }" [readOnly]="isEditing"
+                           class="form-control" email id="email"
+                           name="email" required
+                           type="text">
+                    <div *ngIf="email.touched" class="invalid-feedback">
+                        <div *ngIf="email.hasError('required')">O campo e-mail é obrigatório</div>
+                        <div *ngIf="email.hasError('email')">Digite um endereço de e-mail válido</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label" for="password">Senha:</label>
+                <div class="col-sm-6">
+                    <input #password="ngModel" [(ngModel)]="data.password"
+                           [ngClass]="{ 'is-invalid': password.invalid && password.touched }"
+                           [required]="containsPasswordValue() || !isEditing"
+                           class="form-control" id="password"
+                           name="password"
+                           type="password">
+                    <div *ngIf="password.touched" class="invalid-feedback">
+                        <div *ngIf="password.hasError('required')">O campo senha é obrigatório
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label" for="confirmPassword">Digite a senha novamente:</label>
+                <div class="col-sm-6">
+                    <input #confirmPassword="ngModel" [(ngModel)]="data.confirmPassword"
+                           [ngClass]="{ 'is-invalid': confirmPassword.invalid && confirmPassword.touched }"
+                           [required]="containsPasswordValue() || !isEditing"
+                           class="form-control" id="confirmPassword"
+                           name="confirmPassword"
+                           pattern="{{ password.value }}" type="password">
+                    <div *ngIf="confirmPassword.touched" class="invalid-feedback">
+                        <div *ngIf="confirmPassword.hasError('required')">O campo confirmação de senha é obrigatório
+                        </div>
+                        <div *ngIf="confirmPassword.hasError('pattern')">As senhas não correspodem</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label" for="description">Descrição:</label>
+                <div class="col-sm-6">
+                    <input #description="ngModel" [(ngModel)]="data.description"
+                           [ngClass]="{ 'is-invalid': description.invalid && description.touched }" class="form-control"
+                           id="description" name="description"
+                           required
+                           type="text">
+                    <div *ngIf="description.touched" class="invalid-feedback">
+                        <div *ngIf="description.hasError('required')">O campo descrição é obrigatório</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label" for="meterType">Tipo de Usuário:</label>
+                <div class="col-sm-5">
+                    <select #userType="ngModel" [(ngModel)]="data.userType" [disabled]="!canChangeUser(data.userType)"
+                            [ngClass]="{ 'is-invalid': userType.invalid && userType.touched }" class="form-control"
+                            id="meterType"
+                            name="meterType" required>
+                        <option *ngFor="let reg of keys(UserType)" [value]="UserType[reg]">{{reg}}</option>
+                    </select>
+                    <div *ngIf="userType.touched" class="invalid-feedback">
+                        <div *ngIf="userType.hasError('required')">O campo tipo de usuário é obrigatório</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button (click)="finishOperation()"
+                    [disabled]="loading"
+                    class="btn btn-secondary btn-rounded btn-block mt-3 button"
+                    title="Cancelar"
+                    type="submit">Cancelar
+            </button>
+            <button [disabled]="loading || userForm.invalid"
+                    [ngClass]="{loading: loading}"
+                    class="btn btn-primary btn-rounded btn-block mt-3 button"
+                    title="{{isEditing ? 'Modificar Usuário' : 'Cadastrar Novo Usuário'}}"
+                    type="submit">
+                <div *ngIf="loading" class="btn-spinner float-left"></div>
+                <span *ngIf="!loading">{{isEditing ? 'Modificar' : 'Cadastrar'}}</span>
+                <span *ngIf="loading">{{isEditing ? 'Modificando' : 'Cadastrando'}}</span>
+            </button>
+        </div>
+    </form>
+</ng-template>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card  o-hidden">
+            <ngx-datatable
+                    [columnMode]="'force'"
+                    [footerHeight]="50"
+                    [headerHeight]="50"
+                    [limit]="6"
+                    [messages]="{emptyMessage: 'Nenhum usuário encontrado'}"
+                    [rowHeight]="60"
+                    [rows]="users"
+                    class="material fullscreen"
+                    scrollbarH="true">
+
+                <ngx-datatable-column [canAutoResize]="true" [minWidth]="200" [resizeable]="true" [sortable]="true"
+                                      [width]="200"
+                                      cellClass="fcom-selectable fcom-ellipsible"
+                                      name="Nome"
+                                      prop="name">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <span>{{row['name']}}</span>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [canAutoResize]="true" [minWidth]="200" [resizeable]="true" [sortable]="true"
+                                      [width]="200"
+                                      cellClass="fcom-selectable fcom-ellipsible"
+                                      name="E-mail"
+                                      prop="email">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row['email']}}
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [canAutoResize]="true" [minWidth]="100" [resizeable]="true" [sortable]="true"
+                                      [width]="100"
+                                      cellClass="fcom-selectable fcom-ellipsible"
+                                      name="Tipo"
+                                      prop="userType">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{UserType[row['userType']]}}
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [canAutoResize]="true" [minWidth]="160"
+                                      [resizeable]="true" [sortable]="true"
+                                      [width]="160" cellClass="fcom-selectable fcom-ellipsible"
+                                      name="Última modificação"
+                                      prop="updatedAt">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row['updatedAt'] | date: 'dd/MM/yyyy HH:mm:ss'}}
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [canAutoResize]="true" [maxWidth]="200" [minWidth]="200"
+                                      [resizeable]="true"
+                                      [sortable]="true"
+                                      [width]="200"
+                                      cellClass="fcom-selectable fcom-ellipsible">
+                    <ng-template let-collumn="collumn" ngx-datatable-header-template>
+                        <button (click)="modalUser(modalLong);" class="btn btn-block"
+                                style="margin-right: 2px;background-color: #0C378B; color: #fff;"
+                                title="Cadastrar Novo Usuário">
+                            <a class="fa fa-plus"></a>
+                        </button>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template style="text-align: center !important;">
+                        <div class="text-center">
+                            <div class="btn-group">
+                                <button (click)="isEditing = true;modalUser(modalLong, row)"
+                                        [title]="'Editar Usuário - '+row['email']"
+                                        class="btn"
+                                        style="margin-right: 2px;background-color: #0C378B; color: #fff;"><a
+                                        class="fa fa-pencil"></a>
+                                </button>
+                                <button (click)="confirmUserExclusion(modalConfirm, row)"
+                                        [disabled]="!canDeleteUser(row['userType'])"
+                                        [title]="'Excluir Usuário - '+row['email']"
+                                        class="btn btn-danger"
+                                        style="margin-right: 2px;"><a
+                                        class="fa fa-trash"></a>
+                                </button>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+            </ngx-datatable>
+        </div>
+    </div>
+</div>

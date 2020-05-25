@@ -1,0 +1,15 @@
+<div>
+    <div *ngIf="!isLoading" class="p-4 rounded d-flex align-items-center"
+         style="box-shadow: 0 4px 20px 1px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.08);">
+        <i class="{{icon}} text-32 mr-3" style="color: #0C378B"></i>
+        <div>
+            <ng-content></ng-content>
+            <div *ngIf="spinner" [ngClass]="spinnerClass"
+                 class="spinner mr-3" style="font-size: 3px; vertical-align: middle"></div>
+        </div>
+    </div>
+    <div *ngIf="isLoading" class="p-4 rounded d-flex align-items-center justify-content-center"
+         style="box-shadow: 0 4px 20px 1px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.08);">
+        <div class="spinner-bubble spinner-bubble-primary m-3"></div>
+    </div>
+</div>
