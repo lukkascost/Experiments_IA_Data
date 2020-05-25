@@ -19,6 +19,7 @@ import {DatetimePickerComponent} from './datetime-picker/datetime-picker.compone
 import {CardStatusComponent} from './card-status/card-status.component';
 import {CardInfoComponent} from './card-info/card-info.component';
 import {DatasetTableComponent} from './dataset-table/dataset-table.component';
+import {SampleTableComponent} from './sample-table/sample-table.component';
 
 const components = [
     BtnLoadingComponent,
@@ -29,7 +30,8 @@ const components = [
     DatetimePickerComponent,
     CardStatusComponent,
     CardInfoComponent,
-    DatasetTableComponent
+    DatasetTableComponent,
+    SampleTableComponent
 ];
 
 @NgModule({

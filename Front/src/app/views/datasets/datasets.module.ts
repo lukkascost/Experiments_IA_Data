@@ -9,9 +9,10 @@ import {FormWizardModule} from '../../shared/components/form-wizard/form-wizard.
 import {TextMaskModule} from 'angular2-text-mask';
 import {DatasetsComponent} from './datasets.component';
 import {DatasetsRoutingModule} from './datasets-routing.module';
+import { DatasetInfoComponent } from './dataset-info/dataset-info.component';
 
 @NgModule({
-    declarations: [DatasetsComponent],
+    declarations: [DatasetsComponent, DatasetInfoComponent],
     imports: [
         CommonModule,
         DatasetsRoutingModule,

@@ -2,7 +2,6 @@ import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core'
 import {NavigationService} from '../../../../services/navigation.service';
 import {SearchService} from '../../../../services/search.service';
 import {AuthService} from '../../../../../security/auth.service';
-import {AlarmService} from '../../../../services/alarm.service';
 import {HandleErrorService} from '../../../../services/handle-error.service';
 import * as moment from 'moment';
 import {HubService} from '../../../../services/hub.service';
@@ -28,7 +27,6 @@ export class HeaderSidebarLargeComponent implements OnInit, OnDestroy {
         private navService: NavigationService,
         public searchService: SearchService,
         public auth: AuthService,
-        public alarmService: AlarmService,
         private handleService: HandleErrorService,
         private hubService: HubService
     ) {
@@ -46,16 +44,6 @@ export class HeaderSidebarLargeComponent implements OnInit, OnDestroy {
              await this.openConnection();
          });
 
-    }
-
-    getAlarms() {
-        this.alarmService.getTop().toPromise()
-            .then(response => {
-                this.notifications = response as any[];
-            })
-            .catch(error => {
-                this.handleService.handle(error);
-            });
     }
 
     modifyConfigAlarms(notification, deleteAction) {

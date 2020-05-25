@@ -6,7 +6,6 @@ import {HandleErrorService} from '../shared/services/handle-error.service';
 import {AuthService} from '../security/auth.service';
 import {DataHttpService} from '../security/data-http.service';
 import {MessageService} from '../shared/services/message.service';
-import {AlarmService} from '../shared/services/alarm.service';
 import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 import {NgbDatePTParserFormatter} from './util/NgbDatePTParserFormatter';
 import {HubService} from '../shared/services/hub.service';
@@ -28,7 +27,6 @@ import {HubService} from '../shared/services/hub.service';
         AuthService,
         DataHttpService,
         HubService,
-        AlarmService,
         {provide: NgbDateParserFormatter, useClass: NgbDatePTParserFormatter}
     ],
 })

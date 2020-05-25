@@ -1,0 +1,147 @@
+<ngx-datatable
+        columnMode="force"
+        [footerHeight]="50"
+        [headerHeight]="50"
+        [messages]="{emptyMessage: 'Nenhuma amostra encontrado'}"
+        [rowHeight]="60"
+        [rows]="data"
+        class="material fullscreen"
+        [loadingIndicator]="isLoading"
+>
+    <ngx-datatable-column [canAutoResize]="true" [minWidth]="50" [resizeable]="true" [sortable]="true"
+                          cellClass="fcom-selectable fcom-ellipsible"
+                          name="Ordem"
+                          prop="order">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.order}}
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [canAutoResize]="true" [minWidth]="350" [resizeable]="true" [sortable]="true"
+                          cellClass="fcom-selectable fcom-ellipsible"
+                          name="Id"
+                          prop="id">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.id}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [canAutoResize]="true" [minWidth]="50" [resizeable]="true" [sortable]="true"
+                          cellClass="fcom-selectable fcom-ellipsible"
+                          name="Tipo de Extrator"
+                          prop="extractorType">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.extractorType}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [canAutoResize]="true" [minWidth]="50" [resizeable]="true" [sortable]="true"
+                          cellClass="fcom-selectable fcom-ellipsible"
+                          name="Número de atributos"
+                          prop="attributes">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.attributes}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [canAutoResize]="true" [minWidth]="50" [resizeable]="true" [sortable]="true"
+                          cellClass="fcom-selectable fcom-ellipsible"
+                          name="Arquivo"
+                          prop="originalFileName">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.originalFileName}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [canAutoResize]="true" [minWidth]="50" [resizeable]="true" [sortable]="true"
+                          cellClass="fcom-selectable fcom-ellipsible"
+                          name="Classe"
+                          prop="label">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.label}}
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [minWidth]="100"
+                          [canAutoResize]="true"
+                          cellClass="fcom-selectable fcom-ellipsible"
+    >
+        <ng-template let-collumn="collumn"
+                     ngx-datatable-header-template>
+            <button (click)="clean();open(addSample)"
+                    [title]="'Cadastrar medidor'"
+                    class="btn btn-success"
+                    style=" width:-webkit-fill-available;"><a
+                    class="fa fa-plus"></a></button>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <div  class="row text-center">
+                <div class="col-sm-6">
+                    <button
+                            [routerLink]="['/datasets',row.id]"
+                            [title]="'visualizar informações do dataset - '+row.name"
+                            class="btn btn-outline-info"
+                            style="margin-right: 0px; width:-webkit-fill-available;"><a
+                            class="fa fa-search"></a></button>
+                </div>
+                <div class="col-sm-6">
+                    <button
+                            [disabled]="true"
+                            [title]="'Excluir informações do medidor - '+row.name"
+                            class="btn btn-outline-danger"
+                            style="margin-right: 0px; width:-webkit-fill-available;"><a
+                            class="fa fa-trash"></a></button>
+                </div>
+            </div>
+        </ng-template>
+    </ngx-datatable-column>
+
+
+    <ngx-datatable-footer>
+            <ng-template  ngx-datatable-footer-template>
+                <ngb-pagination
+                    #ngbPage
+                    [boundaryLinks]="true"
+                    [collectionSize]="data.length"
+                    [pageSize]="pageSize"
+                    [page]="currentPage"
+                    [maxSize]="5"
+                    (pageChange)="onPageChanged($event)">
+                </ngb-pagination>
+            </ng-template>
+    </ngx-datatable-footer>
+</ngx-datatable>
+
+
+<ng-template #addSample let-modal>
+    <div class="modal-header bg-success">
+        <h4 class="modal-title bg-success text-white" id="modal-basic-title">Adicionar dataset</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span class="text-white" aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <div class="col-md-12 form-group mb-3">
+                    <label >Nome do Arquivo </label>
+                    <input type="text" class="form-control" [(ngModel)]="selectedSample.originalFileName" [ngModelOptions]="{standalone: true}" >
+                </div>
+                <div class="col-md-12 form-group mb-3">
+                    <label >Ordem</label>
+                    <input type="number" class="form-control" [(ngModel)]="selectedSample.order" [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="col-md-12 form-group mb-3">
+                    <label >Tipo de Extrator</label>
+                    <select id="add_meterPhaseType" name="add_meterPhaseType" class="form-control form-control" [(ngModel)]="selectedSample.extractorType">
+                        <option *ngFor="let reg of keys(ExtractorType)" [value] ="ExtractorType[reg]" >{{reg}}</option>
+                    </select>
+                </div>
+                <div class="col-md-12 form-group mb-3">
+                    <label >Classe</label>
+                    <input type="text" class="form-control" [(ngModel)]="selectedSample.label" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-success btn-rounded" (click)="addNew();modal.close('Save click')">Salvar</button>
+        <button type="button" class="btn btn-outline-dark btn-rounded" (click)="modal.close('Save click')">Cancelar</button>
+    </div>
+</ng-template>
