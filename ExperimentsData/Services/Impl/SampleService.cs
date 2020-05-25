@@ -5,7 +5,7 @@ using ExperimentsData.Models.DAO;
 using ExperimentsData.Models.DTO;
 using ExperimentsData.Repositories;
 
-namespace ExperimentsData.Services
+namespace ExperimentsData.Services.Impl
 {
     public class SampleService :ISampleService
     {
