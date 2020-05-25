@@ -14,7 +14,10 @@ namespace ExperimentsData.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SampleEntity>()
-                .HasAlternateKey(x => new {x.OriginalFileName, x.DatasetEntityId});
+                .HasAlternateKey(x => new {x.DatasetEntityId, x.OriginalFileName});
+            
+            modelBuilder.Entity<SampleEntity>()
+                .HasAlternateKey(x => new {x.DatasetEntityId, x.order});
         }
         
     }

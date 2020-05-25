@@ -16,6 +16,8 @@ namespace ExperimentsData.Models.DAO
         
         [NotMapped] 
         public Guid DatasetEntityId { get; set; }
+        
+        public DatasetEntity DatasetEntity { get; set; }
 
         public string toFile()
         {

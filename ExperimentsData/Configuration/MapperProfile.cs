@@ -11,7 +11,11 @@ namespace ExperimentsData.Configuration
 
             CreateMap<DatasetGroupedEntity, DatasetListDTO>().ReverseMap();
             CreateMap<DatasetEntity, DatasetRegisterDTO>().ReverseMap();
+            
+            
+            CreateMap<SampleGroupedEntity, SampleListDTO>().ReverseMap();
             CreateMap<SampleEntity,SampleRegisterDTO>().ReverseMap();
+            
 
         }
     }

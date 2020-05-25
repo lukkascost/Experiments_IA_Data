@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using AutoMapper;
-using ExperimentsData.Models;
 using ExperimentsData.Models.DAO;
 using ExperimentsData.Models.DTO;
 using ExperimentsData.Repositories;
-using Microsoft.EntityFrameworkCore;
 
-namespace ExperimentsData.Services
+namespace ExperimentsData.Services.Impl
 {
     
     public class DatasetService : IDatasetService
@@ -44,7 +41,6 @@ namespace ExperimentsData.Services
         public byte[] DownloadFileById(Guid guid)
         {
             var result = new MemoryStream();
-            TextWriter stream = new StreamWriter(result);
             var dataset = _repository.GetById(guid);    
             result.Write(Encoding.ASCII.GetBytes(dataset.toFile()));
             result.Flush();

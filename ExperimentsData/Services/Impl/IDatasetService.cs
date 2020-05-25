@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using ExperimentsData.Models.DAO;
 using ExperimentsData.Models.DTO;
-using Microsoft.AspNetCore.Mvc;
 
-namespace ExperimentsData.Services
+namespace ExperimentsData.Services.Impl
 {
     public interface IDatasetService
     {
