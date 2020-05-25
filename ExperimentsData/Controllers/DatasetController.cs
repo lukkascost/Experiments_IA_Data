@@ -1,12 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using ExperimentsData.Models;
-using ExperimentsData.Models.DAO;
 using ExperimentsData.Models.DTO;
 using ExperimentsData.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace ExperimentsData.Controllers
@@ -46,6 +42,14 @@ namespace ExperimentsData.Controllers
         public DatasetRegisterDTO Create([FromBody] DatasetRegisterDTO registerDto)
         {
             return _service.Create(registerDto);
+        }
+        
+        [HttpGet]
+        [Route("/datasets/{guid}/dataset")]
+        public FileContentResult DownloadFileById(Guid guid)
+        {
+            byte[] result = _service.DownloadFileById(guid); 
+            return File(result, "text/plain", "file.txt");
         }
     }
 }

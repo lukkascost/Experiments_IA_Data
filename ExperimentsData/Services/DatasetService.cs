@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using AutoMapper;
 using ExperimentsData.Models;
 using ExperimentsData.Models.DAO;
@@ -37,6 +39,16 @@ namespace ExperimentsData.Services
         public DatasetRegisterDTO getById(Guid guid)
         {
             return _mapper.Map<DatasetRegisterDTO>( _repository.GetById(guid));
+        }
+
+        public byte[] DownloadFileById(Guid guid)
+        {
+            var result = new MemoryStream();
+            TextWriter stream = new StreamWriter(result);
+            var dataset = _repository.GetById(guid);    
+            result.Write(Encoding.ASCII.GetBytes(dataset.toFile()));
+            result.Flush();
+            return result.GetBuffer();    
         }
     }
 }

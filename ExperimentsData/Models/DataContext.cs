@@ -11,6 +11,11 @@ namespace ExperimentsData.Models
         public DbSet<SampleEntity> Samples { get; set; }
         public DbSet<AttributeEntity> Attributes { get; set; }
 
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SampleEntity>()
+                .HasAlternateKey(x => new {x.OriginalFileName, x.DatasetEntityId});
+        }
+        
     }
 }
