@@ -10,7 +10,7 @@ namespace ExperimentsData.Models.DTO
         public DateTime CreatedAt { get; set; } 
         public DateTime UpdatedAt { get; set; } 
         public ExtractorType ExtractorType { get; set; }
-        public List<AttributeEntity> Attributes { get; set; }
+        public List<AttributeRegisterDto> Attributes { get; set; }
         public string OriginalFileName { get; set; }
         public long order { get; set; }
         public string label { get; set; }

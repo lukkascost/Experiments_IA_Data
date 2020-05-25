@@ -18,6 +18,9 @@ namespace ExperimentsData.Models
             
             modelBuilder.Entity<SampleEntity>()
                 .HasAlternateKey(x => new {x.DatasetEntityId, x.order});
+
+            modelBuilder.Entity<AttributeEntity>()
+                .HasAlternateKey(x => new {x.SampleEntityId, x.order});
         }
         
     }

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using ExperimentsData.Models.DTO;
 
-namespace ExperimentsData.Services.Impl
+namespace ExperimentsData.Services
 {
     public interface IDatasetService
     {

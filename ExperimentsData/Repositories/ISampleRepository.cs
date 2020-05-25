@@ -8,6 +8,6 @@ namespace ExperimentsData.Repositories
     {
         List<SampleGroupedEntity> GetAllGrouped(Guid datasetGuid);
         void Save(SampleEntity map);
-        object GetById(Guid sampleId);
+        SampleEntity GetById(Guid sampleId);
     }
 }

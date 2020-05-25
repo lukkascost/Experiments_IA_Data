@@ -19,6 +19,9 @@ namespace ExperimentsData.Configuration
             services.AddScoped<ISampleService,SampleService>();
             services.AddScoped<ISampleRepository, SampleRepository>();
             
+            services.AddScoped<IAttributeService,AttributeService>();
+            services.AddScoped<IAttributeRepository, AttributeRepository>();
+
             var mappingConfig = new MapperConfiguration(mc => { mc.AddProfile(new MapperProfile()); });
 
             IMapper mapper = mappingConfig.CreateMapper();

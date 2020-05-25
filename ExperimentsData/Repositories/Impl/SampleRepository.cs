@@ -48,7 +48,7 @@ namespace ExperimentsData.Repositories.Impl
             _context.SaveChanges();
         }
 
-        public object GetById(Guid sampleId)
+        public SampleEntity GetById(Guid sampleId)
         {
             return _context.Samples
                 .Include(x=>x.Attributes)

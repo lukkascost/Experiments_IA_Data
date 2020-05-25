@@ -46,7 +46,7 @@ namespace ExperimentsData.Controllers
         }
         
         [HttpGet]
-        [Route("/datasets/{guid}/dataset")]
+        [Route("/datasets/{guid}/download")]
         public FileContentResult DownloadFileById(Guid guid)
         {
             byte[] result = _service.DownloadFileById(guid); 

@@ -41,6 +41,4 @@ namespace ExperimentsData.Controllers
                 
         }
     }
-    
-   
 }
