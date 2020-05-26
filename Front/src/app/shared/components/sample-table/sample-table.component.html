@@ -84,7 +84,6 @@
         </ng-template>
     </ngx-datatable-column>
 
-
     <ngx-datatable-footer>
             <ng-template  ngx-datatable-footer-template>
                 <ngb-pagination
@@ -114,10 +113,6 @@
                 <div class="col-md-12 form-group mb-3">
                     <label >Nome do Arquivo </label>
                     <input type="text" class="form-control" [(ngModel)]="selectedSample.originalFileName" [ngModelOptions]="{standalone: true}" >
-                </div>
-                <div class="col-md-12 form-group mb-3">
-                    <label >Ordem</label>
-                    <input type="number" class="form-control" [(ngModel)]="selectedSample.order" [ngModelOptions]="{standalone: true}">
                 </div>
                 <div class="col-md-12 form-group mb-3">
                     <label >Tipo de Extrator</label>

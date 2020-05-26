@@ -34,7 +34,6 @@ export class SampleTableComponent implements OnInit {
     this.table.limit = 10;
     this.selectedSample = new SampleRegisterDTO();
     setTimeout(() => {
-      console.log(this.data);
       window.dispatchEvent(new Event('resize'));
     }, 500);
   }

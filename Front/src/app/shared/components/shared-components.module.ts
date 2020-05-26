@@ -20,6 +20,7 @@ import {CardStatusComponent} from './card-status/card-status.component';
 import {CardInfoComponent} from './card-info/card-info.component';
 import {DatasetTableComponent} from './dataset-table/dataset-table.component';
 import {SampleTableComponent} from './sample-table/sample-table.component';
+import {AttributesTableComponent} from './attributes-table/attributes-table.component';
 
 const components = [
     BtnLoadingComponent,
@@ -31,7 +32,8 @@ const components = [
     CardStatusComponent,
     CardInfoComponent,
     DatasetTableComponent,
-    SampleTableComponent
+    SampleTableComponent,
+    AttributesTableComponent
 ];
 
 @NgModule({

@@ -14,6 +14,7 @@ export class DatasetInfoComponent implements OnInit {
   private isLoading: boolean;
   item: DatasetRegisterDTO;
   samples: SampleListDTO[];
+  attributes: any[];
 
   constructor(private route: ActivatedRoute,
               private handleService: HandleErrorService,
@@ -25,20 +26,30 @@ export class DatasetInfoComponent implements OnInit {
     this.isLoading = true;
     this.item = new DatasetRegisterDTO();
     this.getSamples();
-
   }
 
-    getSamples() {
+  getSamples() {
+    this.isLoading = false;
+    this.datasetService.getSamplesByDatasetId(this.id).toPromise()
+        .then(
+            data => {
+              this.samples = (<SampleListDTO[]>data);
+              this.isLoading = false;
+            }
+        ).catch(err => {
+      this.handleService.handle(err);
       this.isLoading = false;
-      this.datasetService.getSamplesByDatasetId(this.id).toPromise()
-          .then(
-              data => {
-                this.samples = (<SampleListDTO[]>data);
-                this.isLoading = false;
-              }
-          ).catch(err => {
-        this.handleService.handle(err);
-        this.isLoading = false;
-      });
-    }
+    });
+  }
+
+  getAttributes() {
+    this.datasetService.getDatasetById(this.id).toPromise()
+        .then(
+            data => {
+              this.attributes = (<DatasetRegisterDTO>data).samples.map(x => x.attributes);
+            }
+        ).catch(err => {
+      this.handleService.handle(err);
+    });
+  }
 }

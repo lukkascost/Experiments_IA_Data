@@ -1,0 +1,35 @@
+<ngx-datatable
+        columnMode="force"
+        [footerHeight]="50"
+        [headerHeight]="50"
+        [messages]="{emptyMessage: 'Nenhuma amostra encontrado'}"
+        [rowHeight]="60"
+        [rows]="data"
+        class="material fullscreen"
+        [loadingIndicator]="isLoading"
+        [scrollbarH]="true"
+>
+    <div *ngFor="let atts of data[0]; let i = index">
+        <ngx-datatable-column [minWidth]="100">
+            <ng-template let-collumn="collumn" ngx-datatable-header-template>
+                {{atts.name}}
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row[i].value}}
+            </ng-template>
+        </ngx-datatable-column>
+    </div>
+    <ngx-datatable-footer>
+        <ng-template  ngx-datatable-footer-template>
+            <ngb-pagination
+                #ngbPage
+                [boundaryLinks]="true"
+                [collectionSize]="data.length"
+                [pageSize]="pageSize"
+                [page]="currentPage"
+                [maxSize]="5"
+                (pageChange)="onPageChanged($event)">
+            </ngb-pagination>
+        </ng-template>
+    </ngx-datatable-footer>
+</ngx-datatable>
