@@ -40,6 +40,14 @@ namespace ExperimentsData.Controllers
             return _service.getById(guid);
                 
         }
+        
+        [HttpGet]
+        [Route("/datasets/name/{name}")]
+        public DatasetListDTO GetByName(string name)
+        {
+            return _service.getByName(name);
+                
+        }
 
         [HttpPost]
         [Route("/datasets")]

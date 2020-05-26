@@ -42,5 +42,10 @@ namespace ExperimentsData.Services.Impl
             return _mapper.Map<SampleRegisterDTO>( _repository.GetById(sampleId));
 
         }
+
+        public SampleListDTO getByFileName(Guid datasetGuid, string fileName)
+        {
+            return _mapper.Map<SampleListDTO>( _repository.GetDatabaseIdAndFileName(datasetGuid,fileName));
+        }
     }
 }

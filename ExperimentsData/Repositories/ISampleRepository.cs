@@ -9,5 +9,6 @@ namespace ExperimentsData.Repositories
         List<SampleGroupedEntity> GetAllGrouped(Guid datasetGuid);
         void Save(SampleEntity map);
         SampleEntity GetById(Guid sampleId);
+        SampleEntity GetDatabaseIdAndFileName(Guid datasetGuid, string fileName);
     }
 }

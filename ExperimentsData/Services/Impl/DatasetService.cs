@@ -46,5 +46,10 @@ namespace ExperimentsData.Services.Impl
             result.Flush();
             return result.GetBuffer();    
         }
+
+        public DatasetListDTO getByName(string name)
+        {
+            return _mapper.Map<DatasetListDTO>( _repository.GetByName(name));
+        }
     }
 }

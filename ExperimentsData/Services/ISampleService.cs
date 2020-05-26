@@ -9,5 +9,6 @@ namespace ExperimentsData.Services
         List<SampleListDTO> getAll(Guid datasetGuid);
         SampleRegisterDTO Create(Guid datasetGuid, SampleRegisterDTO registerDto);
         SampleRegisterDTO getById(Guid sampleId);
+        SampleListDTO getByFileName(Guid datasetGuid, string fileName);
     }
 }

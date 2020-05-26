@@ -41,5 +41,12 @@ namespace ExperimentsData.Repositories.Impl
                 .Include(x=>x.Samples).ThenInclude(x=>x.Attributes)
                 .FirstOrDefault(x => x.Id.Equals(guid));
         }
+
+        public DatasetEntity GetByName(string name)
+        {
+            return _context.Datasets
+                .Include(x=>x.Samples)
+                .FirstOrDefault(x => x.name.Equals(name));
+        }
     }
 }

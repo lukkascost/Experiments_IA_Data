@@ -10,5 +10,6 @@ namespace ExperimentsData.Services
         DatasetRegisterDTO Create(DatasetRegisterDTO datasetEntity);
         DatasetRegisterDTO getById(Guid guid);
         byte[] DownloadFileById(Guid guid);
+        DatasetListDTO getByName(string name);
     }
 }

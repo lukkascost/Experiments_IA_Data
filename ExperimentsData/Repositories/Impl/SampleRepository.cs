@@ -54,5 +54,14 @@ namespace ExperimentsData.Repositories.Impl
                 .Where(x => x.Id.Equals(sampleId))
                 .FirstOrDefault();
         }
+
+        public SampleEntity GetDatabaseIdAndFileName(Guid datasetGuid, string fileName)
+        {
+            return _context.Samples
+                .Include(x=>x.Attributes)
+                .Where(x => x.DatasetEntityId.Equals(datasetGuid) && x.OriginalFileName.Equals(fileName))
+                .FirstOrDefault();
+            
+        }
     }
 }

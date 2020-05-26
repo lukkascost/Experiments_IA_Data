@@ -29,6 +29,13 @@ namespace ExperimentsData.Controllers
             return _service.getAll(datasetGuid);
                 
         }
+        [HttpGet]
+        [Route("/datasets/{dataset_guid}/samples/file_name/{file_name}")]
+        public SampleListDTO GetByFileName([FromRoute(Name = "dataset_guid")] Guid datasetGuid, [FromRoute(Name = "file_name")] string fileName)
+        {
+            return _service.getByFileName(datasetGuid, fileName);
+                
+        }
         [HttpPost]
         [Route("/datasets/{dataset_guid}/samples")]
         public SampleRegisterDTO Create([FromRoute(Name = "dataset_guid")] Guid datasetGuid,[FromBody] SampleRegisterDTO registerDto)
