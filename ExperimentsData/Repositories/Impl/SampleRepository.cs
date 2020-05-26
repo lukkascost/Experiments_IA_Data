@@ -26,7 +26,6 @@ namespace ExperimentsData.Repositories.Impl
                 {
                     ExtractorType = x.ExtractorType,
                     OriginalFileName = x.OriginalFileName,
-                    order = x.order,
                     label = x.label,
                     DatasetEntityId = x.DatasetEntityId,
                     Attributes = x.Attributes.Count(),

@@ -12,7 +12,6 @@ namespace ExperimentsData.Models.DTO
         public ExtractorType ExtractorType { get; set; }
         public List<AttributeRegisterDto> Attributes { get; set; }
         public string OriginalFileName { get; set; }
-        public long order { get; set; }
         public string label { get; set; }
     }
 }

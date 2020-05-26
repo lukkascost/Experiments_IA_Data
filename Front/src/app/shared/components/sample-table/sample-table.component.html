@@ -8,14 +8,6 @@
         class="material fullscreen"
         [loadingIndicator]="isLoading"
 >
-    <ngx-datatable-column [canAutoResize]="true" [minWidth]="50" [resizeable]="true" [sortable]="true"
-                          cellClass="fcom-selectable fcom-ellipsible"
-                          name="Ordem"
-                          prop="order">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-            {{row.order}}
-        </ng-template>
-    </ngx-datatable-column>
 
     <ngx-datatable-column [canAutoResize]="true" [minWidth]="350" [resizeable]="true" [sortable]="true"
                           cellClass="fcom-selectable fcom-ellipsible"

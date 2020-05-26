@@ -11,7 +11,7 @@ namespace ExperimentsData.Models.DAO
 
         public string toFile()
         {
-            var result =  Samples.OrderBy(x=>x.order).Select<SampleEntity,string>(x => x.toFile()).ToList();
+            var result =  Samples.OrderBy(x=>x.label).Select<SampleEntity,string>(x => x.toFile()).ToList();
             return result.Aggregate((x, old) => x + "\n" + old);
         }
     }

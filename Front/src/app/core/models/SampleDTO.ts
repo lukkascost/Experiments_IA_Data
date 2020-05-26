@@ -5,7 +5,6 @@ export interface ISampleDTO {
     updatedAt: string;
     extractorType: ExtractorType;
     originalFileName: string;
-    order: number;
     label: string;
     attributes: any;
     getAttributes();
@@ -17,7 +16,6 @@ export class SampleListDTO  implements  ISampleDTO {
     createdAt: string;
     extractorType: ExtractorType;
     label: string;
-    order: number;
     originalFileName: string;
     updatedAt: string;
 
@@ -31,7 +29,6 @@ export class SampleRegisterDTO  implements  ISampleDTO {
     createdAt: string;
     extractorType: ExtractorType = ExtractorType.GLCM;
     label: string;
-    order: number;
     originalFileName: string;
     updatedAt: string;
 

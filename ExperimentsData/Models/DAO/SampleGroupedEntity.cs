@@ -11,7 +11,6 @@ namespace ExperimentsData.Models.DAO
         public ExtractorType ExtractorType { get; set; }
         public long Attributes { get; set; }
         public string OriginalFileName { get; set; }
-        public long order { get; set; }
         public string label { get; set; }
         
         [NotMapped] 
@@ -21,7 +20,6 @@ namespace ExperimentsData.Models.DAO
         {
             ExtractorType = sampleEntity.ExtractorType;
             OriginalFileName = sampleEntity.OriginalFileName;
-            order = sampleEntity.order;
             label = sampleEntity.label;
             DatasetEntityId = sampleEntity.DatasetEntityId;
             this.Attributes = sampleEntity.Attributes.Count();
@@ -33,7 +31,6 @@ namespace ExperimentsData.Models.DAO
         {
             ExtractorType = sampleGroupedEntity.ExtractorType;
             OriginalFileName = sampleGroupedEntity.OriginalFileName;
-            order = sampleGroupedEntity.order;
             label = sampleGroupedEntity.label;
             DatasetEntityId = sampleGroupedEntity.DatasetEntityId;
             this.Attributes = sampleGroupedEntity.Attributes;

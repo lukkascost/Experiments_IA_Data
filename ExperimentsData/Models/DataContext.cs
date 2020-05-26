@@ -15,12 +15,12 @@ namespace ExperimentsData.Models
         {
             modelBuilder.Entity<SampleEntity>()
                 .HasAlternateKey(x => new {x.DatasetEntityId, x.OriginalFileName});
-            
-            modelBuilder.Entity<SampleEntity>()
-                .HasAlternateKey(x => new {x.DatasetEntityId, x.order});
 
             modelBuilder.Entity<AttributeEntity>()
                 .HasAlternateKey(x => new {x.SampleEntityId, x.order});
+
+            modelBuilder.Entity<DatasetEntity>()
+                .HasAlternateKey(x => x.name);
         }
         
     }
