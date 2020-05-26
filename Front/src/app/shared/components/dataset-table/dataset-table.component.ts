@@ -1,7 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {DatasetListDTO, DatasetRegisterDTO, IDatasetDTO} from '../../../core/models/DatasetDTO';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {DatasetService} from '../../services/dataset.service';
+import {DatatableComponent} from "@swimlane/ngx-datatable";
+import {SampleRegisterDTO} from "../../../core/models/SampleDTO";
 
 @Component({
   selector: 'app-dataset-table',
@@ -11,6 +13,12 @@ export class DatasetTableComponent implements OnInit {
   @Input() data: IDatasetDTO[] = [];
   @Output() refreshData = new EventEmitter();
   @Output() dataChange = new EventEmitter();
+
+  @ViewChild(DatatableComponent, null) table: DatatableComponent;
+  pageSize: number;
+  currentPage: number;
+  rows = null;
+
   private selectedDataset: DatasetRegisterDTO;
   constructor(
       private modalService: NgbModal,
@@ -18,7 +26,11 @@ export class DatasetTableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.currentPage = 1;
+    this.pageSize = 10;
+    this.table.limit = 10;
     setTimeout(() => {
+      if(this.rows == null) this.rows =this.data;
       window.dispatchEvent(new Event('resize'));
     }, 500);
   }
@@ -44,5 +56,22 @@ export class DatasetTableComponent implements OnInit {
             }
         ).catch(err => {
     });
+  }
+  onPageChanged(pageNum) {
+    this.currentPage = pageNum;
+    this.table.offset = pageNum - 1;
+  }
+  updateFilter(event) {
+    const val = event.target.value.toLowerCase();
+
+    // filter our data
+    const temp = this.data.filter(function (d) {
+      return d.name.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+
+    // update the rows
+    this.rows = temp;
+    // Whenever the filter changes, always go back to the first page
+    this.table.offset = 0;
   }
 }
