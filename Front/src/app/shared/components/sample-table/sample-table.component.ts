@@ -1,9 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {DatasetService} from '../../services/dataset.service';
-import {ISampleDTO, SampleRegisterDTO} from '../../../core/models/SampleDTO';
+import {ISampleDTO, SampleListDTO, SampleRegisterDTO} from '../../../core/models/SampleDTO';
 import {ExtractorType} from '../../../core/models/enums/ExtractorType';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import {SampleService} from "../../services/sample.service";
 
 @Component({
   selector: 'app-sample-table',
@@ -25,7 +26,8 @@ export class SampleTableComponent implements OnInit {
 
   constructor(
       private modalService: NgbModal,
-      private datasetService: DatasetService
+      private datasetService: DatasetService,
+      private sampleService: SampleService
   ) { }
 
   ngOnInit() {
@@ -63,6 +65,16 @@ export class SampleTableComponent implements OnInit {
   addNew() {
     console.log(this.selectedSample);
     this.datasetService.postSampleInDataset(this.selectedSample, this.datasetId).toPromise()
+        .then(
+            data => {
+              this.refreshData.emit();
+            }
+        ).catch(err => {
+    });
+  }
+
+  delete(row: SampleListDTO) {
+    this.sampleService.deleteSample(row.id).toPromise()
         .then(
             data => {
               this.refreshData.emit();

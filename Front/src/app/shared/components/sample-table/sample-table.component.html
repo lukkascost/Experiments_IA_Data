@@ -74,7 +74,7 @@
                 </div>
                 <div class="col-sm-6">
                     <button
-                            [disabled]="true"
+                            (click)="delete(row)"
                             [title]="'Excluir informações do medidor - '+row.name"
                             class="btn btn-outline-danger"
                             style="margin-right: 0px; width:-webkit-fill-available;"><a

@@ -51,5 +51,13 @@ namespace ExperimentsData.Repositories.Impl
                 .FirstOrDefault();
             
         }
+
+        public SampleEntity DeleteById(Guid guid)
+        {
+            var entity = this.GetById(guid);
+            _context.Samples.Remove(entity);
+            _context.SaveChanges();
+            return entity;
+        }
     }
 }

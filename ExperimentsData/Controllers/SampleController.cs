@@ -50,5 +50,12 @@ namespace ExperimentsData.Controllers
             return _service.getById(sampleId);
                 
         }
+        [HttpDelete]
+        [Route("samples/{guid}")]
+        public SampleRegisterDTO DeleteById([FromRoute(Name = "guid")] Guid sampleId)
+        {
+            return _service.deleteById(sampleId);
+                
+        }
     }
 }

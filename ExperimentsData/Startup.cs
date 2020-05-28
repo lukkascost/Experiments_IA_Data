@@ -41,7 +41,7 @@ namespace ExperimentsData
             
             services.AddDbContext<DataContext>(options => 
                 options
-                    .UseSqlServer(CodeConstants.ConnectionString));
+                    .UseSqlite(CodeConstants.ConnectionString));
 
             // CORS Configuration - START
             services.AddCors(options =>

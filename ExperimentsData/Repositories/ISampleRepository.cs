@@ -10,5 +10,6 @@ namespace ExperimentsData.Repositories
         void Save(SampleEntity map);
         SampleEntity GetById(Guid sampleId);
         SampleEntity GetDatabaseIdAndFileName(Guid datasetGuid, string fileName);
+        SampleEntity DeleteById(Guid sampleId);
     }
 }
