@@ -21,31 +21,15 @@ namespace ExperimentsData.Repositories.Impl
         {
             var result = _context.Samples
                 .Include(x => x.Attributes)
-                .Join(_context.Attributes,
-                    x=>x.Id,
-                    y=>y.SampleEntityId,
-                    (x,y) => new {attributes = y, samples = x}
-                )
-                .Where(x=>x.samples.DatasetEntityId == datasetGuid)
-                .GroupBy(x =>new
-                {
-                    ExtractorType = x.samples.ExtractorType,
-                    OriginalFileName = x.samples.OriginalFileName,
-                    label = x.samples.label,
-                    DatasetEntityId = x.samples.DatasetEntityId,
-                    Id = x.samples.Id
-                })
-                .AsNoTracking()
-                .Select(x=> new SampleGroupedEntity(x.Key, x.Count()))
+                .Where(x=>x.DatasetEntityId == datasetGuid)
+                .Select(x=> new SampleGroupedEntity(x))
                 .ToList();
+
             return result;
         }
 
         public void Save(SampleEntity map)
         {
-//            var dataset = _context.Datasets
-//                .Include(x=>x.Samples).First(x => x.Id == map.DatasetEntityId);
-//            dataset.Samples.Add(map);
             _context.Samples.Add(map);
             _context.Entry(map).State = EntityState.Added;
             _context.SaveChanges();

@@ -21,14 +21,7 @@ namespace ExperimentsData.Repositories.Impl
             
             var result = _context.Datasets
                 .Include(x => x.Samples)
-                .Join(_context.Samples,
-                    x=>x.Id,
-                    y=>y.DatasetEntityId,
-                    (x,y) => new {data = x, samples = y}
-                    )
-                .AsNoTracking()
-                .GroupBy(x =>new {x.data.description,x.data.name,x.data.Id})
-                .Select(x=> new DatasetGroupedEntity(x.Key, x.Count()))
+                .Select(x=> new DatasetGroupedEntity(x))
                 .ToList();
             return result;
         }
@@ -52,6 +45,14 @@ namespace ExperimentsData.Repositories.Impl
             return _context.Datasets
                 .Include(x=>x.Samples)
                 .FirstOrDefault(x => x.name.Equals(name));
+        }
+
+        public DatasetEntity DeleteById(Guid guid)
+        {
+            var entity = this.GetById(guid);
+            _context.Datasets.Remove(entity);
+            _context.SaveChanges();
+            return entity;
         }
     }
 }

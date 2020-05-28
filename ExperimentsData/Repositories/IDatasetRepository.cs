@@ -12,5 +12,6 @@ namespace ExperimentsData.Repositories
         void Save(DatasetEntity datasetEntity);
         DatasetEntity GetById(Guid guid);
         DatasetEntity GetByName(string name);
+        DatasetEntity DeleteById(Guid guid);
     }
 }

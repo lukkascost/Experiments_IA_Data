@@ -63,5 +63,13 @@ namespace ExperimentsData.Controllers
             byte[] result = _service.DownloadFileById(guid); 
             return File(result, "text/plain", "file.txt");
         }
+        
+        [HttpDelete]
+        [Route("/datasets/{guid}")]
+        public DatasetRegisterDTO DeleteById(Guid guid)
+        {
+            return _service.deleteById(guid);
+                
+        }
     }
 }

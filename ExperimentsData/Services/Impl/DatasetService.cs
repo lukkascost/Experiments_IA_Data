@@ -51,5 +51,10 @@ namespace ExperimentsData.Services.Impl
         {
             return _mapper.Map<DatasetListDTO>( _repository.GetByName(name));
         }
+
+        public DatasetRegisterDTO deleteById(Guid guid)
+        {
+            return _mapper.Map<DatasetRegisterDTO>( _repository.DeleteById(guid));
+        }
     }
 }
