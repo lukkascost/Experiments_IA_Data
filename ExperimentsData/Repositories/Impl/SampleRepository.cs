@@ -10,7 +10,7 @@ namespace ExperimentsData.Repositories.Impl
     public class SampleRepository : ISampleRepository
     {
         
-        private DataContext _context;
+        private readonly DataContext _context;
 
         public SampleRepository(DataContext context)
         {
