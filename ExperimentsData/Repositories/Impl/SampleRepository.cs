@@ -21,18 +21,22 @@ namespace ExperimentsData.Repositories.Impl
         {
             var result = _context.Samples
                 .Include(x => x.Attributes)
-                .Where(x=>x.DatasetEntityId == datasetGuid)
+                .Join(_context.Attributes,
+                    x=>x.Id,
+                    y=>y.SampleEntityId,
+                    (x,y) => new {attributes = y, samples = x}
+                )
+                .Where(x=>x.samples.DatasetEntityId == datasetGuid)
                 .GroupBy(x =>new
                 {
-                    ExtractorType = x.ExtractorType,
-                    OriginalFileName = x.OriginalFileName,
-                    label = x.label,
-                    DatasetEntityId = x.DatasetEntityId,
-                    Attributes = x.Attributes.Count(),
-                    Id = x.Id
+                    ExtractorType = x.samples.ExtractorType,
+                    OriginalFileName = x.samples.OriginalFileName,
+                    label = x.samples.label,
+                    DatasetEntityId = x.samples.DatasetEntityId,
+                    Id = x.samples.Id
                 })
                 .AsNoTracking()
-                .Select(x=> new SampleGroupedEntity(x.Key))
+                .Select(x=> new SampleGroupedEntity(x.Key, x.Count()))
                 .ToList();
             return result;
         }

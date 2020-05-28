@@ -23,5 +23,15 @@ namespace ExperimentsData.Models.DAO
             base.Id = datasetEntity.Id;
 
         }
+
+        public DatasetGroupedEntity(dynamic datasetEntity, int count)
+        {
+
+            this.description = datasetEntity.description;
+            this.name = datasetEntity.name;
+            this.Samples = count;
+            base.Id = datasetEntity.Id;
+            
+        }
     }
 }

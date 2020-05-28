@@ -21,9 +21,14 @@ namespace ExperimentsData.Repositories.Impl
             
             var result = _context.Datasets
                 .Include(x => x.Samples)
-                .GroupBy(x =>new {x.description,x.name,x.Id, Samples = x.Samples.Count()})
+                .Join(_context.Samples,
+                    x=>x.Id,
+                    y=>y.DatasetEntityId,
+                    (x,y) => new {data = x, samples = y}
+                    )
                 .AsNoTracking()
-                .Select(x=> new DatasetGroupedEntity(x.Key))
+                .GroupBy(x =>new {x.data.description,x.data.name,x.data.Id})
+                .Select(x=> new DatasetGroupedEntity(x.Key, x.Count()))
                 .ToList();
             return result;
         }

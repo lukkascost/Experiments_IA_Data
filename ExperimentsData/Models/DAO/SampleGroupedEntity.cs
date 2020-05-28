@@ -37,6 +37,16 @@ namespace ExperimentsData.Models.DAO
             base.Id = sampleGroupedEntity.Id;
 
         }
+        public SampleGroupedEntity(dynamic sampleGroupedEntity, int count)
+        {
+            ExtractorType = sampleGroupedEntity.ExtractorType;
+            OriginalFileName = sampleGroupedEntity.OriginalFileName;
+            label = sampleGroupedEntity.label;
+            DatasetEntityId = sampleGroupedEntity.DatasetEntityId;
+            this.Attributes = count;
+            base.Id = sampleGroupedEntity.Id;
+
+        }
         
     }
 }
