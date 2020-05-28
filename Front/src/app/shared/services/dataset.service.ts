@@ -33,4 +33,8 @@ export class DatasetService {
     postSampleInDataset(selectedSample: SampleRegisterDTO, datasetId: string) {
         return this.http.post(`${DatasetService.url}` + '/' + datasetId + '/samples', selectedSample).map(res => res.valueOf());
     }
+
+    deleteDataset(id: string) {
+        return this.http.delete(`${DatasetService.url}` + '/' + id).map(res => res.valueOf());
+    }
 }

@@ -2,8 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {DatasetListDTO, DatasetRegisterDTO, IDatasetDTO} from '../../../core/models/DatasetDTO';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {DatasetService} from '../../services/dataset.service';
-import {DatatableComponent} from "@swimlane/ngx-datatable";
-import {SampleRegisterDTO} from "../../../core/models/SampleDTO";
+import {DatatableComponent} from '@swimlane/ngx-datatable';
+import {SampleRegisterDTO} from '../../../core/models/SampleDTO';
 
 @Component({
   selector: 'app-dataset-table',
@@ -18,6 +18,7 @@ export class DatasetTableComponent implements OnInit {
   pageSize: number;
   currentPage: number;
   rows = null;
+  refreshRows = true;
 
   private selectedDataset: DatasetRegisterDTO;
   constructor(
@@ -30,7 +31,9 @@ export class DatasetTableComponent implements OnInit {
     this.pageSize = 10;
     this.table.limit = 10;
     setTimeout(() => {
-      if(this.rows == null) this.rows =this.data;
+      if (this.refreshRows) {
+        this.rows = this.data;
+      }
       window.dispatchEvent(new Event('resize'));
     }, 500);
   }
@@ -73,5 +76,16 @@ export class DatasetTableComponent implements OnInit {
     this.rows = temp;
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
+  }
+
+  delete(row: DatasetListDTO) {
+    this.datasetService.deleteDataset(row.id).toPromise()
+        .then(
+            data => {
+              this.refreshData.emit();
+              this.refreshRows = true;
+            }
+        ).catch(err => {
+    });
   }
 }
