@@ -12,9 +12,9 @@
             [messages]="{emptyMessage: 'Nenhum Dataset encontrado'}"
             [rowHeight]="60"
             [rows]="rows"
+            [loadingIndicator]="loading"
             class="material fullscreen"
-            [scrollbarH]="false">
-
+    >
         <ngx-datatable-column [canAutoResize]="true" [minWidth]="350" [resizeable]="true" [sortable]="true"
                               cellClass="fcom-selectable fcom-ellipsible"
                               name="Id"
@@ -78,7 +78,7 @@
                 <ngb-pagination
                     #ngbPage
                     [boundaryLinks]="true"
-                    [collectionSize]="data.length"
+                    [collectionSize]="rows.length"
                     [pageSize]="pageSize"
                     [page]="currentPage"
                     [maxSize]="5"

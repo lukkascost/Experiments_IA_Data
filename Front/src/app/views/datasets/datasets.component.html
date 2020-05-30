@@ -10,7 +10,7 @@
     <div class="separator-breadcrumb border-top"></div>
     <div class="row">
         <div class="col-md-12">
-            <app-dataset-table [(data)]="items"  (refreshData)="getDatasets()"></app-dataset-table>
+            <app-dataset-table [loading]="isLoading" [(data)]="items"  (refreshData)="getDatasets()"></app-dataset-table>
         </div>
     </div>
 </div>

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {DatasetListDTO, DatasetRegisterDTO, IDatasetDTO} from '../../../core/models/DatasetDTO';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {DatasetService} from '../../services/dataset.service';
@@ -9,8 +9,9 @@ import {SampleRegisterDTO} from '../../../core/models/SampleDTO';
   selector: 'app-dataset-table',
   templateUrl: './dataset-table.component.html'
 })
-export class DatasetTableComponent implements OnInit {
+export class DatasetTableComponent implements OnInit , OnChanges{
   @Input() data: IDatasetDTO[] = [];
+  @Input() loading: boolean;
   @Output() refreshData = new EventEmitter();
   @Output() dataChange = new EventEmitter();
 
@@ -25,15 +26,18 @@ export class DatasetTableComponent implements OnInit {
       private modalService: NgbModal,
       private datasetService: DatasetService
   ) { }
+  ngOnChanges(changes: SimpleChanges){
+    if(changes.data){
+      this.rows  = changes.data.currentValue;
+    }
+  }
 
   ngOnInit() {
     this.currentPage = 1;
     this.pageSize = 10;
     this.table.limit = 10;
+    this.selectedDataset = new DatasetRegisterDTO();
     setTimeout(() => {
-      if (this.refreshRows) {
-        this.rows = this.data;
-      }
       window.dispatchEvent(new Event('resize'));
     }, 500);
   }
