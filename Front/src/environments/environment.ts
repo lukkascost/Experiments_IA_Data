@@ -11,7 +11,7 @@
 
 export const environment = {
   production: false,
-  apiUrlBack: 'http://localhost',
+  apiUrlBack: 'http://54.173.226.52',
   tokenWhitelistedDomains: 'localhost:5000',
   tokenBlacklistedDomains: 'localhost:5000/users/login',
   websocketExpiration: 1572986429

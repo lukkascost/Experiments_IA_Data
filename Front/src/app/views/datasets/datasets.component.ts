@@ -3,6 +3,7 @@ import {DatasetListDTO} from '../../core/models/DatasetDTO';
 import {HandleErrorService} from '../../shared/services/handle-error.service';
 import {Router} from '@angular/router';
 import {DatasetService} from '../../shared/services/dataset.service';
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-datasets',
@@ -11,6 +12,7 @@ import {DatasetService} from '../../shared/services/dataset.service';
 export class DatasetsComponent implements OnInit, OnDestroy{
   items: DatasetListDTO[];
   public isLoading = false;
+  public observer;
 
 
   constructor(private handleService: HandleErrorService,
@@ -23,10 +25,11 @@ export class DatasetsComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy() {
+    this.observer.unsubscribe();
+
   }
 
   private getDatasets() {
-    this.isLoading = false;
     this.datasetService.getDatasets().toPromise()
         .then(
             data => {
@@ -37,5 +40,6 @@ export class DatasetsComponent implements OnInit, OnDestroy{
       this.handleService.handle(err);
       this.isLoading = false;
     });
+    this.observer = Observable.timer(60000).first().subscribe(() => this.getDatasets());
   }
 }
