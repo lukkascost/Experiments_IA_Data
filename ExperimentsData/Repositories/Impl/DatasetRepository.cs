@@ -21,7 +21,9 @@ namespace ExperimentsData.Repositories.Impl
             
             var result = _context.Datasets
                 .Include(x => x.Samples)
-                .Select(x=> new DatasetGroupedEntity(x))
+                .GroupBy(x =>new {x.description,x.name,x.Id, Samples = x.Samples.Count()})
+                .AsNoTracking()
+                .Select(x=> new DatasetGroupedEntity(x.Key))
                 .ToList();
             return result;
         }
@@ -34,9 +36,10 @@ namespace ExperimentsData.Repositories.Impl
         }
 
         public DatasetEntity GetById(Guid guid)
-        {
+        {    
             return _context.Datasets
-                .Include(x=>x.Samples).ThenInclude(x=>x.Attributes)
+                .Include(x=> x.Samples.Where(y=>y.DatasetEntityId.Equals(guid)))
+                .AsParallel()
                 .FirstOrDefault(x => x.Id.Equals(guid));
         }
 

@@ -16,15 +16,23 @@ namespace ExperimentsData.Repositories.Impl
         {
             _context = context;
         }
-
         public List<SampleGroupedEntity> GetAllGrouped(Guid datasetGuid)
         {
             var result = _context.Samples
                 .Include(x => x.Attributes)
                 .Where(x=>x.DatasetEntityId == datasetGuid)
-                .Select(x=> new SampleGroupedEntity(x))
+                .GroupBy(x =>new
+                {
+                    ExtractorType = x.ExtractorType,
+                    OriginalFileName = x.OriginalFileName,
+                    label = x.label,
+                    DatasetEntityId = x.DatasetEntityId,
+                    Attributes = x.Attributes.Count(),
+                    Id = x.Id
+                })
+                .AsNoTracking()
+                .Select(x=> new SampleGroupedEntity(x.Key))
                 .ToList();
-
             return result;
         }
 
