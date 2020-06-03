@@ -38,7 +38,7 @@ namespace ExperimentsData.Repositories.Impl
         public DatasetEntity GetById(Guid guid)
         {    
             return _context.Datasets
-                .Include(x=> x.Samples.Where(y=>y.DatasetEntityId.Equals(guid)))
+                .Include(x=> x.Samples.Where(y=>y.DatasetEntityId.Equals(guid))).ThenInclude(x=>x.Attributes)
                 .AsParallel()
                 .FirstOrDefault(x => x.Id.Equals(guid));
         }

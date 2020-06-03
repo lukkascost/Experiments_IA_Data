@@ -1,10 +1,19 @@
 <div class="card o-hidden">
-    <input
-            type="text"
-            style="padding:8px;margin:15px auto;width:30%;"
-            placeholder="Type to filter the name column..."
-            (keyup)="updateFilter($event)"
-    />
+    <div class="card-header align-middle">
+        <div class="row">
+            <div class="col">
+                <input
+                        type="text"
+                        style="padding:8px;margin:15px;width:100%;"
+                        placeholder="Type to filter the name column..."
+                        (keyup)="updateFilter($event)"
+                />
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
     <ngx-datatable
             columnMode="force"
             [footerHeight]="50"
@@ -32,7 +41,7 @@
                 {{row.name}}
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column [canAutoResize]="true" [minWidth]="150" [resizeable]="true" [sortable]="true"
+        <ngx-datatable-column [canAutoResize]="false" [minWidth]="50" [resizeable]="true" [sortable]="true"
                               cellClass="fcom-selectable fcom-ellipsible"
                               name="Número de amostras"
                               prop="samples">
@@ -41,7 +50,7 @@
             </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column [width]="50"
+        <ngx-datatable-column [width]="100"
                               [canAutoResize]="true"
                               cellClass="fcom-selectable fcom-ellipsible"
         >
@@ -55,22 +64,31 @@
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
                 <div  class="row text-center">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <button
                                 [routerLink]="['/datasets',row.id]"
                                 [title]="'visualizar informações do dataset - '+row.name"
                                 class="btn btn-outline-info"
-                                style="margin-right: 0px; width:-webkit-fill-available;"><a
+                                style=" width:-webkit-fill-available;"><a
                                 class="fa fa-search"></a></button>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <button
                                 (click)="delete(row)"
                                 [title]="'Excluir informações do medidor - '+row.name"
                                 class="btn btn-outline-danger"
-                                style="margin-right: 0px; width:-webkit-fill-available;"><a
+                                style="width:-webkit-fill-available;"><a
                                 class="fa fa-trash"></a></button>
                     </div>
+                    <div class="col-sm-4">
+                        <button
+                                (click)="download(row)"
+                                [title]="'Baixar datasets selecionados'"
+                                class="btn btn-outline-primary"
+                                style=" width:-webkit-fill-available;"><a
+                                class="fa fa-download"></a></button>
+                    </div>
+
                 </div>
             </ng-template>
         </ngx-datatable-column>
@@ -86,7 +104,9 @@
                     (pageChange)="onPageChanged($event)">
                 </ngb-pagination>
             </ng-template>
+
         </ngx-datatable-footer>
+
     </ngx-datatable>
 </div>
 

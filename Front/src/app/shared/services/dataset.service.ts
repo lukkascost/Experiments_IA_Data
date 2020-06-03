@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {DataHttpService} from '../../security/data-http.service';
 import {DatasetRegisterDTO} from '../../core/models/DatasetDTO';
 import {SampleRegisterDTO} from '../../core/models/SampleDTO';
+import {Observable} from "rxjs";
 
 
 @Injectable({
@@ -36,5 +37,9 @@ export class DatasetService {
 
     deleteDataset(id: string) {
         return this.http.delete(`${DatasetService.url}` + '/' + id).map(res => res.valueOf());
+    }
+
+    downloadDataset(id: string) {
+        return this.http.get(`${DatasetService.url}` + '/' + id + '/download', {responseType: 'blob'}).map(res => res.valueOf());
     }
 }
