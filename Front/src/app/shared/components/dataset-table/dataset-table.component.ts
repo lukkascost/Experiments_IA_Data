@@ -111,4 +111,20 @@ export class DatasetTableComponent implements OnInit , OnChanges{
                 console.log('download error:', JSON.stringify(err));
             })
     }
+
+    openEdit(row) {
+        this.selectedDataset.description =  (<DatasetListDTO>row).description;
+        this.selectedDataset.name =  (<DatasetListDTO>row).name;
+    }
+
+    edit() {
+        // console.log(this.selectedDataset)
+        this.datasetService.putDataset(this.selectedDataset).toPromise()
+            .then(
+                data => {
+                    this.refreshData.emit();
+                }
+            ).catch(err => {
+        });
+    }
 }

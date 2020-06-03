@@ -35,7 +35,7 @@ namespace ExperimentsData.Services.Impl
 
         public DatasetRegisterDTO getById(Guid guid)
         {
-            return _mapper.Map<DatasetRegisterDTO>( _repository.GetByIdComplete(guid));
+            return _mapper.Map<DatasetRegisterDTO>( _repository.GetByIdFast(guid));
         }
 
         public byte[] DownloadFileById(Guid guid)
@@ -55,6 +55,13 @@ namespace ExperimentsData.Services.Impl
         public DatasetRegisterDTO deleteById(Guid guid)
         {
             return _mapper.Map<DatasetRegisterDTO>( _repository.DeleteById(guid));
+        }
+
+        public DatasetRegisterDTO Update(DatasetRegisterDTO registerDto)
+        {
+            _repository.Update(_mapper.Map<DatasetEntity>(registerDto));
+            return registerDto;
+            
         }
     }
 }

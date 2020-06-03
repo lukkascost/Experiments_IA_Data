@@ -12,5 +12,6 @@ namespace ExperimentsData.Services
         byte[] DownloadFileById(Guid guid);
         DatasetListDTO getByName(string name);
         DatasetRegisterDTO deleteById(Guid guid);
+        DatasetRegisterDTO Update(DatasetRegisterDTO registerDto);
     }
 }

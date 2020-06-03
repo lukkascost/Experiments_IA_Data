@@ -14,5 +14,6 @@ namespace ExperimentsData.Repositories
         DatasetEntity GetByIdFast(Guid guid);
         DatasetEntity GetByName(string name);
         DatasetEntity DeleteById(Guid guid);
+        void Update(DatasetEntity map);
     }
 }

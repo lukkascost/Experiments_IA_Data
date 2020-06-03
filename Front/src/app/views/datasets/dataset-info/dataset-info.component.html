@@ -13,10 +13,37 @@
             <div class="card o-hidden">
                 <div class="card-header bg-primary">
                     <div class="card-title d-flex align-items-center mb-3 text-white">
+                        <span class="font-weight-bold">Informações do Dataset</span>
+                    </div>
+                </div>
+                <div  class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label >Nome </label>
+                            <input type="text" [disabled]="true" class="form-control" [(ngModel)]="dataset.name" [ngModelOptions]="{standalone: true}" >
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label >Número de amostras </label>
+                            <input type="number" [disabled]="true" class="form-control" [(ngModel)]="dataset.samples.length" [ngModelOptions]="{standalone: true}" >
+                        </div>
+                    </div>
+                    <span class="font-weight-bold">Descrição</span>
+                    <textarea  [disabled]="true" [(ngModel)]="dataset.description" style="margin-right: 0px; width:-webkit-fill-available;"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="separator-breadcrumb border-top"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card o-hidden">
+                <div class="card-header bg-primary">
+                    <div class="card-title d-flex align-items-center mb-3 text-white">
                         <span class="font-weight-bold">Informações das amostras</span>
                     </div>
                 </div>
-                    <app-sample-table [isLoading]="isLoading" [(data)]="samples" [datasetId]="id"  (refreshData)="getSamples()"></app-sample-table>
+                <app-sample-table [isLoading]="isLoading" [(data)]="samples" [datasetId]="id"  (refreshData)="getSamples()"></app-sample-table>
             </div>
         </div>
     </div>

@@ -89,7 +89,7 @@
                 <ngb-pagination
                     #ngbPage
                     [boundaryLinks]="true"
-                    [collectionSize]="data.length"
+                    [collectionSize]="data == null? 0: data.length"
                     [pageSize]="pageSize"
                     [page]="currentPage"
                     [maxSize]="5"

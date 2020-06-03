@@ -64,5 +64,13 @@ namespace ExperimentsData.Repositories.Impl
             _context.SaveChanges();
             return entity;
         }
+
+        public void Update(DatasetEntity map)
+        {
+            var dataset = this.GetByName(map.name);
+            dataset.description = map.description;
+            _context.SaveChanges();
+            
+        }
     }
 }

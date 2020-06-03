@@ -56,6 +56,13 @@ namespace ExperimentsData.Controllers
             return _service.Create(registerDto);
         }
         
+        
+        [HttpPut]
+        [Route("/datasets")]
+        public DatasetRegisterDTO Update([FromBody] DatasetRegisterDTO registerDto)
+        {
+            return _service.Update(registerDto);
+        }
         [HttpGet]
         [Route("/datasets/{guid}/download")]
         public FileContentResult DownloadFileById(Guid guid)

@@ -64,7 +64,7 @@
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
                 <div  class="row text-center">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <button
                                 [routerLink]="['/datasets',row.id]"
                                 [title]="'visualizar informações do dataset - '+row.name"
@@ -72,15 +72,23 @@
                                 style=" width:-webkit-fill-available;"><a
                                 class="fa fa-search"></a></button>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
+                        <button
+                                (click)="clean();openEdit(row);open(editDataset)"
+                                [title]="'Excluir informações do dataset - '+row.name"
+                                class="btn btn-outline-warning"
+                                style="width:-webkit-fill-available;"><a
+                                class="fa fa-pencil"></a></button>
+                    </div>
+                    <div class="col-sm-3">
                         <button
                                 (click)="delete(row)"
-                                [title]="'Excluir informações do medidor - '+row.name"
+                                [title]="'Excluir informações do dataset - '+row.name"
                                 class="btn btn-outline-danger"
                                 style="width:-webkit-fill-available;"><a
                                 class="fa fa-trash"></a></button>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <button
                                 (click)="download(row)"
                                 [title]="'Baixar datasets selecionados'"
@@ -138,3 +146,30 @@
     </div>
 </ng-template>
 
+
+<ng-template #editDataset let-modal>
+    <div class="modal-header bg-warning">
+        <h4 class="modal-title bg-warning " id="edit-dataset-title">Editar dataset</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span class="" aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <div class="col-md-12 form-group mb-3">
+                    <label >Nome </label>
+                    <input type="text" [disabled]="true" class="form-control" [(ngModel)]="selectedDataset.name" [ngModelOptions]="{standalone: true}" >
+                </div>
+                <div class="col-md-12 form-group mb-3">
+                    <label >Descrição</label>
+                    <textarea [(ngModel)]="selectedDataset.description" style="width:100%;" [ngModelOptions]="{standalone: true}" ></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-success btn-rounded" (click)="edit();modal.close('Save click')">Salvar</button>
+        <button type="button" class="btn btn-outline-dark btn-rounded" (click)="modal.close('Save click')">Cancelar</button>
+    </div>
+</ng-template>

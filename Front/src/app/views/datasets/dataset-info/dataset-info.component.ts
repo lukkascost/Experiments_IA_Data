@@ -6,50 +6,55 @@ import {DatasetListDTO, DatasetRegisterDTO} from '../../../core/models/DatasetDT
 import {SampleListDTO} from '../../../core/models/SampleDTO';
 
 @Component({
-  selector: 'app-dataset-info',
-  templateUrl: './dataset-info.component.html'
+    selector: 'app-dataset-info',
+    templateUrl: './dataset-info.component.html'
 })
 export class DatasetInfoComponent implements OnInit {
-  private id: string;
-  private isLoading: boolean;
-  item: DatasetRegisterDTO;
-  samples: SampleListDTO[];
-  attributes: any[];
+    private id: string;
+    private isLoading: boolean;
+    item: DatasetRegisterDTO;
+    samples: SampleListDTO[];
+    dataset: DatasetRegisterDTO;
+    attributes: any[];
+    description: any;
 
-  constructor(private route: ActivatedRoute,
-              private handleService: HandleErrorService,
-              private datasetService: DatasetService,
-              private router: Router) { }
+    constructor(private route: ActivatedRoute,
+                private handleService: HandleErrorService,
+                private datasetService: DatasetService,
+                private router: Router) { }
 
-  ngOnInit() {
-    this.id = this.route.snapshot.params.id;
-    this.isLoading = true;
-    this.item = new DatasetRegisterDTO();
-    this.getSamples();
-  }
+    ngOnInit() {
+        this.id = this.route.snapshot.params.id;
+        this.isLoading = true;
+        this.item = new DatasetRegisterDTO();
+        this.getSamples();
+        this.datasetService.getDatasetById(this.id).toPromise().then(data=>{
+            this.dataset = <DatasetRegisterDTO>data;
+        });
+    }
 
-  getSamples() {
-    this.isLoading = false;
-    this.datasetService.getSamplesByDatasetId(this.id).toPromise()
-        .then(
-            data => {
-              this.samples = (<SampleListDTO[]>data);
-              this.isLoading = false;
-            }
-        ).catch(err => {
-      this.handleService.handle(err);
-      this.isLoading = false;
-    });
-  }
+    getSamples() {
+        this.isLoading = false;
+        this.datasetService.getSamplesByDatasetId(this.id).toPromise()
+            .then(
+                data => {
+                    this.samples = (<SampleListDTO[]>data);
+                    this.isLoading = false;
+                }
+            ).catch(err => {
+            this.handleService.handle(err);
+            this.isLoading = false;
+        });
+    }
 
-  getAttributes() {
-    this.datasetService.getDatasetById(this.id).toPromise()
-        .then(
-            data => {
-              this.attributes = (<DatasetRegisterDTO>data).samples.map(x => x.attributes);
-            }
-        ).catch(err => {
-      this.handleService.handle(err);
-    });
-  }
+    getAttributes() {
+        this.datasetService.getDatasetById(this.id).toPromise()
+            .then(
+                data => {
+                    this.attributes = (<DatasetRegisterDTO>data).samples.map(x => x.attributes);
+                }
+            ).catch(err => {
+            this.handleService.handle(err);
+        });
+    }
 }

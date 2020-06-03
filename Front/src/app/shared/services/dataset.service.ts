@@ -42,4 +42,9 @@ export class DatasetService {
     downloadDataset(id: string) {
         return this.http.get(`${DatasetService.url}` + '/' + id + '/download', {responseType: 'blob'}).map(res => res.valueOf());
     }
+
+    putDataset(selectedDataset: DatasetRegisterDTO) {
+        return this.http.put(`${DatasetService.url}`, selectedDataset).map(res => res.valueOf());
+
+    }
 }
