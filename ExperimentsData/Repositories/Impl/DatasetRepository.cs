@@ -35,13 +35,20 @@ namespace ExperimentsData.Repositories.Impl
             _context.SaveChanges();
         }
 
-        public DatasetEntity GetById(Guid guid)
+        public DatasetEntity GetByIdComplete(Guid guid)
         {    
             return _context.Datasets
                 .Include(x=> x.Samples.Where(y=>y.DatasetEntityId.Equals(guid))).ThenInclude(x=>x.Attributes)
                 .AsParallel()
                 .FirstOrDefault(x => x.Id.Equals(guid));
         }
+
+        public DatasetEntity GetByIdFast(Guid guid)
+        {
+            return _context.Datasets
+                .Include(x=> x.Samples.Where(y=>y.DatasetEntityId.Equals(guid)))
+                .AsParallel()
+                .FirstOrDefault(x => x.Id.Equals(guid));        }
 
         public DatasetEntity GetByName(string name)
         {
@@ -52,7 +59,7 @@ namespace ExperimentsData.Repositories.Impl
 
         public DatasetEntity DeleteById(Guid guid)
         {
-            var entity = this.GetById(guid);
+            var entity = this.GetByIdFast(guid);
             _context.Datasets.Remove(entity);
             _context.SaveChanges();
             return entity;

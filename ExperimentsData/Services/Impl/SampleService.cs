@@ -22,7 +22,7 @@ namespace ExperimentsData.Services.Impl
 
         public List<SampleListDTO> getAll(Guid datasetGuid)
         {
-            if(_datasetRepository.GetById(datasetGuid) == null) throw new ArgumentException("THIS DATASET DOES NOT EXISTS.");
+            if(_datasetRepository.GetByIdFast(datasetGuid) == null) throw new ArgumentException("THIS DATASET DOES NOT EXISTS.");
             List<SampleGroupedEntity> result = _repository.GetAllGrouped(datasetGuid);
             return _mapper.Map<List<SampleListDTO>>(result);
         }
@@ -30,7 +30,7 @@ namespace ExperimentsData.Services.Impl
         public SampleRegisterDTO Create(Guid datasetGuid, SampleRegisterDTO registerDto)
         {
             var entity = _mapper.Map<SampleEntity>(registerDto);
-            entity.DatasetEntity = _datasetRepository.GetById(datasetGuid);
+            entity.DatasetEntity = _datasetRepository.GetByIdFast(datasetGuid);
             if(entity.DatasetEntity == null) throw new ArgumentException("THIS DATASET DOES NOT EXISTS.");
             entity.DatasetEntityId = entity.DatasetEntity.Id;
             _repository.Save(entity);

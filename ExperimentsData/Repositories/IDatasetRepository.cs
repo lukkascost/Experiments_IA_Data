@@ -10,7 +10,8 @@ namespace ExperimentsData.Repositories
     {
         List<DatasetGroupedEntity> GetAllGrouped();
         void Save(DatasetEntity datasetEntity);
-        DatasetEntity GetById(Guid guid);
+        DatasetEntity GetByIdComplete(Guid guid);
+        DatasetEntity GetByIdFast(Guid guid);
         DatasetEntity GetByName(string name);
         DatasetEntity DeleteById(Guid guid);
     }

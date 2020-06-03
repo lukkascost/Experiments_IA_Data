@@ -35,13 +35,13 @@ namespace ExperimentsData.Services.Impl
 
         public DatasetRegisterDTO getById(Guid guid)
         {
-            return _mapper.Map<DatasetRegisterDTO>( _repository.GetById(guid));
+            return _mapper.Map<DatasetRegisterDTO>( _repository.GetByIdComplete(guid));
         }
 
         public byte[] DownloadFileById(Guid guid)
         {
             var result = new MemoryStream();
-            var dataset = _repository.GetById(guid);    
+            var dataset = _repository.GetByIdComplete(guid);    
             result.Write(Encoding.ASCII.GetBytes(dataset.toFile()));
             result.Flush();
             return result.GetBuffer();    
