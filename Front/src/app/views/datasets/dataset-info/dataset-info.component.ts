@@ -28,6 +28,7 @@ export class DatasetInfoComponent implements OnInit {
         this.isLoading = true;
         this.item = new DatasetRegisterDTO();
         this.getSamples();
+        this.generateGraphics();
         this.datasetService.getDatasetById(this.id).toPromise().then(data=>{
             this.dataset = <DatasetRegisterDTO>data;
         });
@@ -56,5 +57,12 @@ export class DatasetInfoComponent implements OnInit {
             ).catch(err => {
             this.handleService.handle(err);
         });
+    }
+
+    private generateGraphics() {
+    }
+
+    getWithLineBreak(description: string) {
+        return description.split(/\r\n|\r|\n/).length;
     }
 }

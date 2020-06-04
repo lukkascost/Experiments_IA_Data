@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <span class="font-weight-bold">Descrição</span>
-                    <textarea  [disabled]="true" [(ngModel)]="dataset.description" style="margin-right: 0px; width:-webkit-fill-available;"></textarea>
+                    <textarea style="margin-right: 0px; width:-webkit-fill-available;" disabled readonly [rows]=" getWithLineBreak(dataset.description)">{{dataset.description}}</textarea>
                 </div>
             </div>
         </div>

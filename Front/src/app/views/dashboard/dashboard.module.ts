@@ -7,16 +7,15 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SharedModule} from '../../shared/shared.module';
 import {FormWizardModule} from '../../shared/components/form-wizard/form-wizard.module';
 import {TextMaskModule} from 'angular2-text-mask';
-import {DatasetsComponent} from './datasets.component';
-import {DatasetsRoutingModule} from './datasets-routing.module';
-import { DatasetInfoComponent } from './dataset-info/dataset-info.component';
 import {NgxEchartsModule} from "ngx-echarts";
+import {DashboardRoutingModule} from "./dashboard-routing.module";
+import {DashboardComponent} from "./dashboard.component";
 
 @NgModule({
-    declarations: [DatasetsComponent, DatasetInfoComponent],
+    declarations: [DashboardComponent],
     imports: [
         CommonModule,
-        DatasetsRoutingModule,
+        DashboardRoutingModule,
         FormsModule,
         ReactiveFormsModule,
         NgxEchartsModule,
@@ -31,5 +30,5 @@ import {NgxEchartsModule} from "ngx-echarts";
     providers: [
     ]
 })
-export class DatasetsModule {
+export class DashboardModule {
 }

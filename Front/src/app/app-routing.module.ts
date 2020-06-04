@@ -9,6 +9,14 @@ const adminRoutes: Routes = [
     {
         path: 'datasets',
         loadChildren: './views/datasets/datasets.module#DatasetsModule'
+    },
+    {
+        path: 'dashboard',
+        loadChildren: './views/dashboard/dashboard.module#DashboardModule'
+    },
+    {
+        path: 'import',
+        loadChildren: './views/import/import.module#ImportModule'
     }
 ];
 

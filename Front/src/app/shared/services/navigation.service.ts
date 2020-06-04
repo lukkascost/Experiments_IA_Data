@@ -47,10 +47,22 @@ export class NavigationService {
     };
     defaultMenu: IMenuItem[] = [
         {
-            name: 'Datasets',
+            name: 'Dashboard',
             type: 'link',
             icon: 'i-Dashboard',
+            state: '/dashboard/'
+        },
+        {
+            name: 'Datasets',
+            type: 'link',
+            icon: 'i-Data-Center',
             state: '/datasets/'
+        },
+        {
+            name: 'Importar',
+            type: 'link',
+            icon: 'i-Upload',
+            state: '/import/'
         }
     ];
     // sets iconMenu as default;
