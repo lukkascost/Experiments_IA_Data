@@ -9,9 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-server": "ng build --prod --base-href=/commands/ --output-path=\"C:/Program Files/Apache Software Foundation/Tomcat 8.5/webapps/commands\"",
-    "build:blue": "ng build --prod --base-href \"http://gull.ui-lib.com/blue/\"",
-    "build:purple": "ng build --prod --base-href \"http://gull.ui-lib.com/purple/\""
+    "build-server": "ng build --prod --base-href=/datasets/ --output-path=\"C:/TeamCity/webapps/datasets\""
   },
   "private": true,
   "dependencies": {

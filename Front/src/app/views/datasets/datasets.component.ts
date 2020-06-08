@@ -29,7 +29,7 @@ export class DatasetsComponent implements OnInit, OnDestroy{
 
   }
 
-  private getDatasets() {
+   getDatasets() {
     this.datasetService.getDatasets().toPromise()
         .then(
             data => {

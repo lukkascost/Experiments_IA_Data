@@ -10,8 +10,8 @@ import {SampleListDTO} from '../../../core/models/SampleDTO';
     templateUrl: './dataset-info.component.html'
 })
 export class DatasetInfoComponent implements OnInit {
-    private id: string;
-    private isLoading: boolean;
+    public id: string;
+    public isLoading: boolean;
     item: DatasetRegisterDTO;
     samples: SampleListDTO[];
     dataset: DatasetRegisterDTO;
