@@ -1,1 +1,76 @@
-<p>Import works!</p>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card o-hidden">
+            <div class="card-header bg-primary">
+                <div class="card-title d-flex align-items-center mb-3 text-white">
+                    <span class="font-weight-bold">Importar dataset</span>
+                </div>
+            </div>
+            <form>
+                <div class="form-group">
+                    <div class="col-md-12 form-group mb-3">
+                        <label >Nome </label>
+                        <input type="text" class="form-control" [(ngModel)]="selectedDataset.name" [ngModelOptions]="{standalone: true}" >
+                    </div>
+                    <div class="col-md-12 form-group mb-3">
+                        <label >Descrição</label>
+                        <textarea [(ngModel)]="selectedDataset.description" style="width:100%;" [ngModelOptions]="{standalone: true}" ></textarea>
+                    </div>
+                    <div class="col-md-12 form-group mb-3">
+                        <input type="file" (change)="onFileChange($event)" multiple="false">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="separator-breadcrumb border-top"></div>
+
+
+<div class="row" *ngIf="showdata!=[]">
+    <div class="col-md-12">
+        <div class="card o-hidden">
+            <div class="card-header bg-primary">
+                <div class="card-title d-flex align-items-center mb-3 text-white">
+                    <span class="font-weight-bold">Dataset</span>
+                </div>
+            </div>
+            <div>
+                <ngx-datatable *ngIf="showDatabool"
+                               columnMode="force"
+                        [footerHeight]="50"
+                        [headerHeight]="50"
+                        [messages]="{emptyMessage: 'Nenhum Dataset encontrado'}"
+                        [rowHeight]="60"
+                               [scrollbarH]="true"
+                        [rows]="showdata"
+                        class="material fullscreen"
+                >
+                    <div *ngFor="let k of showdata[0]; let i = index">
+                        <ngx-datatable-column name="{{'att' + i}}"  [width]="200">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row[i]}}
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </div>
+                    <ngx-datatable-footer>
+                        <ng-template  ngx-datatable-footer-template>
+                            <ngb-pagination
+                                #ngbPage
+                                [boundaryLinks]="true"
+                                [collectionSize]="showdata.length"
+                                [pageSize]="pageSize"
+                                [page]="currentPage"
+                                [maxSize]="5"
+                                (pageChange)="onPageChanged($event)">
+                            </ngb-pagination>
+                        </ng-template>
+
+                    </ngx-datatable-footer>
+                </ngx-datatable>
+            </div>
+        </div>
+    </div>
+</div>
