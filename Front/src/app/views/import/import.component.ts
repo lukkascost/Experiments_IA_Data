@@ -3,6 +3,9 @@ import {DatasetRegisterDTO} from "../../core/models/DatasetDTO";
 import {SampleRegisterDTO} from "../../core/models/SampleDTO";
 import {ExtractorType} from "../../core/models/enums/ExtractorType";
 import {DatatableComponent} from "@swimlane/ngx-datatable";
+import {isNullOrUndefined} from "util";
+import {AttributesRegisterDTO} from "../../core/models/AttributesDTO";
+import {DatasetService} from "../../shared/services/dataset.service";
 
 @Component({
   selector: 'app-import',
@@ -16,11 +19,14 @@ export class ImportComponent implements OnInit {
   pageSize: number;
   currentPage: number;
   @ViewChild(DatatableComponent, null) table: DatatableComponent;
+  public ExtractorType = ExtractorType;
+  extractorType;
 
 
-  constructor() { }
+  constructor(private datasetService: DatasetService) { }
 
   ngOnInit() {
+    this.extractorType = ExtractorType.GLCM;
     this.currentPage = 1;
     this.pageSize = 10;
     this.selectedDataset = new DatasetRegisterDTO();
@@ -56,5 +62,45 @@ export class ImportComponent implements OnInit {
     this.table.limit = 10;
     this.currentPage = pageNum;
     this.table.offset = pageNum - 1;
+  }
+
+  keys(Enumerator): Array<string> {
+    const keys = Object.keys(Enumerator);
+    return keys.slice(keys.length / 2);
+  }
+
+  checkParams() {
+    if (this.showdata.length == 0) return true;
+    if (isNullOrUndefined(this.selectedDataset.description)) return true;
+    if (isNullOrUndefined(this.selectedDataset.name)) return true;
+    return false;
+  }
+
+  save() {
+    var dataset = new DatasetRegisterDTO();
+    dataset.name = this.selectedDataset.name;
+    dataset.description = this.selectedDataset.description;
+    dataset.samples = [];
+    var counter = 1;
+    this.showdata.forEach(x=>{
+      var sampleDTO = new SampleRegisterDTO();
+      sampleDTO.label = x[x.length-1];
+      sampleDTO.extractorType = this.extractorType;
+      sampleDTO.attributes = [];
+      sampleDTO.originalFileName = "IMPORTED_FILE_"+counter+".txt";
+      counter++;
+      for (let i = 0; i < x.length-1; i++) {
+        var attribute = new AttributesRegisterDTO();
+        attribute.order = i;
+        attribute.name = "Attribute "+(i+1);
+        attribute.value = x[i];
+        sampleDTO.attributes.push(attribute);
+      }
+      dataset.samples.push(sampleDTO);
+    });
+    this.datasetService.postDataset(dataset).toPromise().then(data=>{
+      this.showdata = [];
+      this.selectedDataset = new DatasetRegisterDTO();
+    });
   }
 }

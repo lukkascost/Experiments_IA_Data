@@ -18,10 +18,21 @@
                         <textarea [(ngModel)]="selectedDataset.description" style="width:100%;" [ngModelOptions]="{standalone: true}" ></textarea>
                     </div>
                     <div class="col-md-12 form-group mb-3">
+                        <label >Tipo de Extrator</label>
+                        <select id="add_meterPhaseType" name="add_meterPhaseType" class="form-control form-control" [(ngModel)]="extractorType">
+                            <option *ngFor="let reg of keys(ExtractorType)" [value] ="ExtractorType[reg]" >{{reg}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12 form-group mb-3">
                         <input type="file" (change)="onFileChange($event)" multiple="false">
                     </div>
                 </div>
             </form>
+
+            <div class="card-footer">
+                <button type="button" class="btn btn-outline-success btn-rounded" (click)="save()" [disabled]="checkParams()" >Salvar</button>
+                <label *ngIf="showdata.length>0" >Quantidade de amostras : {{showdata.length}}</label>
+            </div>
         </div>
     </div>
 </div>
@@ -34,7 +45,7 @@
         <div class="card o-hidden">
             <div class="card-header bg-primary">
                 <div class="card-title d-flex align-items-center mb-3 text-white">
-                    <span class="font-weight-bold">Dataset</span>
+                    <span class="font-weight-bold">Visualização dataset</span>
                 </div>
             </div>
             <div>
@@ -67,7 +78,6 @@
                                 (pageChange)="onPageChanged($event)">
                             </ngb-pagination>
                         </ng-template>
-
                     </ngx-datatable-footer>
                 </ngx-datatable>
             </div>
