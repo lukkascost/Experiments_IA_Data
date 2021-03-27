@@ -17,6 +17,8 @@ namespace ExperimentsData.Models.DAO
         public Guid DatasetEntityId { get; set; }
         
         public DatasetEntity DatasetEntity { get; set; }
+        
+        public List<ExperimentRoundEntity> Rounds { get; set; }
 
         public string toFile()
         {

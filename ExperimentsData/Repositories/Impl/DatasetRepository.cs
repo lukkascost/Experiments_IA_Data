@@ -36,11 +36,11 @@ namespace ExperimentsData.Repositories.Impl
         }
 
         public DatasetEntity GetByIdComplete(Guid guid)
-        {    
-            return _context.Datasets
-                .Include(x=> x.Samples.Where(y=>y.DatasetEntityId.Equals(guid))).ThenInclude(x=>x.Attributes)
-                .AsParallel()
-                .FirstOrDefault(x => x.Id.Equals(guid));
+        {
+            DatasetEntity datasetEntity = _context.Datasets.AsNoTracking().FirstOrDefault(x => x.Id.Equals(guid));
+            List<SampleEntity> samples = _context.Samples.AsNoTracking().Include(x=>x.Attributes).Where(x => x.DatasetEntityId.Equals(guid)).AsParallel().ToList();
+            datasetEntity.Samples = samples;
+            return datasetEntity;
         }
 
         public DatasetEntity GetByIdFast(Guid guid)

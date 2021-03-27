@@ -14,7 +14,9 @@
 @for $i from 0 through 10 {
   [w-#{$i * 10}],
   .w-#{$i * 10} {
-    width: #{$i * 10}% !important;
+  }
+  [w-#{$i * 10}],
+  .w-#{$i * 10} {
   }
 }
 
