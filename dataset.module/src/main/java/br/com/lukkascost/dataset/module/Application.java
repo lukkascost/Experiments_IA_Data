@@ -1,4 +1,5 @@
-package br.com.lukkascost.attributes.module;
+package br.com.lukkascost.dataset.module;
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 @SpringBootApplication
 @EnableEurekaClient
 @EntityScan("br.com.lukkascost.commons.module.models.entities")
@@ -32,7 +34,7 @@ public class Application {
 	public Docket api() throws IOException {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
-				.apis(RequestHandlerSelectors.basePackage("br.com.lukkascost.attributes.module.controllers"))
+				.apis(RequestHandlerSelectors.basePackage("br.com.lukkascost.dataset.module.controllers"))
 				.paths(PathSelectors.any())
 				.build().apiInfo(
 						new ApiInfo("Automatic Api-gateway doc", "Documentation automatically generated", "v1", null, new Contact("Lucas Costa", "https://github.com/lukkascost", "lucas.costa@outlook.com.br"), null, null, new ArrayList())) ;
