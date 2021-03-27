@@ -1,6 +1,5 @@
 package br.com.lukkascost.api.gateway.configurations;
 
-import br.com.eletra.constants.ServiceNames;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -25,9 +24,7 @@ public class DocumentationConfig implements SwaggerResourcesProvider {
     @Override
     public List get() {
         List resources = new ArrayList<>();
-        for (String service : ServiceNames.services) {
-            resources.add(swaggerResource(service, "/"+service+"/v2/api-docs", "2.0"));
-        }
+            resources.add(swaggerResource("api-gateway", "/v2/api-docs", "2.0"));
         return resources;
     }
 
