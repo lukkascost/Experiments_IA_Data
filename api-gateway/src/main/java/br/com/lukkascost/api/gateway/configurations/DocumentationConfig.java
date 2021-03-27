@@ -57,9 +57,9 @@ public class DocumentationConfig implements SwaggerResourcesProvider {
     public Docket api() throws IOException {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("br.com.eletra.api.gateway.controllers"))
+                .apis(RequestHandlerSelectors.basePackage("br.com.lukkascost.api.gateway.controllers"))
                 .paths(PathSelectors.any())
                 .build().apiInfo(
-                        new ApiInfo("CPFL Integration Api Documentation", "Documentation automatically generated", "v1", null, new Contact("Eletra Energy Solutions", null, null), null, null, new ArrayList())) ;
+                        new ApiInfo("Automatic Api-gateway doc", "Documentation automatically generated", "v1", null, new Contact("Lucas Costa", "https://github.com/lukkascost", "lucas.costa@outlook.com.br"), null, null, new ArrayList())) ;
     }
 }
