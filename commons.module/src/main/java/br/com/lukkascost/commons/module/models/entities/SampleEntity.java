@@ -29,6 +29,10 @@ public class SampleEntity extends BaseEntity{
     @Column(name = "label")
     public String label ;
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "dataset_id", nullable = false)
+    private DatasetEntity dataset;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "sample")
     private Set<AttributeEntity> attributes = new HashSet<>();
 }

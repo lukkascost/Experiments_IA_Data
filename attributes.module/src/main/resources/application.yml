@@ -1,0 +1,30 @@
+server:
+  port: ${SERVER_PORT:0}
+
+spring:
+  activemq:
+    broker-url: tcp://${BROKER_URL:localhost}:${BROKER_PORT:61616}?jms.prefetchPolicy.all=0
+    user: ${BROKER_USER:admin}
+    password: ${BROKER_PASSWORD:admin}
+  datasource:
+    url: ${DATASOURCE_JDBC:jdbc:postgresql://localhost:5432/data_analyze_db}
+    username: ${DATASOURCE_USERNAME:postgres}
+    password: ${DATASOURCE_PASSWORD:postgres}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: validate
+        enable_lazy_load_no_trans: true
+  flyway:
+    out-of-order: true
+
+eureka:
+  instance:
+    preferIpAddress: true
+    lease-expiration-duration-in-seconds: 15
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+

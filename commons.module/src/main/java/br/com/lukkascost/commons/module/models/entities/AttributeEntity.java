@@ -15,11 +15,11 @@ public class AttributeEntity extends BaseEntity{
     @Column(name = "value")
     private String value ;
 
-    @Column(name = "order")
+    @Column(name = "order_field")
     private int order ;
 
     @Column(name = "name")
-    private String Name ;
+    private String name ;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "sample_id", nullable = false)

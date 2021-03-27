@@ -1,0 +1,48 @@
+version: "3.5"
+services:
+  cloud-discovery:
+    image: lukkascost/cloud-discovery
+    restart: always
+    ports:
+      - "8761:8761"
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 700M
+  api-gateway:
+    image: lukkascost/api-gateway
+    restart: always
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 700M
+    environment:
+      BROKER_URL: activemq-artemis
+      BROKER_PORT: 61616
+      BROKER_USER: admin
+      BROKER_PASSWORD: admin
+      EUREKA_URI: http://cloud-discovery:8761/eureka
+    depends_on:
+      - activemq
+      - cloud-discovery
+
+  activemq:
+    image: webcenter/activemq
+    restart: always
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+  postgres:
+    image: postgres
+    command: postgres -c 'max_connections=10000'
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: data_analyze_db
