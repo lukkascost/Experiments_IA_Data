@@ -1,5 +1,7 @@
 package br.com.lukkascost.api.gateway.configurations;
 
+import com.netflix.discovery.EurekaClient;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -15,16 +17,25 @@ import springfox.documentation.swagger.web.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Primary
 @EnableAutoConfiguration
 public class DocumentationConfig implements SwaggerResourcesProvider {
+    private final EurekaClient discoveryClient;
+
+    public DocumentationConfig(@Qualifier("eurekaClient") EurekaClient discoveryClient) {
+        this.discoveryClient = discoveryClient;
+    }
 
     @Override
     public List get() {
         List resources = new ArrayList<>();
-            resources.add(swaggerResource("api-gateway", "/v2/api-docs", "2.0"));
+        List<String> names = discoveryClient.getApplications().getRegisteredApplications().stream().map(x -> x.getName().toLowerCase()).collect(Collectors.toList());
+        for (String name : names) {
+            resources.add(swaggerResource(name, "/"+name+"/v2/api-docs", "2.0"));
+        }
         return resources;
     }
 
