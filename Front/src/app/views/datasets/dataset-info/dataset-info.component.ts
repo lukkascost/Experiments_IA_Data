@@ -4,6 +4,7 @@ import {HandleErrorService} from '../../../shared/services/handle-error.service'
 import {DatasetService} from '../../../shared/services/dataset.service';
 import {DatasetListDTO, DatasetRegisterDTO} from '../../../core/models/DatasetDTO';
 import {SampleListDTO} from '../../../core/models/SampleDTO';
+import {SampleService} from '../../../shared/services/sample.service';
 
 @Component({
     selector: 'app-dataset-info',
@@ -21,6 +22,7 @@ export class DatasetInfoComponent implements OnInit {
     constructor(private route: ActivatedRoute,
                 private handleService: HandleErrorService,
                 private datasetService: DatasetService,
+                private sampleService: SampleService,
                 private router: Router) { }
 
     ngOnInit() {
@@ -29,14 +31,14 @@ export class DatasetInfoComponent implements OnInit {
         this.item = new DatasetRegisterDTO();
         this.getSamples();
         this.generateGraphics();
-        this.datasetService.getDatasetById(this.id).toPromise().then(data=>{
+        this.datasetService.getDatasetById(this.id).toPromise().then(data => {
             this.dataset = <DatasetRegisterDTO>data;
         });
     }
 
     getSamples() {
         this.isLoading = false;
-        this.datasetService.getSamplesByDatasetId(this.id).toPromise()
+        this.sampleService.getSamplesByDatasetId(this.id).toPromise()
             .then(
                 data => {
                     this.samples = (<SampleListDTO[]>data);
