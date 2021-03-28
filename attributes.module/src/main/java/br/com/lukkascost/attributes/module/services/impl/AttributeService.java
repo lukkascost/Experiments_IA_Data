@@ -3,8 +3,8 @@ package br.com.lukkascost.attributes.module.services.impl;
 import br.com.lukkascost.attributes.module.services.IAttributeService;
 import br.com.lukkascost.commons.module.models.entities.AttributeEntity;
 import br.com.lukkascost.commons.module.models.entities.SampleEntity;
-import br.com.lukkascost.commons.module.models.repositories.IAttributeRepository;
-import br.com.lukkascost.commons.module.models.repositories.ISampleRepository;
+import br.com.lukkascost.commons.module.repositories.IAttributeRepository;
+import br.com.lukkascost.commons.module.repositories.ISampleRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

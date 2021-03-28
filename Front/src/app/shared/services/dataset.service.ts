@@ -24,11 +24,7 @@ export class DatasetService {
     }
 
     getDatasetById(id: string) {
-        return this.http.get(`${DatasetService.url}` + '/' + id).map(res => res.valueOf());
-    }
-
-    getSamplesByDatasetId(id: string) {
-        return this.http.get(`${DatasetService.url}` + '/' + id + '/samples').map(res => res.valueOf());
+        return this.http.get(`${DatasetService.url}` + '?dataset_id=' + id).map(res => res.valueOf());
     }
 
     postSampleInDataset(selectedSample: SampleRegisterDTO, datasetId: string) {

@@ -1,13 +1,11 @@
-package br.com.lukkascost.attributes.module.mappers;
+package br.com.lukkascost.commons.module.mappers;
 
 import br.com.lukkascost.commons.module.models.dto.AttributeDetailsDTO;
 import br.com.lukkascost.commons.module.models.entities.AttributeEntity;
-import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
-public abstract class AttributeMapper {
+public abstract class AttributeModelMapper {
     public abstract List<AttributeDetailsDTO> convert(List<AttributeEntity> attributeEntityList);
 
 }

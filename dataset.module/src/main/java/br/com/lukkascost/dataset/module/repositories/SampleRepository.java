@@ -1,4 +1,4 @@
-package br.com.lukkascost.attributes.module.repositories;
+package br.com.lukkascost.dataset.module.repositories;
 
 import br.com.lukkascost.commons.module.repositories.ISampleRepository;
 import org.springframework.stereotype.Repository;

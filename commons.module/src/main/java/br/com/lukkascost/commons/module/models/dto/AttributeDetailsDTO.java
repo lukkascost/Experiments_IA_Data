@@ -1,4 +1,4 @@
-package br.com.lukkascost.attributes.module.models;
+package br.com.lukkascost.commons.module.models.dto;
 
 
 import lombok.Getter;
