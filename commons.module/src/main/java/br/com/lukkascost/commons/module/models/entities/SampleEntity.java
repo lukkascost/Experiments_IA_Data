@@ -33,6 +33,6 @@ public class SampleEntity extends BaseEntity{
     @JoinColumn(name = "dataset_id", nullable = false)
     private DatasetEntity dataset;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "sample")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "sample")
     private Set<AttributeEntity> attributes = new HashSet<>();
 }

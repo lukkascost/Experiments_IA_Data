@@ -21,7 +21,7 @@ public class AttributeEntity extends BaseEntity{
     @Column(name = "name")
     private String name ;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sample_id", nullable = false)
     private SampleEntity sample;
 
