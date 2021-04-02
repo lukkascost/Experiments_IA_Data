@@ -43,7 +43,7 @@
                         <span class="font-weight-bold">Informações das amostras</span>
                     </div>
                 </div>
-                <app-sample-table [isLoading]="isLoading" [(data)]="samples" [datasetId]="id"  (refreshData)="getSamples()"></app-sample-table>
+                <app-sample-table [isLoading]="isLoading" [(data)]="samples" [datasetId]="id"  (refreshData)="getSamples()" (pageChange)="pageChange($event)"></app-sample-table>
             </div>
         </div>
     </div>

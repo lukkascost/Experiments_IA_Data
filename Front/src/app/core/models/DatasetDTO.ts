@@ -16,16 +16,24 @@ export class DatasetListDTO  implements  IDatasetDTO {
     getSamples() {
         return this.samples;
     }
+    constructor() {
+        this.description = '';
+    }
 }
 
 export class DatasetRegisterDTO  implements  IDatasetDTO {
     description: string;
     name: string;
-    samples: SampleRegisterDTO[] = [];
+    samples: SampleRegisterDTO[];
     createdAt: string;
     updatedAt: string;
 
     getSamples() {
         return this.samples;
+    }
+
+
+    constructor() {
+        this.description = '';
     }
 }

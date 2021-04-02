@@ -1,12 +1,14 @@
 package br.com.lukkascost.dataset.module.controllers;
 
+import br.com.lukkascost.commons.module.models.dto.DatasetCreateDTO;
+import br.com.lukkascost.commons.module.models.dto.DatasetDTO;
 import br.com.lukkascost.dataset.module.services.IDatasetService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -21,15 +23,27 @@ public class DatasetController {
     }
 
     @GetMapping
-    public Object getDataset(@RequestParam(required = false) UUID dataset_id) {
-        if(dataset_id == null){
-            return new ResponseEntity(datasetService.findAll(), HttpStatus.OK);
-        }
-        return getDatasetById(dataset_id);
+    public ResponseEntity<Page<DatasetDTO>> getDataset(DatasetDTO datasetDTO,
+                                                      @RequestParam(defaultValue = "0") int page,
+                                                      @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return new ResponseEntity(datasetService.findAll(datasetDTO, pageable), HttpStatus.OK);
     }
 
-    public Object getDatasetById(UUID dataset_id) {
+    @PostMapping
+    public ResponseEntity createDataset(@RequestBody DatasetCreateDTO dto){
+        return new ResponseEntity(datasetService.create(dto),HttpStatus.CREATED);
+    }
 
-        return new ResponseEntity( datasetService.findByID(dataset_id), HttpStatus.OK);
+    @PutMapping
+    public ResponseEntity updateDataset(@RequestBody DatasetDTO dto){
+        return new ResponseEntity(datasetService.update(dto),HttpStatus.OK);
+    }
+
+
+    @DeleteMapping
+    public ResponseEntity deleteDataset(@RequestParam UUID id){
+        return new ResponseEntity(datasetService.delete(id),HttpStatus.OK);
     }
 }

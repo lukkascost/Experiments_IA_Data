@@ -5,6 +5,7 @@ import {DatasetService} from '../../../shared/services/dataset.service';
 import {DatasetListDTO, DatasetRegisterDTO} from '../../../core/models/DatasetDTO';
 import {SampleListDTO} from '../../../core/models/SampleDTO';
 import {SampleService} from '../../../shared/services/sample.service';
+import {PageDatasetDTOImpl, PageSampleImpl} from '../../../core/models/Page';
 
 @Component({
     selector: 'app-dataset-info',
@@ -13,9 +14,9 @@ import {SampleService} from '../../../shared/services/sample.service';
 export class DatasetInfoComponent implements OnInit {
     public id: string;
     public isLoading: boolean;
-    item: DatasetRegisterDTO;
-    samples: SampleListDTO[];
-    dataset: DatasetRegisterDTO;
+    item: DatasetListDTO;
+    samples: PageSampleImpl;
+    dataset: DatasetListDTO;
     attributes: any[];
     description: any;
 
@@ -26,22 +27,25 @@ export class DatasetInfoComponent implements OnInit {
                 private router: Router) { }
 
     ngOnInit() {
+        this.samples = new PageSampleImpl();
+        this.dataset = new DatasetListDTO();
         this.id = this.route.snapshot.params.id;
         this.isLoading = true;
-        this.item = new DatasetRegisterDTO();
+        this.item = new DatasetListDTO();
         this.getSamples();
         this.generateGraphics();
         this.datasetService.getDatasetById(this.id).toPromise().then(data => {
-            this.dataset = <DatasetRegisterDTO>data;
+            const result = (<PageDatasetDTOImpl>data).content[0];
+            this.dataset = <DatasetListDTO> result;
         });
     }
 
     getSamples() {
-        this.isLoading = false;
-        this.sampleService.getSamplesByDatasetId(this.id).toPromise()
+        this.isLoading = true;
+        this.sampleService.getSamplesByDatasetId(this.id, 0, 10).toPromise()
             .then(
                 data => {
-                    this.samples = (<SampleListDTO[]>data);
+                    this.samples = (<PageSampleImpl>data);
                     this.isLoading = false;
                 }
             ).catch(err => {
@@ -50,14 +54,17 @@ export class DatasetInfoComponent implements OnInit {
         });
     }
 
-    getAttributes() {
-        this.datasetService.getDatasetById(this.id).toPromise()
+    refreshSamples(page) {
+        this.isLoading = true;
+        this.sampleService.getSamplesByDatasetId(this.id, page, 10).toPromise()
             .then(
                 data => {
-                    this.attributes = (<DatasetRegisterDTO>data).samples.map(x => x.attributes);
+                    this.samples = (<PageSampleImpl>data);
+                    this.isLoading = false;
                 }
             ).catch(err => {
             this.handleService.handle(err);
+            this.isLoading = false;
         });
     }
 
@@ -66,5 +73,10 @@ export class DatasetInfoComponent implements OnInit {
 
     getWithLineBreak(description: string) {
         return description.split(/\r\n|\r|\n/).length;
+    }
+
+    pageChange($event: number) {
+        console.log($event);
+        this.refreshSamples($event - 1);
     }
 }

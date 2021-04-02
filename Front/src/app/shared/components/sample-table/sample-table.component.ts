@@ -4,7 +4,8 @@ import {DatasetService} from '../../services/dataset.service';
 import {ISampleDTO, SampleListDTO, SampleRegisterDTO} from '../../../core/models/SampleDTO';
 import {ExtractorType} from '../../../core/models/enums/ExtractorType';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
-import {SampleService} from "../../services/sample.service";
+import {SampleService} from '../../services/sample.service';
+import {PageSampleImpl} from '../../../core/models/Page';
 
 @Component({
   selector: 'app-sample-table',
@@ -12,17 +13,16 @@ import {SampleService} from "../../services/sample.service";
 })
 export class SampleTableComponent implements OnInit {
 
-  @Input() data: ISampleDTO[] = [];
+  @Input() data: PageSampleImpl;
   @Input() isLoading = true;
   @Input() datasetId: string;
   @Output() refreshData = new EventEmitter();
-  @Output() dataChange = new EventEmitter();
+  @Output() dataChange: EventEmitter<PageSampleImpl> = new EventEmitter<PageSampleImpl>();
+  @Output() pageChange = new EventEmitter();
   @ViewChild(DatatableComponent, null) table: DatatableComponent;
 
   private selectedSample: SampleRegisterDTO;
   public ExtractorType = ExtractorType;
-  pageSize: number;
-  currentPage: number;
 
   constructor(
       private modalService: NgbModal,
@@ -31,9 +31,7 @@ export class SampleTableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.currentPage = 1;
-    this.pageSize = 10;
-    this.table.limit = 10;
+    this.table.limit = 9;
     this.selectedSample = new SampleRegisterDTO();
     setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
@@ -41,8 +39,7 @@ export class SampleTableComponent implements OnInit {
   }
 
   onPageChanged(pageNum) {
-    this.currentPage = pageNum;
-    this.table.offset = pageNum - 1;
+    this.pageChange.emit(pageNum);
   }
   clean() {
     this.selectedSample = new SampleRegisterDTO();
@@ -63,7 +60,6 @@ export class SampleTableComponent implements OnInit {
   }
 
   addNew() {
-    console.log(this.selectedSample);
     this.datasetService.postSampleInDataset(this.selectedSample, this.datasetId).toPromise()
         .then(
             data => {

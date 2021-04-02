@@ -4,7 +4,7 @@
         [headerHeight]="50"
         [messages]="{emptyMessage: 'Nenhuma amostra encontrado'}"
         [rowHeight]="60"
-        [rows]="data"
+        [rows]="data.content"
         class="material fullscreen"
         [loadingIndicator]="isLoading"
 >
@@ -89,9 +89,8 @@
                 <ngb-pagination
                     #ngbPage
                     [boundaryLinks]="true"
-                    [collectionSize]="data == null? 0: data.length"
-                    [pageSize]="pageSize"
-                    [page]="currentPage"
+                    [collectionSize]="data.totalElements"
+                    [pageSize]="data.size"
                     [maxSize]="5"
                     (pageChange)="onPageChanged($event)">
                 </ngb-pagination>

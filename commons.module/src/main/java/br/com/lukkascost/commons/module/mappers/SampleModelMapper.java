@@ -1,11 +1,11 @@
 package br.com.lukkascost.commons.module.mappers;
 
-import br.com.lukkascost.commons.module.models.dto.DatasetDTO;
 import br.com.lukkascost.commons.module.models.dto.SampleDTO;
 import br.com.lukkascost.commons.module.models.entities.AttributeEntity;
-import br.com.lukkascost.commons.module.models.entities.DatasetEntity;
 import br.com.lukkascost.commons.module.models.entities.SampleEntity;
 import br.com.lukkascost.commons.module.specifications.SampleSpecifications;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
@@ -28,5 +28,9 @@ public abstract class SampleModelMapper {
                 .and(SampleSpecifications.withId(sampleDTO.getId()))
                 .and(SampleSpecifications.withExtractorType(sampleDTO.getExtractorType()))
                 ;
+    }
+
+    public PageImpl<SampleDTO> convert(Page<SampleEntity> page){
+        return new PageImpl(this.convert(page.getContent()),page.getPageable(),page.getTotalElements());
     }
 }

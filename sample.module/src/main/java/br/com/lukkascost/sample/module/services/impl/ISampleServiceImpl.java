@@ -5,6 +5,8 @@ import br.com.lukkascost.commons.module.models.entities.SampleEntity;
 import br.com.lukkascost.commons.module.repositories.ISampleRepository;
 import br.com.lukkascost.sample.module.mapper.SampleMapper;
 import br.com.lukkascost.sample.module.services.ISampleService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +29,9 @@ public class ISampleServiceImpl implements ISampleService {
         return sampleMapper.convert(entities);
     }
     @Override
-    public List<SampleDTO> findAll(SampleDTO sampleDTO, UUID dataset_id) {
+    public Page<SampleDTO> findAll(SampleDTO sampleDTO, UUID dataset_id, Pageable page) {
         Specification<SampleEntity> spec = sampleMapper.convert(sampleDTO,dataset_id);
-        List<SampleEntity> sampleEntity = sampleRepository.findAll(spec);
+        Page<SampleEntity> sampleEntity = sampleRepository.findAll(spec, page);
         return sampleMapper.convert(sampleEntity);
     }
 }

@@ -20,9 +20,8 @@
             [headerHeight]="50"
             [messages]="{emptyMessage: 'Nenhum Dataset encontrado'}"
             [rowHeight]="60"
-            [rows]="rows"
+            [rows]="data.content"
             [loadingIndicator]="loading"
-            [sorts]="[{prop: 'name', dir: 'desc'}]"
             class="material fullscreen"
     >
         <ngx-datatable-column [canAutoResize]="true" [minWidth]="350" [resizeable]="true" [sortable]="true"
@@ -105,9 +104,8 @@
                 <ngb-pagination
                     #ngbPage
                     [boundaryLinks]="true"
-                    [collectionSize]="rows.length"
-                    [pageSize]="pageSize"
-                    [page]="currentPage"
+                    [collectionSize]="data.totalElements"
+                    [pageSize]="data.numberOfElements"
                     [maxSize]="5"
                     (pageChange)="onPageChanged($event)">
                 </ngb-pagination>
