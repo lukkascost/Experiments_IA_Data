@@ -89,6 +89,7 @@ public class DatasetServiceImpl implements IDatasetService {
         if (entity == null ) throw new IllegalArgumentException("Dataset name not found");
         Set<SampleEntity> sampleEntities = entity.getSamples();
         sampleEntities.forEach(x->{
+            if(x.getAttributes().size() < 24)
             jmsTemplate.convertAndSend("queue.extract.glcm",x.getId().toString());
         });
     }

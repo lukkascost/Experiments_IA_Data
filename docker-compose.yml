@@ -52,7 +52,7 @@ services:
         reservations:
           memory: 700M
     environment:
-      BROKER_URL: activemq-artemis
+      BROKER_URL: activemq
       BROKER_PORT: 61616
       BROKER_USER: admin
       BROKER_PASSWORD: admin
@@ -78,7 +78,7 @@ services:
         reservations:
           memory: 700M
     environment:
-      BROKER_URL: activemq-artemis
+      BROKER_URL: activemq
       BROKER_PORT: 61616
       BROKER_USER: admin
       BROKER_PASSWORD: admin
@@ -104,7 +104,7 @@ services:
         reservations:
           memory: 700M
     environment:
-      BROKER_URL: activemq-artemis
+      BROKER_URL: activemq
       BROKER_PORT: 61616
       BROKER_USER: admin
       BROKER_PASSWORD: admin
