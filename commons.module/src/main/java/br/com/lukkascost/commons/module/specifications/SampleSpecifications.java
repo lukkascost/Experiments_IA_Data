@@ -18,4 +18,10 @@ public class SampleSpecifications {
     public static Specification<SampleEntity> withExtractorType(ExtractorType extractorType) {
         return (root, query, cb) -> extractorType == null ? null : cb.equal(root.get("extractorType"), extractorType);
     }
+    public static Specification<SampleEntity> withOriginalFileName(String s) {
+        return (root, query, cb) -> s == null ? null : cb.equal(root.get("originalFileName"), s);
+    }
+    public static Specification<SampleEntity> withLabel(String s) {
+        return (root, query, cb) -> s == null ? null : cb.equal(root.get("label"), s);
+    }
 }

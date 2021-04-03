@@ -1,5 +1,6 @@
 package br.com.lukkascost.sample.module.controllers;
 
+import br.com.lukkascost.commons.module.models.dto.SampleCreateDTO;
 import br.com.lukkascost.commons.module.models.dto.SampleDTO;
 import br.com.lukkascost.sample.module.services.ISampleService;
 import org.springframework.data.domain.Page;
@@ -7,10 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -30,4 +28,10 @@ public class SampleController {
         Pageable pageable = PageRequest.of(page, size);
             return new ResponseEntity(sampleService.findAll(sampleDTO,dataset_id, pageable), HttpStatus.OK);
     }
+
+    @PostMapping
+    public ResponseEntity createSample(@RequestBody SampleCreateDTO dto){
+        return new ResponseEntity(sampleService.create(dto),HttpStatus.CREATED);
+    }
+
 }

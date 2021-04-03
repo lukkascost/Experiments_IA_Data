@@ -21,4 +21,6 @@ public interface IDatasetService {
     DatasetDTO update(DatasetDTO dto);
 
     DatasetDTO delete(UUID id);
+
+    void extract(UUID id);
 }

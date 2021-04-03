@@ -26,6 +26,9 @@ public class SampleEntity extends BaseEntity{
     @Column(name = "original_file_name")
     public String originalFileName ;
 
+    @Column(name = "file_id")
+    public String fileId;
+
     @Column(name = "label")
     public String label ;
 

@@ -43,6 +43,14 @@
     </ngx-datatable-column>
     <ngx-datatable-column [canAutoResize]="true" [minWidth]="50" [resizeable]="true" [sortable]="true"
                           cellClass="fcom-selectable fcom-ellipsible"
+                          name="Id arquivo"
+                          prop="fileId">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.fileId}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [canAutoResize]="true" [minWidth]="50" [resizeable]="true" [sortable]="true"
+                          cellClass="fcom-selectable fcom-ellipsible"
                           name="Classe"
                           prop="label">
         <ng-template let-row="row" ngx-datatable-cell-template>

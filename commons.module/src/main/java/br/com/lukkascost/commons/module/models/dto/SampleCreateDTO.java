@@ -8,12 +8,9 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class SampleDTO {
-    private UUID id;
-    private String createdAt;
-    private String updatedAt;
+public class SampleCreateDTO {
+    private UUID datasetId;
     private ExtractorType extractorType;
-    private long attributes;
     private String originalFileName;
     private String label;
     private String fileId;

@@ -31,6 +31,12 @@ public class DatasetController {
         return new ResponseEntity(datasetService.findAll(datasetDTO, pageable), HttpStatus.OK);
     }
 
+    @GetMapping("extract/{id}")
+    public ResponseEntity extract(@PathVariable(name = "id") UUID id){
+        datasetService.extract(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity createDataset(@RequestBody DatasetCreateDTO dto){
         return new ResponseEntity(datasetService.create(dto),HttpStatus.CREATED);

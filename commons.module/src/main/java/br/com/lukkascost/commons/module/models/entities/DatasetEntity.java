@@ -23,7 +23,7 @@ public class DatasetEntity extends BaseEntity{
     @Column(name = "description")
     private String description  ;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "dataset")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "dataset")
     private Set<SampleEntity> samples = new HashSet<>();
 
 }

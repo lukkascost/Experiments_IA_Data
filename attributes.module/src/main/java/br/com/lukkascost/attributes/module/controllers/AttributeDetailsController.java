@@ -3,13 +3,11 @@ package br.com.lukkascost.attributes.module.controllers;
 
 import br.com.lukkascost.attributes.module.mappers.AttributeMapper;
 import br.com.lukkascost.attributes.module.services.IAttributeService;
+import br.com.lukkascost.commons.module.models.dto.AttributeCreateDTO;
 import br.com.lukkascost.commons.module.models.entities.AttributeEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -37,5 +35,10 @@ public class AttributeDetailsController {
 
         attributeEntityList = attributeService.findAllBySampleId(sample_id);
         return new ResponseEntity(attributeMapper.convert(attributeEntityList), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity createSample(@RequestBody AttributeCreateDTO dto){
+        return new ResponseEntity(attributeService.create(dto),HttpStatus.CREATED);
     }
 }

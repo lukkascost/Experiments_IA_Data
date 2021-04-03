@@ -11,4 +11,5 @@ import java.util.UUID;
 public interface ISampleRepository extends JpaRepository<SampleEntity, UUID> , JpaSpecificationExecutor<SampleEntity> {
 
     List<SampleEntity> findAllByDataset(DatasetEntity datasetEntity);
+
 }

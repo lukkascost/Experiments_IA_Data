@@ -1,5 +1,7 @@
 package br.com.lukkascost.attributes.module.services;
 
+import br.com.lukkascost.commons.module.models.dto.AttributeCreateDTO;
+import br.com.lukkascost.commons.module.models.dto.AttributeDetailsDTO;
 import br.com.lukkascost.commons.module.models.entities.AttributeEntity;
 
 import java.util.List;
@@ -11,4 +13,5 @@ public interface IAttributeService {
 
     List<AttributeEntity> findAllBySampleId(UUID sample_id);
 
+    AttributeDetailsDTO create(AttributeCreateDTO dto);
 }

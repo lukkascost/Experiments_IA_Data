@@ -7,6 +7,7 @@ export interface ISampleDTO {
     originalFileName: string;
     label: string;
     attributes: any;
+    fileId: string;
     getAttributes();
 }
 
@@ -18,9 +19,11 @@ export class SampleListDTO  implements  ISampleDTO {
     label: string;
     originalFileName: string;
     updatedAt: string;
+    fileId: string;
 
     getAttributes() {
     }
+
 
 }
 
@@ -31,8 +34,10 @@ export class SampleRegisterDTO  implements  ISampleDTO {
     label: string;
     originalFileName: string;
     updatedAt: string;
+    fileId: string;
 
     getAttributes() {
     }
+
 
 }

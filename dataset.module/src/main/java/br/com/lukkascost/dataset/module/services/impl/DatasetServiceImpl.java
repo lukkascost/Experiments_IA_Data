@@ -3,6 +3,7 @@ package br.com.lukkascost.dataset.module.services.impl;
 import br.com.lukkascost.commons.module.models.dto.DatasetCreateDTO;
 import br.com.lukkascost.commons.module.models.dto.DatasetDTO;
 import br.com.lukkascost.commons.module.models.entities.DatasetEntity;
+import br.com.lukkascost.commons.module.models.entities.SampleEntity;
 import br.com.lukkascost.commons.module.repositories.IDatasetRepository;
 import br.com.lukkascost.commons.module.specifications.DatasetSpecifications;
 import br.com.lukkascost.dataset.module.mappers.DatasetMapper;
@@ -10,9 +11,11 @@ import br.com.lukkascost.dataset.module.services.IDatasetService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -20,12 +23,13 @@ public class DatasetServiceImpl implements IDatasetService {
 
     private final IDatasetRepository datasetRepository;
     private final DatasetMapper datasetMapper;
+    private final JmsTemplate jmsTemplate;
 
 
-
-    public DatasetServiceImpl(IDatasetRepository datasetRepository, DatasetMapper datasetMapper) {
+    public DatasetServiceImpl(IDatasetRepository datasetRepository, DatasetMapper datasetMapper, JmsTemplate jmsTemplate) {
         this.datasetRepository = datasetRepository;
         this.datasetMapper = datasetMapper;
+        this.jmsTemplate = jmsTemplate;
     }
 
     @Override
@@ -76,5 +80,16 @@ public class DatasetServiceImpl implements IDatasetService {
         if (entity == null ) throw new IllegalArgumentException("Dataset name not found");
         datasetRepository.delete(entity);
         return datasetMapper.convert(entity);
+    }
+
+    @Override
+    public void extract(UUID id) {
+        Specification<DatasetEntity> spec =  Specification.where(DatasetSpecifications.withId(id));
+        DatasetEntity entity = datasetRepository.findOne(spec).orElse(null);
+        if (entity == null ) throw new IllegalArgumentException("Dataset name not found");
+        Set<SampleEntity> sampleEntities = entity.getSamples();
+        sampleEntities.forEach(x->{
+            jmsTemplate.convertAndSend("queue.extract.glcm",x.getId().toString());
+        });
     }
 }
