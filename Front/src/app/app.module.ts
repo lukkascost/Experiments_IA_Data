@@ -8,6 +8,7 @@ import {CoreModule} from './core/core.module';
 import {SecurityModule} from './security/security.module';
 import localePt from '@angular/common/locales/pt';
 import {registerLocaleData} from '@angular/common';
+import { ExperimentsComponent } from './views/experiments/experiments.component';
 
 
 registerLocaleData(localePt, 'pt-BR');
