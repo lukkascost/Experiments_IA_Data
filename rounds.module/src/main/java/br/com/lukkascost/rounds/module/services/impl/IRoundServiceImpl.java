@@ -2,6 +2,7 @@ package br.com.lukkascost.rounds.module.services.impl;
 
 import br.com.lukkascost.commons.module.models.dto.RoundCreateDTO;
 import br.com.lukkascost.commons.module.models.dto.RoundDTO;
+import br.com.lukkascost.commons.module.models.entities.DatasetEntity;
 import br.com.lukkascost.commons.module.models.entities.ExperimentEntity;
 import br.com.lukkascost.commons.module.models.entities.RoundEntity;
 import br.com.lukkascost.commons.module.repositories.IDatasetRepository;
@@ -42,12 +43,16 @@ public class IRoundServiceImpl implements IRoundService {
 
     @Override
     public RoundDTO create(RoundCreateDTO dto) {
+        DatasetEntity dataset = datasetRepository.getOne(dto.getDatasetId());
+        ExperimentEntity experimentEntity = experimentRepository.getOne(dto.getExperimentId());
         Specification<RoundEntity> spec = Specification
                 .where(RoundSpecifications.withDatasetId(dto.getDatasetId())
                 .and(RoundSpecifications.withExperimentId(dto.getExperimentId())));
         RoundEntity entity = roundRepository.findOne(spec).orElse(null);
         if (entity!= null ) return roundMapper.convert(entity);
         entity = roundMapper.convertEntity(dto);
+        entity.setDataset(dataset);
+        entity.setExperiment(experimentEntity);
         entity.setId(UUID.randomUUID());
         entity = roundRepository.save(entity);
         return roundMapper.convert(entity);    }
