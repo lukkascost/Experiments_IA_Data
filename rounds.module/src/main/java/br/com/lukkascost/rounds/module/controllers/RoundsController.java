@@ -21,7 +21,7 @@ public class RoundsController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<RoundDTO>> getDataset(RoundDTO dto,
+    public ResponseEntity<Page<RoundDTO>> get(RoundDTO dto,
                                                      @RequestParam(defaultValue = "0") int page,
                                                      @RequestParam(defaultValue = "10") int size
     ) {
@@ -30,7 +30,7 @@ public class RoundsController {
     }
 
     @PostMapping
-    public ResponseEntity createDataset(@RequestBody RoundCreateDTO dto){
+    public ResponseEntity create(@RequestBody RoundCreateDTO dto){
         return new ResponseEntity(roundService.create(dto),HttpStatus.CREATED);
     }
 }
