@@ -3,12 +3,15 @@ package br.com.lukkascost.commons.module.mappers;
 import br.com.lukkascost.commons.module.models.dto.ExperimentsCreateDTO;
 import br.com.lukkascost.commons.module.models.dto.ExperimentsDTO;
 import br.com.lukkascost.commons.module.models.entities.ExperimentEntity;
+import br.com.lukkascost.commons.module.models.entities.RoundEntity;
+import br.com.lukkascost.commons.module.models.entities.SampleEntity;
 import br.com.lukkascost.commons.module.specifications.ExperimentsSpecifications;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
+import java.util.Set;
 
 public abstract class ExperimentModelMapper {
 
@@ -21,10 +24,14 @@ public abstract class ExperimentModelMapper {
 
     public abstract ExperimentEntity convertEntity(ExperimentsCreateDTO dto);
 
-    public Specification<ExperimentEntity> convert(ExperimentsDTO ExperimentsDTO){
+    public float map(Set<RoundEntity> past) {
+        return past.size();
+    }
+
+    public Specification<ExperimentEntity> convert(ExperimentsDTO experimentsDTO){
         return Specification
-                .where(ExperimentsSpecifications.withId(ExperimentsDTO.getId()))
-                .and(ExperimentsSpecifications.withName(ExperimentsDTO.getName()));
+                .where(ExperimentsSpecifications.withId(experimentsDTO.getId()))
+                .and(ExperimentsSpecifications.withName(experimentsDTO.getName()));
     }
 
     public PageImpl<ExperimentsDTO> convert(Page<ExperimentEntity> page){
