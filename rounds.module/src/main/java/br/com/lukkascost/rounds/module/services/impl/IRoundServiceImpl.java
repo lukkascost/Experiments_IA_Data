@@ -45,12 +45,7 @@ public class IRoundServiceImpl implements IRoundService {
     public RoundDTO create(RoundCreateDTO dto) {
         DatasetEntity dataset = datasetRepository.getOne(dto.getDatasetId());
         ExperimentEntity experimentEntity = experimentRepository.getOne(dto.getExperimentId());
-        Specification<RoundEntity> spec = Specification
-                .where(RoundSpecifications.withDatasetId(dto.getDatasetId())
-                .and(RoundSpecifications.withExperimentId(dto.getExperimentId())));
-        RoundEntity entity = roundRepository.findOne(spec).orElse(null);
-        if (entity!= null ) return roundMapper.convert(entity);
-        entity = roundMapper.convertEntity(dto);
+        RoundEntity entity = roundMapper.convertEntity(dto);
         entity.setDataset(dataset);
         entity.setExperiment(experimentEntity);
         entity.setId(UUID.randomUUID());

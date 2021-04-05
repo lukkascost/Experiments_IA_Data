@@ -24,8 +24,8 @@ public abstract class RoundModelMapper {
     public Specification<RoundEntity> convert(RoundDTO dto){
         return Specification
                 .where(RoundSpecifications.withId(dto.getId()))
-                .and(RoundSpecifications.withDatasetId(dto.getDatasetDTO().getId())
-                .and(RoundSpecifications.withExperimentId(dto.getExperimentsDTO().getId()))
+                .and(RoundSpecifications.withDatasetId(dto.getDataset().getId())
+                .and(RoundSpecifications.withExperimentId(dto.getExperiment().getId()))
                 );
     }
     public PageImpl<RoundDTO> convert(Page<RoundEntity> page){
