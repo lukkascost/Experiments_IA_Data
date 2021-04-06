@@ -11,6 +11,7 @@ public class RoundDTO {
     private UUID id;
     private String createdAt;
     private String updatedAt;
+    private String name;
     private DatasetDTO dataset;
     private ExperimentsDTO experiment;
 }

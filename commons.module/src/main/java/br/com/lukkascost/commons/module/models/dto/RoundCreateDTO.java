@@ -9,6 +9,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class RoundCreateDTO {
+    private String name;
     private UUID datasetId;
     private UUID experimentId;
 }

@@ -22,11 +22,12 @@ public abstract class RoundModelMapper {
     public abstract RoundEntity convertEntity(RoundCreateDTO dto);
 
     public Specification<RoundEntity> convert(RoundDTO dto){
-        return Specification
-                .where(RoundSpecifications.withId(dto.getId()))
-                .and(RoundSpecifications.withDatasetId(dto.getDataset().getId())
-                .and(RoundSpecifications.withExperimentId(dto.getExperiment().getId()))
-                );
+        Specification<RoundEntity> spec = Specification.where(RoundSpecifications.withId(dto.getId()))
+                .and(RoundSpecifications.withName(dto.getName()));
+
+        if(dto.getDataset() != null) spec = spec.and(RoundSpecifications.withDatasetId(dto.getDataset().getId()));
+        if(dto.getExperiment() != null) spec = spec.and(RoundSpecifications.withExperimentId(dto.getExperiment().getId()));
+        return spec;
     }
     public PageImpl<RoundDTO> convert(Page<RoundEntity> page){
         return new PageImpl(this.convert(page.getContent()),page.getPageable(),page.getTotalElements());

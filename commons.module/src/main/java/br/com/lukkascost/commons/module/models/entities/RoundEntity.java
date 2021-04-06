@@ -18,6 +18,8 @@ import javax.persistence.*;
 @Table(name = "rounds")
 @Entity
 public class RoundEntity extends BaseEntity{
+    @Column(name = "name")
+    private String name ;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "experiment_id", nullable = false)

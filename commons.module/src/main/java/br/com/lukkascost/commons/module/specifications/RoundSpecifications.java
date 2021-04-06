@@ -15,4 +15,7 @@ public class RoundSpecifications {
     public static Specification<RoundEntity> withExperimentId(UUID uuid) {
         return (root, query, cb) -> uuid == null ? null : cb.equal(root.get("experiment").get("id"), uuid);
     }
+    public static Specification<RoundEntity> withName(String s) {
+        return (root, query, cb) -> s == null ? null : cb.equal(root.get("name"), s);
+    }
 }
