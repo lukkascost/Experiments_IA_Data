@@ -8,6 +8,7 @@ export class ExperimentListDTO  implements  IExperimentDTO {
     description: string;
     id: string;
     name: string;
+    rounds: number;
     constructor() {
         this.description = '';
     }

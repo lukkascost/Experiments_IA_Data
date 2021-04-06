@@ -10,9 +10,10 @@ import {TextMaskModule} from 'angular2-text-mask';
 import {NgxEchartsModule} from "ngx-echarts";
 import {ExperimentsComponent} from './experiments.component';
 import {ExperimentsRoutingModule} from './experiments-routing.module';
+import { ExperimentInfoComponent } from './experiment-info/experiment-info.component';
 
 @NgModule({
-    declarations: [ExperimentsComponent],
+    declarations: [ExperimentsComponent, ExperimentInfoComponent],
     imports: [
         CommonModule,
         ExperimentsRoutingModule,

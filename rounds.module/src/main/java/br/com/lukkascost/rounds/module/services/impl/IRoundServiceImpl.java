@@ -8,8 +8,6 @@ import br.com.lukkascost.commons.module.models.entities.RoundEntity;
 import br.com.lukkascost.commons.module.repositories.IDatasetRepository;
 import br.com.lukkascost.commons.module.repositories.IExperimentRepository;
 import br.com.lukkascost.commons.module.repositories.IRoundRepository;
-import br.com.lukkascost.commons.module.specifications.ExperimentsSpecifications;
-import br.com.lukkascost.commons.module.specifications.RoundSpecifications;
 import br.com.lukkascost.rounds.module.mappers.RoundMapper;
 import br.com.lukkascost.rounds.module.services.IRoundService;
 import org.springframework.data.domain.Page;
@@ -50,5 +48,6 @@ public class IRoundServiceImpl implements IRoundService {
         entity.setExperiment(experimentEntity);
         entity.setId(UUID.randomUUID());
         entity = roundRepository.save(entity);
-        return roundMapper.convert(entity);    }
+        return roundMapper.convert(entity);
+    }
 }

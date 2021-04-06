@@ -32,4 +32,9 @@ export class ExperimentsService {
         return this.http.put(`${ExperimentsService.url}`, selectedDataset).map(res => res.valueOf());
 
     }
+
+    getById(id: string) {
+        return this.http.get(`${ExperimentsService.url}` + '?id=' + id).map(res => res.valueOf());
+
+    }
 }
