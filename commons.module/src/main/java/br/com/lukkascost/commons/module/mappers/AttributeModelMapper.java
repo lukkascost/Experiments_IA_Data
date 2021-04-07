@@ -26,6 +26,7 @@ public abstract class AttributeModelMapper {
         for (AttributeEntity att : attributeEntityList) {
             valueDTO.setSampleId(att.getSample().getId());
             valueDTO.getValueOrdered()[att.getOrder()] = att.getValue();
+            valueDTO.setLabel(att.getSample().getLabel());
         }
         return valueDTO;
     }

@@ -2,9 +2,11 @@ package br.com.lukkascost.executions.module.services.impl;
 
 import br.com.lukkascost.commons.module.models.dto.ExecutionCreateDTO;
 import br.com.lukkascost.commons.module.models.dto.ExecutionDetailsDTO;
+import br.com.lukkascost.commons.module.models.dto.ExecutionPredictionDTO;
 import br.com.lukkascost.commons.module.models.entities.ExecutionEntity;
 import br.com.lukkascost.commons.module.models.entities.RoundEntity;
 import br.com.lukkascost.commons.module.models.entities.SampleEntity;
+import br.com.lukkascost.commons.module.models.objects.ConfusionMatrix;
 import br.com.lukkascost.commons.module.models.objects.SplitterDataset;
 import br.com.lukkascost.commons.module.repositories.IDatasetRepository;
 import br.com.lukkascost.commons.module.repositories.IExecutionRepository;
@@ -17,6 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -58,5 +62,27 @@ public class IExecutionServiceImpl implements IExecutionService {
         entity = executionRepository.save(entity);
 
         return executionMapper.convert(entity);
+    }
+
+    @Override
+    public ExecutionDetailsDTO insertPredictions(List<ExecutionPredictionDTO> predictions) {
+        ExecutionEntity executionEntity = null;
+        for (int i = 0; i < predictions.size(); i++) {
+            ExecutionPredictionDTO prediction = predictions.get(i);
+            executionEntity = executionRepository.getOne(prediction.getId());
+            ConfusionMatrix cm = executionEntity.getConfusionMatrix();
+            if (cm == null){
+                cm = new ConfusionMatrix();
+                cm.setLabels(new ArrayList<>());
+                cm.setTotalElements(0);
+                cm.setConfusionMatrix(new HashMap<>());
+                executionEntity.setConfusionMatrix(cm);
+            }
+            if(!cm.getLabels().contains(prediction.getReal())) cm.addLabel(prediction.getReal());
+            if(!cm.getLabels().contains(prediction.getPredicted())) cm.addLabel(prediction.getPredicted());
+            cm.add(prediction.getPredicted(), prediction.getReal());
+            executionEntity = executionRepository.save(executionEntity);
+        }
+        return executionMapper.convert(executionEntity);
     }
 }

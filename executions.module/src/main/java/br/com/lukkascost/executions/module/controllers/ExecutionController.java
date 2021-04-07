@@ -3,6 +3,7 @@ package br.com.lukkascost.executions.module.controllers;
 
 import br.com.lukkascost.commons.module.models.dto.ExecutionCreateDTO;
 import br.com.lukkascost.commons.module.models.dto.ExecutionDetailsDTO;
+import br.com.lukkascost.commons.module.models.dto.ExecutionPredictionDTO;
 import br.com.lukkascost.executions.module.services.IExecutionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -33,4 +35,10 @@ private final IExecutionService executionService;
     public ResponseEntity create(@RequestBody ExecutionCreateDTO dto){
         return new ResponseEntity(executionService.create(dto),HttpStatus.CREATED);
     }
+
+    @PutMapping
+    public ResponseEntity insertPredictions(@RequestBody List<ExecutionPredictionDTO> predictions){
+        return new ResponseEntity(executionService.insertPredictions(predictions),HttpStatus.CREATED);
+    }
+
 }

@@ -24,13 +24,13 @@ public class SampleEntity extends BaseEntity{
     private ExtractorType extractorType;
 
     @Column(name = "original_file_name")
-    public String originalFileName ;
+    private String originalFileName ;
 
     @Column(name = "file_id")
-    public String fileId;
+    private String fileId;
 
     @Column(name = "label")
-    public String label ;
+    private String label ;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "dataset_id", nullable = false)

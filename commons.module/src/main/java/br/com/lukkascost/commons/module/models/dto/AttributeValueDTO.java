@@ -10,4 +10,5 @@ import java.util.UUID;
 public class AttributeValueDTO {
     private UUID sampleId;
     private String[] valueOrdered;
+    private String label;
 }
