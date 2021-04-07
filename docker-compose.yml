@@ -173,6 +173,32 @@ services:
     depends_on:
       - activemq
       - cloud-discovery
+  executions-module:
+    image: lukkascost/data-analyze-execution-module
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 700M
+    environment:
+      BROKER_URL: activemq
+      BROKER_PORT: 61616
+      BROKER_USER: admin
+      BROKER_PASSWORD: admin
+      EUREKA_URI: http://cloud-discovery:8761/eureka
+      DATASOURCE_JDBC: jdbc:postgresql://postgres:5432/data_analyze_db
+      DATASOURCE_USERNAME: postgres
+      DATASOURCE_PASSWORD: postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    depends_on:
+      - activemq
+      - cloud-discovery
 
   activemq:
     image: webcenter/activemq
