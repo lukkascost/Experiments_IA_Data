@@ -95,7 +95,7 @@ public class IExecutionServiceImpl implements IExecutionService {
 
     @Override
     public ExecutionDetailsDTO insertModel(ClassifierModelCacheEntity predictions, UUID execution_id) {
-        ExecutionEntity executionEntity = executionRepository.getOne(execution_id);
+        ExecutionEntity executionEntity = executionRepository.findById(execution_id).get();
         predictions.setId(UUID.randomUUID());
         predictions = modelRepository.save(predictions);
         executionEntity.setModelId(predictions.getId());

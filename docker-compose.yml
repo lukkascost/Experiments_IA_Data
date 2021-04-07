@@ -224,7 +224,9 @@ services:
 
   redis:
     image: redis
+    command: redis-server /usr/local/etc/redis/redis.conf
     ports:
       - "8152:6379"
     volumes:
       - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis-data:/data
