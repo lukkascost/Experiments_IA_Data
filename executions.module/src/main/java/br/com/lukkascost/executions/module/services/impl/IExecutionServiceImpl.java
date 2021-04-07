@@ -3,15 +3,13 @@ package br.com.lukkascost.executions.module.services.impl;
 import br.com.lukkascost.commons.module.models.dto.ExecutionCreateDTO;
 import br.com.lukkascost.commons.module.models.dto.ExecutionDetailsDTO;
 import br.com.lukkascost.commons.module.models.dto.ExecutionPredictionDTO;
+import br.com.lukkascost.commons.module.models.entities.ClassifierModelCacheEntity;
 import br.com.lukkascost.commons.module.models.entities.ExecutionEntity;
 import br.com.lukkascost.commons.module.models.entities.RoundEntity;
 import br.com.lukkascost.commons.module.models.entities.SampleEntity;
 import br.com.lukkascost.commons.module.models.objects.ConfusionMatrix;
 import br.com.lukkascost.commons.module.models.objects.SplitterDataset;
-import br.com.lukkascost.commons.module.repositories.IDatasetRepository;
-import br.com.lukkascost.commons.module.repositories.IExecutionRepository;
-import br.com.lukkascost.commons.module.repositories.IRoundRepository;
-import br.com.lukkascost.commons.module.repositories.ISampleRepository;
+import br.com.lukkascost.commons.module.repositories.*;
 import br.com.lukkascost.executions.module.mappers.ExecutionMapper;
 import br.com.lukkascost.executions.module.services.IExecutionService;
 import org.springframework.data.domain.Page;
@@ -32,13 +30,15 @@ public class IExecutionServiceImpl implements IExecutionService {
     private final IDatasetRepository datasetRepository;
     private final IRoundRepository roundRepository;
     private final ISampleRepository sampleRepository;
+    private final IModelRepository modelRepository;
 
-    public IExecutionServiceImpl(ExecutionMapper executionMapper, IExecutionRepository executionRepository, IDatasetRepository datasetRepository, IRoundRepository roundRepository, ISampleRepository sampleRepository) {
+    public IExecutionServiceImpl(ExecutionMapper executionMapper, IExecutionRepository executionRepository, IDatasetRepository datasetRepository, IRoundRepository roundRepository, ISampleRepository sampleRepository, IModelRepository modelRepository) {
         this.executionMapper = executionMapper;
         this.executionRepository = executionRepository;
         this.datasetRepository = datasetRepository;
         this.roundRepository = roundRepository;
         this.sampleRepository = sampleRepository;
+        this.modelRepository = modelRepository;
     }
 
     @Override
@@ -70,6 +70,11 @@ public class IExecutionServiceImpl implements IExecutionService {
         for (int i = 0; i < predictions.size(); i++) {
             ExecutionPredictionDTO prediction = predictions.get(i);
             executionEntity = executionRepository.getOne(prediction.getId());
+            ClassifierModelCacheEntity modelCacheEntity = modelRepository.findById(executionEntity.getModelId().toString()).get();
+
+            if(modelCacheEntity.getSampleResult() == null ) modelCacheEntity.setSampleResult(new HashMap<>());
+            modelCacheEntity.getSampleResult().put(prediction.getSample_id(),prediction.getPredicted());
+
             ConfusionMatrix cm = executionEntity.getConfusionMatrix();
             if (cm == null){
                 cm = new ConfusionMatrix();
@@ -81,8 +86,20 @@ public class IExecutionServiceImpl implements IExecutionService {
             if(!cm.getLabels().contains(prediction.getReal())) cm.addLabel(prediction.getReal());
             if(!cm.getLabels().contains(prediction.getPredicted())) cm.addLabel(prediction.getPredicted());
             cm.add(prediction.getPredicted(), prediction.getReal());
+
             executionEntity = executionRepository.save(executionEntity);
+            modelCacheEntity = modelRepository.save(modelCacheEntity);
         }
+        return executionMapper.convert(executionEntity);
+    }
+
+    @Override
+    public ExecutionDetailsDTO insertModel(ClassifierModelCacheEntity predictions, UUID execution_id) {
+        ExecutionEntity executionEntity = executionRepository.getOne(execution_id);
+        predictions.setId(UUID.randomUUID());
+        predictions = modelRepository.save(predictions);
+        executionEntity.setModelId(predictions.getId());
+        executionEntity = executionRepository.save(executionEntity);
         return executionMapper.convert(executionEntity);
     }
 }

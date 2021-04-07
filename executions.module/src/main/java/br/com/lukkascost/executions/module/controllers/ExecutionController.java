@@ -4,6 +4,7 @@ package br.com.lukkascost.executions.module.controllers;
 import br.com.lukkascost.commons.module.models.dto.ExecutionCreateDTO;
 import br.com.lukkascost.commons.module.models.dto.ExecutionDetailsDTO;
 import br.com.lukkascost.commons.module.models.dto.ExecutionPredictionDTO;
+import br.com.lukkascost.commons.module.models.entities.ClassifierModelCacheEntity;
 import br.com.lukkascost.executions.module.services.IExecutionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,6 +40,11 @@ private final IExecutionService executionService;
     @PutMapping
     public ResponseEntity insertPredictions(@RequestBody List<ExecutionPredictionDTO> predictions){
         return new ResponseEntity(executionService.insertPredictions(predictions),HttpStatus.CREATED);
+    }
+
+    @PutMapping("model")
+    public ResponseEntity insertModel(@RequestBody ClassifierModelCacheEntity predictions , @RequestParam(required = true) UUID execution_id){
+        return new ResponseEntity(executionService.insertModel(predictions, execution_id),HttpStatus.CREATED);
     }
 
 }

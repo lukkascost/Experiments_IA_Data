@@ -221,3 +221,10 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: data_analyze_db
+
+  redis:
+    image: redis
+    ports:
+      - "8152:6379"
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf

@@ -3,6 +3,7 @@ package br.com.lukkascost.executions.module.services;
 import br.com.lukkascost.commons.module.models.dto.ExecutionCreateDTO;
 import br.com.lukkascost.commons.module.models.dto.ExecutionDetailsDTO;
 import br.com.lukkascost.commons.module.models.dto.ExecutionPredictionDTO;
+import br.com.lukkascost.commons.module.models.entities.ClassifierModelCacheEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,4 +16,7 @@ public interface IExecutionService {
     ExecutionDetailsDTO create(ExecutionCreateDTO dto);
 
     ExecutionDetailsDTO insertPredictions(List<ExecutionPredictionDTO> predictions);
+
+    ExecutionDetailsDTO insertModel(ClassifierModelCacheEntity predictions, UUID execution_id);
+
 }
