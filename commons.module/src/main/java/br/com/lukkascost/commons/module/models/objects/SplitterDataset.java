@@ -1,5 +1,6 @@
 package br.com.lukkascost.commons.module.models.objects;
 
+import br.com.lukkascost.commons.module.models.enuns.SplitType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,4 +13,5 @@ public class SplitterDataset {
 
     private List<UUID> trainSamples;
     private List<UUID> testSamples;
+    private SplitType splitType;
 }

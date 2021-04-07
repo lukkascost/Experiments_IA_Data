@@ -33,6 +33,6 @@ public class ExecutionEntity extends BaseEntity {
 
     @Column(name = "confusion_matrix")
     @Convert(converter = ConfusionMatrixJsonConverter.class)
-    private ConfusionMatrix sumConfusionMatrix;
+    private ConfusionMatrix confusionMatrix;
 
 }

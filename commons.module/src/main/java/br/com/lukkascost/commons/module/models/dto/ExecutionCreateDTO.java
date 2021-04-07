@@ -10,4 +10,5 @@ import java.util.UUID;
 @Setter
 public class ExecutionCreateDTO {
     private UUID roundId;
+    private SplitterModeDTO splitterMode;
 }
