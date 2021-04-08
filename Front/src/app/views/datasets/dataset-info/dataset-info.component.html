@@ -14,6 +14,12 @@
                 <div class="card-header bg-primary">
                     <div class="card-title d-flex align-items-center mb-3 text-white">
                         <span class="font-weight-bold">Informações do Dataset</span>
+                        <button
+                                (click)="getSamples()"
+                                [title]="'Refresh'"
+                                class="btn btn-outline-light"
+                                style="margin-right: 0px; width:-webkit-fill-available;"><a
+                                class="fa fa-refresh"></a></button>
                     </div>
                 </div>
                 <div  class="card-body">

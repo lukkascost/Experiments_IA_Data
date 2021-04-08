@@ -27,7 +27,19 @@
                         </div>
                     </div>
                     <span class="font-weight-bold">Descrição</span>
-                    <textarea style="margin-right: 0px; width:-webkit-fill-available;" disabled readonly [rows]=" getWithLineBreak(experiment.description)">{{experiment.description}}</textarea>
+                    <textarea style="margin-right: 0px; width:-webkit-fill-available;" disabled readonly [rows]="getWithLineBreak(experiment.description)">{{experiment.description}}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngFor="let k of rounds; let i = index">
+        <div class="col-md-12">
+            <div class="card o-hidden">
+                <div class="card-header bg-primary">
+                    <div class="card-title d-flex align-items-center mb-3 text-white">
+                        <span class="font-weight-bold">ROUND {{i+1}} - {{k.name}} - {{k.id}}</span>
+                    </div>
                 </div>
             </div>
         </div>

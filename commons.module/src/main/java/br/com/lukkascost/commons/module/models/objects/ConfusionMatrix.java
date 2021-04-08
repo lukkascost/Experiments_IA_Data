@@ -44,4 +44,14 @@ public class ConfusionMatrix {
             }
         }
     }
+
+    public long[][] getMatrix() {
+        long[][] result = new long[this.labels.size()][this.labels.size()];
+        for (int i = 0; i < this.labels.size(); i++) {
+            for (int j = 0; j < this.labels.size(); j++) {
+                result[i][j] = this.confusionMatrix.get(this.labels.get(i)).get(this.labels.get(j));
+            }
+        }
+        return result;
+    }
 }

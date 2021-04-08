@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(path = "/")
 public class RoundsController {
@@ -32,5 +34,10 @@ public class RoundsController {
     @PostMapping
     public ResponseEntity create(@RequestBody RoundCreateDTO dto){
         return new ResponseEntity(roundService.create(dto),HttpStatus.CREATED);
+    }
+
+    @PostMapping("compress")
+    public ResponseEntity doRoundCompress(@RequestParam UUID round_id){
+        return new ResponseEntity(roundService.doCompressResult(round_id),HttpStatus.CREATED);
     }
 }

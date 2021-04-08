@@ -2,6 +2,7 @@ package br.com.lukkascost.commons.module.mappers;
 
 import br.com.lukkascost.commons.module.models.dto.RoundCreateDTO;
 import br.com.lukkascost.commons.module.models.dto.RoundDTO;
+import br.com.lukkascost.commons.module.models.dto.RoundDetailsDTO;
 import br.com.lukkascost.commons.module.models.entities.RoundEntity;
 import br.com.lukkascost.commons.module.specifications.RoundSpecifications;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,8 @@ public abstract class RoundModelMapper {
     public abstract RoundDTO convert(RoundCreateDTO dto);
 
     public abstract RoundEntity convertEntity(RoundCreateDTO dto);
+
+    public abstract RoundDetailsDTO convertDetails(RoundEntity entity);
 
     public Specification<RoundEntity> convert(RoundDTO dto){
         Specification<RoundEntity> spec = Specification.where(RoundSpecifications.withId(dto.getId()))

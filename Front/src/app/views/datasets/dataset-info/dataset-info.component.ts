@@ -34,13 +34,14 @@ export class DatasetInfoComponent implements OnInit {
         this.item = new DatasetListDTO();
         this.getSamples();
         this.generateGraphics();
+
+    }
+
+    getSamples() {
         this.datasetService.getDatasetById(this.id).toPromise().then(data => {
             const result = (<PageDatasetDTOImpl>data).content[0];
             this.dataset = <DatasetListDTO> result;
         });
-    }
-
-    getSamples() {
         this.isLoading = true;
         this.sampleService.getSamplesByDatasetId(this.id, 0, 10).toPromise()
             .then(
