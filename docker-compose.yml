@@ -191,6 +191,8 @@ services:
       DATASOURCE_JDBC: jdbc:postgresql://postgres:5432/data_analyze_db
       DATASOURCE_USERNAME: postgres
       DATASOURCE_PASSWORD: postgres
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     logging:
       driver: "json-file"
       options:
