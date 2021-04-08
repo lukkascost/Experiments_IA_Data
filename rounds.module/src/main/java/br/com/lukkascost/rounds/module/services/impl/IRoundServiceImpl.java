@@ -70,7 +70,9 @@ public class IRoundServiceImpl implements IRoundService {
         round.getSumConfusionMatrix().setConfusionMatrix(new HashMap<>());
         round.getSumConfusionMatrix().setLabels(new ArrayList<>());
         for (ExecutionEntity entity : executionEntityList) {
-            entity.getConfusionMatrix().getLabels().forEach(x->round.getSumConfusionMatrix().addLabel(x));
+            for (String x : entity.getConfusionMatrix().getLabels()) {
+                round.getSumConfusionMatrix().addLabel(x);
+            }
             round.getSumConfusionMatrix().add(entity.getConfusionMatrix());
         }
         round = roundRepository.save(round);
