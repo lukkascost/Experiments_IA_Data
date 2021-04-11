@@ -10,6 +10,7 @@ import java.util.UUID;
 
 public interface IRoundService {
     Page<RoundDTO> findAll(RoundDTO dto, Pageable pageable);
+    Page<RoundDetailsDTO> findAll(RoundDetailsDTO dto, Pageable pageable);
 
     RoundDTO create(RoundCreateDTO dto);
 

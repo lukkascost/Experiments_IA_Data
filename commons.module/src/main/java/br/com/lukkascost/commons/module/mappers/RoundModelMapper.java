@@ -16,6 +16,7 @@ public abstract class RoundModelMapper {
     public abstract RoundDTO convert(RoundEntity roundEntity);
 
     public abstract List<RoundDTO> convert(List<RoundEntity> entityList);
+    public abstract List<RoundDetailsDTO> convertDetails(List<RoundEntity> entityList);
 
 
     public abstract RoundDTO convert(RoundCreateDTO dto);
@@ -32,6 +33,19 @@ public abstract class RoundModelMapper {
         if(dto.getExperiment() != null) spec = spec.and(RoundSpecifications.withExperimentId(dto.getExperiment().getId()));
         return spec;
     }
+
+    public Specification<RoundEntity> convert(RoundDetailsDTO dto){
+        Specification<RoundEntity> spec = Specification.where(RoundSpecifications.withId(dto.getId()))
+                .and(RoundSpecifications.withName(dto.getName()));
+        if(dto.getDataset() != null) spec = spec.and(RoundSpecifications.withDatasetId(dto.getDataset().getId()));
+        if(dto.getExperiment() != null) spec = spec.and(RoundSpecifications.withExperimentId(dto.getExperiment().getId()));
+        return spec;
+    }
+
+    public PageImpl<RoundDetailsDTO> convertDetails(Page<RoundEntity> page){
+        return new PageImpl(this.convertDetails(page.getContent()),page.getPageable(),page.getTotalElements());
+    }
+
     public PageImpl<RoundDTO> convert(Page<RoundEntity> page){
         return new PageImpl(this.convert(page.getContent()),page.getPageable(),page.getTotalElements());
     }

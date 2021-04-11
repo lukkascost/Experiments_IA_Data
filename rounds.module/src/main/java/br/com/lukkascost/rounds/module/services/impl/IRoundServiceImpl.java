@@ -51,6 +51,13 @@ public class IRoundServiceImpl implements IRoundService {
     }
 
     @Override
+    public Page<RoundDetailsDTO> findAll(RoundDetailsDTO dto, Pageable pageable) {
+        Specification<RoundEntity> spec = roundMapper.convert(dto);
+        Page<RoundEntity> entities = roundRepository.findAll(spec, pageable);
+        return roundMapper.convertDetails(entities);
+    }
+
+    @Override
     public RoundDTO create(RoundCreateDTO dto) {
         DatasetEntity dataset = datasetRepository.getOne(dto.getDatasetId());
         ExperimentEntity experimentEntity = experimentRepository.getOne(dto.getExperimentId());
@@ -64,7 +71,7 @@ public class IRoundServiceImpl implements IRoundService {
 
     @Override
     public RoundDetailsDTO doCompressResult(UUID round_id) {
-        RoundEntity round  = roundRepository.findById(UUID.fromString("b6c58801-5218-40cf-b964-afe9d6f3beb5")).get();
+        RoundEntity round  = roundRepository.findById(round_id).get();
         List<ExecutionEntity> executionEntityList = executionRepository.findAll(Specification.where(ExecutionSpecifications.withRoundId(round.getId())));
         round.setSumConfusionMatrix(new ConfusionMatrix());
         round.getSumConfusionMatrix().setConfusionMatrix(new HashMap<>());
