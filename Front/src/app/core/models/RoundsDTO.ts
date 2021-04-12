@@ -19,6 +19,9 @@ export class RoundsListDTO implements  IRoundsDTO {
     confusionMatrix: any;
     labels: any;
     confusionMatrixTotalElements: number;
+    executions: number;
+    generalAccuracy: number;
+    binaryAccuracy: number;
     constructor() {
     }
 }

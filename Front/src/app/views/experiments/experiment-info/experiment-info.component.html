@@ -43,6 +43,26 @@
                 </div>
                 <div  class="card-body">
                     <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label >Nome </label>
+                            <input type="text" [disabled]="true" class="form-control" [(ngModel)]="k.name" [ngModelOptions]="{standalone: true}" >
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label >Número de execuções </label>
+                            <input type="number" [disabled]="true" class="form-control" [(ngModel)]="k.executions" [ngModelOptions]="{standalone: true}" >
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label >Acurácia Geral</label>
+                            <input type="text" [disabled]="true" class="form-control" [(ngModel)]="k.generalAccuracy" [ngModelOptions]="{standalone: true}" >
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label>Acurácia binária</label>
+                            <input type="number" [disabled]="true" class="form-control" [(ngModel)]="k.binaryAccuracy" [ngModelOptions]="{standalone: true}" >
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-12 form-group mb-3">
 
                             <ngx-datatable
@@ -64,9 +84,7 @@
                                         Matrix Confusao total
                                     </ng-template>
                                     <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                                        <div  class="row text-center">
-                                            {{getLabelsOrdered(k)[rowIndex]}}
-                                        </div>
+                                            PREDITO/{{getLabelsOrdered(k)[rowIndex]}}
                                     </ng-template>
                                 </ngx-datatable-column>
 
@@ -75,12 +93,10 @@
                                                       cellClass="fcom-selectable fcom-ellipsible">
                                     <ng-template let-collumn="collumn"
                                                  ngx-datatable-header-template>
-                                        {{j}}
+                                       REAL/{{j}}
                                     </ng-template>
                                     <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                                        <div  class="row text-center">
                                             {{getFromRowMatrix( k.confusionMatrix, getCmOrdererFromRound(k)[getLabelsOrdered(k)[rowIndex]],getCmOrdererFromRound(k)[j], k.confusionMatrixTotalElements)}}
-                                        </div>
                                     </ng-template>
                                 </ngx-datatable-column>
                             </ngx-datatable>

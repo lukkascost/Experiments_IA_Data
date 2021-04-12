@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -36,4 +38,8 @@ public class RoundEntity extends BaseEntity{
     @Column(name = "normalization_limits")
     @Convert(converter = NormalizationFactorJsonConverter.class)
     private NormalizationFactor normalizationFactor;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "round")
+    private Set<ExecutionEntity> executions = new HashSet<>();
+
 }

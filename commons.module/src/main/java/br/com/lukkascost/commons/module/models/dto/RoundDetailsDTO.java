@@ -17,6 +17,7 @@ public class RoundDetailsDTO {
     private String name;
     private DatasetDTO dataset;
     private ExperimentsDTO experiment;
+    private long executions;
 
     @JsonIgnore
     private ConfusionMatrix sumConfusionMatrix;
@@ -28,4 +29,32 @@ public class RoundDetailsDTO {
         return this.sumConfusionMatrix.getLabels();
     }
     public long getConfusionMatrixTotalElements(){ return this.sumConfusionMatrix.getTotalElements();}
+
+    public float getGeneralAccuracy(){
+        return this.getLabels().stream()
+                .map(x-> this.sumConfusionMatrix.getConfusionMatrix().get(x).get(x))
+                .reduce((o,n) -> o +n).get().floatValue()
+                /this.sumConfusionMatrix.getTotalElements();
+    }
+
+    public float getBinaryAccuracy(){
+        String label = "Class-0";
+        Integer CP = this.getLabels().stream()
+                .map(x -> this.sumConfusionMatrix.getConfusionMatrix().get(x).get(label))
+                .reduce((o,n) -> o+n).get();
+        Integer CN = Math.toIntExact(this.sumConfusionMatrix.getTotalElements() - CP);
+        Integer TP = this.sumConfusionMatrix.getConfusionMatrix().get(label).get(label);
+        Integer FN = CP - TP;
+        Integer PP = this.getLabels().stream()
+                .map(x-> this.sumConfusionMatrix.getConfusionMatrix().get(label).get(x))
+                .reduce((o,n) -> o+n).get();
+        Integer FP = PP-TP;
+        Integer TN = CN - FP;
+        return (TP.floatValue()+TN.floatValue()) / this.sumConfusionMatrix.getTotalElements();
+
+
+
+
+
+    }
 }

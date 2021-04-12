@@ -3,13 +3,16 @@ package br.com.lukkascost.commons.module.mappers;
 import br.com.lukkascost.commons.module.models.dto.RoundCreateDTO;
 import br.com.lukkascost.commons.module.models.dto.RoundDTO;
 import br.com.lukkascost.commons.module.models.dto.RoundDetailsDTO;
+import br.com.lukkascost.commons.module.models.entities.ExecutionEntity;
 import br.com.lukkascost.commons.module.models.entities.RoundEntity;
+import br.com.lukkascost.commons.module.models.entities.SampleEntity;
 import br.com.lukkascost.commons.module.specifications.RoundSpecifications;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
+import java.util.Set;
 
 public abstract class RoundModelMapper {
 
@@ -17,6 +20,9 @@ public abstract class RoundModelMapper {
 
     public abstract List<RoundDTO> convert(List<RoundEntity> entityList);
     public abstract List<RoundDetailsDTO> convertDetails(List<RoundEntity> entityList);
+    public long map(Set<ExecutionEntity> past) {
+        return past.size();
+    }
 
 
     public abstract RoundDTO convert(RoundCreateDTO dto);
