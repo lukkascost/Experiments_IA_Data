@@ -27,4 +27,5 @@ public class RoundDetailsDTO {
     public List<String> getLabels(){
         return this.sumConfusionMatrix.getLabels();
     }
+    public long getConfusionMatrixTotalElements(){ return this.sumConfusionMatrix.getTotalElements();}
 }
