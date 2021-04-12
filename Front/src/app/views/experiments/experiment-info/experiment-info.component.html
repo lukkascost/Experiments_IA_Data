@@ -41,6 +41,52 @@
                         <span class="font-weight-bold">ROUND {{i+1}} - {{k.name}} - {{k.id}}</span>
                     </div>
                 </div>
+                <div  class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 form-group mb-3">
+
+                            <ngx-datatable
+                                    columnMode="force"
+                                    [footerHeight]="50"
+                                    [headerHeight]="50"
+                                    [messages]="{emptyMessage: 'Nenhuma amostra encontrado'}"
+                                    [rowHeight]="60"
+                                    [rows]="k.confusionMatrix"
+                                    class="material fullscreen"
+                                    [loadingIndicator]="false"
+                            >
+
+                                <ngx-datatable-column [minWidth]="100"
+                                                      [canAutoResize]="true"
+                                                      cellClass="fcom-selectable fcom-ellipsible">
+                                    <ng-template let-collumn="collumn"
+                                                 ngx-datatable-header-template>
+                                        Matrix Confusao total
+                                    </ng-template>
+                                    <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                        <div  class="row text-center">
+                                            {{getLabelsOrdered(k)[rowIndex]}}
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column *ngFor="let j of getLabelsOrdered(k); let l = index" [minWidth]="100"
+                                                      [canAutoResize]="true"
+                                                      cellClass="fcom-selectable fcom-ellipsible">
+                                    <ng-template let-collumn="collumn"
+                                                 ngx-datatable-header-template>
+                                        {{j}}
+                                    </ng-template>
+                                    <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                        <div  class="row text-center">
+                                            {{getFromRowMatrix( k.confusionMatrix, getCmOrdererFromRound(k)[getLabelsOrdered(k)[rowIndex]],getCmOrdererFromRound(k)[j], k.confusionMatrixTotalElements)}}
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

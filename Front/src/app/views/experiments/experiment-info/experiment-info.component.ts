@@ -34,9 +34,28 @@ export class ExperimentInfoComponent implements OnInit {
     this.roundsService.getByExperimentId(this.id).toPromise().then(data => {
       const result = (<PageRoundsImpl>data).content;
       this.rounds = <RoundsListDTO[]>result;
+      this.getCmOrdererFromRound(this.rounds[0]);
     });
   }
   getWithLineBreak(description: string) {
     return description.split(/\r\n|\r|\n/).length;
+  }
+
+  private getCmOrdererFromRound(round) {
+    const result = {};
+    round.labels.forEach(x =>
+        result[x] = round.labels.indexOf(x)
+    );
+    return result;
+  }
+
+
+  getLabelsOrdered(round) {
+    const myClonedObject = Object.assign([], round.labels);
+    return myClonedObject.sort();
+  }
+
+  getFromRowMatrix(row: any, cmOrdererFromRoundElement: any, cmOrdererFromRoundElement2: any, max) {
+    return Math.round(row[cmOrdererFromRoundElement][cmOrdererFromRoundElement2] );
   }
 }

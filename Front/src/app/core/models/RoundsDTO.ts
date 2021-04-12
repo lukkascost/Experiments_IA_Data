@@ -16,6 +16,9 @@ export class RoundsListDTO implements  IRoundsDTO {
     dataset: IDatasetDTO;
     experiment: IExperimentDTO;
     updatedAt: string;
+    confusionMatrix: any;
+    labels: any;
+    confusionMatrixTotalElements: number;
     constructor() {
     }
 }

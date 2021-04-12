@@ -29,6 +29,6 @@ export class RoundsService {
     }
 
     getByExperimentId(id: string) {
-        return this.http.get(`${RoundsService.url}` + '?experiment_id=' + id).map(res => res.valueOf());
+        return this.http.get(`${RoundsService.url}` + '/details/?experiment.id=' + id).map(res => res.valueOf());
     }
 }
