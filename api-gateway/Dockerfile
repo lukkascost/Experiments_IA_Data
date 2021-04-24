@@ -19,12 +19,7 @@ ENV DATASOURCE_JDBC="jdbc:postgresql://localhost:5432/eletra_integration_db"
 ENV DATASOURCE_USERNAME="postgres"
 ENV DATASOURCE_PASSWORD="postgres"
 
+RUN apk add --no-cache tzdata
+ENV TZ America/Fortaleza
 
-ENV TZ 'America/Fortaleza'
-RUN echo $TZ > /etc/timezone && \
-    apt-get update && apt-get install -y tzdata && \
-    rm /etc/localtime && \
-    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
-    dpkg-reconfigure -f noninteractive tzdata && \
-    apt-get clean
 ENTRYPOINT ["java","-jar", "/usr/local/lib/run.jar"]
