@@ -9,7 +9,7 @@ RUN mvn -Dmaven.repo.local=/.m2 -f /home/app/pom.xml package
 #
 # Package stage
 #
-FROM openjdk:8-jre-slim
+FROM openjdk:8-jre-alpine
 COPY --from=build /home/app/target/api.gateway-0.0.1.jar /usr/local/lib/run.jar
 
 ENV EUREKA_URI=http://localhost:8761/eureka
