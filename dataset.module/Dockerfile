@@ -9,7 +9,7 @@ RUN mvn -Dmaven.repo.local=/.m2 -f /home/app/pom.xml package
 #
 # Package stage
 #
-FROM openjdk:8-jre-slim
+FROM openjdk:8-jre-alpine
 COPY --from=build /home/app/target/dataset.module-0.0.1.jar /usr/local/lib/run.jar
 ENV SERVER_PORT 0
 
@@ -28,13 +28,8 @@ ENV DATASOURCE_JDBC="jdbc:postgresql://localhost:5432/eletra_integration_db"
 ENV DATASOURCE_USERNAME="postgres"
 ENV DATASOURCE_PASSWORD="postgres"
 
-ENV TZ 'America/Fortaleza'
-RUN echo $TZ > /etc/timezone && \
-    apt-get update && apt-get install -y tzdata && \
-    rm /etc/localtime && \
-    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
-    dpkg-reconfigure -f noninteractive tzdata && \
-    apt-get clean
+RUN apk add --no-cache tzdata
+ENV TZ America/Fortaleza
 WORKDIR /
 
 ENTRYPOINT ["java","-jar","-Xmx1g", "/usr/local/lib/run.jar"]
