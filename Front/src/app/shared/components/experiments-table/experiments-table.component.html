@@ -1,0 +1,156 @@
+<div class="card o-hidden">
+    <div class="card-header align-middle">
+        <div class="row">
+            <div class="col">
+                <input
+                        type="text"
+                        style="padding:8px;margin:15px;width:100%;"
+                        placeholder="Type to filter the name column..."
+                        (keyup)="updateFilter($event)"
+                />
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+    <ngx-datatable
+            columnMode="force"
+            [footerHeight]="50"
+            [headerHeight]="50"
+            [messages]="{emptyMessage: 'Nenhum experimento encontrado'}"
+            [rowHeight]="60"
+            [rows]="data.content"
+            [loadingIndicator]="loading"
+            class="material fullscreen"
+    >
+        <ngx-datatable-column [canAutoResize]="true" [minWidth]="350" [resizeable]="true" [sortable]="true"
+                              cellClass="fcom-selectable fcom-ellipsible"
+                              name="Id"
+                              prop="id">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.id}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [canAutoResize]="true" [minWidth]="350" [resizeable]="true" [sortable]="true"
+                              cellClass="fcom-selectable fcom-ellipsible"
+                              name="Nome"
+                              prop="name">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.name}}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [width]="100"
+                              [canAutoResize]="true"
+                              cellClass="fcom-selectable fcom-ellipsible"
+        >
+            <ng-template let-collumn="collumn"
+                         ngx-datatable-header-template>
+                <button (click)="clean();open(addDataset)"
+                        [title]="'Cadastrar medidor'"
+                        class="btn btn-success"
+                        style=" width:-webkit-fill-available;"><a
+                        class="fa fa-plus"></a></button>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div  class="row text-center">
+                    <div class="col-sm-3">
+                        <button
+                                [routerLink]="['/experiments',row.id]"
+                                [title]="'visualizar informações do experimento - '+row.name"
+                                class="btn btn-outline-info"
+                                style=" width:-webkit-fill-available;"><a
+                                class="fa fa-search"></a></button>
+                    </div>
+                    <div class="col-sm-3">
+                        <button
+                                (click)="clean();openEdit(row);open(editDataset)"
+                                [title]="'Excluir informações do experimento - '+row.name"
+                                class="btn btn-outline-warning"
+                                style="width:-webkit-fill-available;"><a
+                                class="fa fa-pencil"></a></button>
+                    </div>
+                    <div class="col-sm-3">
+                        <button
+                                (click)="delete(row)"
+                                [title]="'Excluir informações do experimento - '+row.name"
+                                class="btn btn-outline-danger"
+                                style="width:-webkit-fill-available;"><a
+                                class="fa fa-trash"></a></button>
+                    </div>
+                </div>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-footer>
+            <ng-template  ngx-datatable-footer-template>
+                <ngb-pagination
+                    #ngbPage
+                    [boundaryLinks]="true"
+                    [collectionSize]="data.totalElements"
+                    [pageSize]="data.numberOfElements"
+                    [maxSize]="5"
+                    (pageChange)="onPageChanged($event)">
+                </ngb-pagination>
+            </ng-template>
+
+        </ngx-datatable-footer>
+
+    </ngx-datatable>
+</div>
+
+
+<ng-template #addDataset let-modal>
+    <div class="modal-header bg-success">
+        <h4 class="modal-title bg-success text-white" id="modal-basic-title">Adicionar dataset</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span class="text-white" aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <div class="col-md-12 form-group mb-3">
+                    <label >Nome </label>
+                    <input type="text" class="form-control" [(ngModel)]="experimentRegisterDTO.name" [ngModelOptions]="{standalone: true}" >
+                </div>
+                <div class="col-md-12 form-group mb-3">
+                    <label >Descrição</label>
+                    <input type="text" class="form-control" [(ngModel)]="experimentRegisterDTO.description" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-success btn-rounded" (click)="addNew();modal.close('Save click')">Salvar</button>
+        <button type="button" class="btn btn-outline-dark btn-rounded" (click)="modal.close('Save click')">Cancelar</button>
+    </div>
+</ng-template>
+
+
+<ng-template #editDataset let-modal>
+    <div class="modal-header bg-warning">
+        <h4 class="modal-title bg-warning " id="edit-dataset-title">Editar dataset</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span class="" aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <div class="col-md-12 form-group mb-3">
+                    <label >Nome </label>
+                    <input type="text" [disabled]="true" class="form-control" [(ngModel)]="experimentRegisterDTO.name" [ngModelOptions]="{standalone: true}" >
+                </div>
+                <div class="col-md-12 form-group mb-3">
+                    <label >Descrição</label>
+                    <textarea [(ngModel)]="experimentRegisterDTO.description" style="width:100%;" [ngModelOptions]="{standalone: true}" ></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-success btn-rounded" (click)="edit();modal.close('Save click')">Salvar</button>
+        <button type="button" class="btn btn-outline-dark btn-rounded" (click)="modal.close('Save click')">Cancelar</button>
+    </div>
+</ng-template>

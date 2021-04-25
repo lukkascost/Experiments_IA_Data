@@ -14,6 +14,12 @@
                 <div class="card-header bg-primary">
                     <div class="card-title d-flex align-items-center mb-3 text-white">
                         <span class="font-weight-bold">Informações do Dataset</span>
+                        <button
+                                (click)="getSamples()"
+                                [title]="'Refresh'"
+                                class="btn btn-outline-light"
+                                style="margin-right: 0px; width:-webkit-fill-available;"><a
+                                class="fa fa-refresh"></a></button>
                     </div>
                 </div>
                 <div  class="card-body">
@@ -24,7 +30,7 @@
                         </div>
                         <div class="col-md-6 form-group mb-3">
                             <label >Número de amostras </label>
-                            <input type="number" [disabled]="true" class="form-control" [(ngModel)]="dataset.samples.length" [ngModelOptions]="{standalone: true}" >
+                            <input type="number" [disabled]="true" class="form-control" [(ngModel)]="dataset.samples" [ngModelOptions]="{standalone: true}" >
                         </div>
                     </div>
                     <span class="font-weight-bold">Descrição</span>
@@ -43,7 +49,7 @@
                         <span class="font-weight-bold">Informações das amostras</span>
                     </div>
                 </div>
-                <app-sample-table [isLoading]="isLoading" [(data)]="samples" [datasetId]="id"  (refreshData)="getSamples()"></app-sample-table>
+                <app-sample-table [isLoading]="isLoading" [(data)]="samples" [datasetId]="id"  (refreshData)="getSamples()" (pageChange)="pageChange($event)"></app-sample-table>
             </div>
         </div>
     </div>

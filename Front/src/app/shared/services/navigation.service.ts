@@ -59,6 +59,12 @@ export class NavigationService {
             state: '/datasets/'
         },
         {
+            name: 'Experiments',
+            type: 'link',
+            icon: 'i-Data-Center',
+            state: '/experiments/'
+        },
+        {
             name: 'Importar',
             type: 'link',
             icon: 'i-Upload',

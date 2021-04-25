@@ -4,7 +4,7 @@
         [headerHeight]="50"
         [messages]="{emptyMessage: 'Nenhuma amostra encontrado'}"
         [rowHeight]="60"
-        [rows]="data"
+        [rows]="data.content"
         class="material fullscreen"
         [loadingIndicator]="isLoading"
 >
@@ -39,6 +39,14 @@
                           prop="originalFileName">
         <ng-template let-row="row" ngx-datatable-cell-template>
             {{row.originalFileName}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [canAutoResize]="true" [minWidth]="50" [resizeable]="true" [sortable]="true"
+                          cellClass="fcom-selectable fcom-ellipsible"
+                          name="Id arquivo"
+                          prop="fileId">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.fileId}}
         </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column [canAutoResize]="true" [minWidth]="50" [resizeable]="true" [sortable]="true"
@@ -89,9 +97,8 @@
                 <ngb-pagination
                     #ngbPage
                     [boundaryLinks]="true"
-                    [collectionSize]="data == null? 0: data.length"
-                    [pageSize]="pageSize"
-                    [page]="currentPage"
+                    [collectionSize]="data.totalElements"
+                    [pageSize]="data.size"
                     [maxSize]="5"
                     (pageChange)="onPageChanged($event)">
                 </ngb-pagination>

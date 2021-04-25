@@ -1,0 +1,16 @@
+<div class="">
+    <div class="breadcrumb">
+        <h1>Experimentos</h1>
+        <ul>
+            <li>Experimentos</li>
+            <li>Lista</li>
+        </ul>
+    </div>
+
+    <div class="separator-breadcrumb border-top"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <app-experiments-table [loading]="isLoading" [(data)]="items"  (refreshData)="get()" (pageChange)="pageChange($event)"></app-experiments-table>
+        </div>
+    </div>
+</div>

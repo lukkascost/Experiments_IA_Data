@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {DataHttpService} from '../../security/data-http.service';
 import {DatasetRegisterDTO} from '../../core/models/DatasetDTO';
 import {SampleRegisterDTO} from '../../core/models/SampleDTO';
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
 
 @Injectable({
@@ -14,8 +14,8 @@ export class DatasetService {
     }
     static url = environment.apiUrlBack + '/datasets';
 
-    getDatasets() {
-        return this.http.get(`${DatasetService.url}`).map(res => res.valueOf());
+    getDatasets(page, number: number) {
+        return this.http.get(`${DatasetService.url}` + '?page=' + page + '&size=' + number).map(res => res.valueOf());
     }
 
     postDataset(selectedDataset: DatasetRegisterDTO) {
@@ -24,11 +24,7 @@ export class DatasetService {
     }
 
     getDatasetById(id: string) {
-        return this.http.get(`${DatasetService.url}` + '/' + id).map(res => res.valueOf());
-    }
-
-    getSamplesByDatasetId(id: string) {
-        return this.http.get(`${DatasetService.url}` + '/' + id + '/samples').map(res => res.valueOf());
+        return this.http.get(`${DatasetService.url}` + '?id=' + id).map(res => res.valueOf());
     }
 
     postSampleInDataset(selectedSample: SampleRegisterDTO, datasetId: string) {
@@ -36,7 +32,7 @@ export class DatasetService {
     }
 
     deleteDataset(id: string) {
-        return this.http.delete(`${DatasetService.url}` + '/' + id).map(res => res.valueOf());
+        return this.http.delete(`${DatasetService.url}` + '?id=' + id).map(res => res.valueOf());
     }
 
     downloadDataset(id: string) {

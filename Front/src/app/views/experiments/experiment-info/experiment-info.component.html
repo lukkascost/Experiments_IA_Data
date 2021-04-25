@@ -1,0 +1,109 @@
+<div class="">
+    <div class="breadcrumb">
+        <h1>Experimentos</h1>
+        <ul>
+            <li>Experimentos</li>
+            <li>{{id}}</li>
+        </ul>
+    </div>
+    <div class="separator-breadcrumb border-top"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card o-hidden">
+                <div class="card-header bg-primary">
+                    <div class="card-title d-flex align-items-center mb-3 text-white">
+                        <span class="font-weight-bold">Informações do Experimento</span>
+                    </div>
+                </div>
+                <div  class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label >Nome </label>
+                            <input type="text" [disabled]="true" class="form-control" [(ngModel)]="experiment.name" [ngModelOptions]="{standalone: true}" >
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label >Número de rodadas </label>
+                            <input type="number" [disabled]="true" class="form-control" [(ngModel)]="experiment.rounds" [ngModelOptions]="{standalone: true}" >
+                        </div>
+                    </div>
+                    <span class="font-weight-bold">Descrição</span>
+                    <textarea style="margin-right: 0px; width:-webkit-fill-available;" disabled readonly [rows]="getWithLineBreak(experiment.description)">{{experiment.description}}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngFor="let k of rounds; let i = index">
+        <div class="col-md-12">
+            <div class="card o-hidden">
+                <div class="card-header bg-primary">
+                    <div class="card-title d-flex align-items-center mb-3 text-white">
+                        <span class="font-weight-bold">ROUND {{i+1}} - {{k.name}} - {{k.id}}</span>
+                    </div>
+                </div>
+                <div  class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label >Nome </label>
+                            <input type="text" [disabled]="true" class="form-control" [(ngModel)]="k.name" [ngModelOptions]="{standalone: true}" >
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label >Número de execuções </label>
+                            <input type="number" [disabled]="true" class="form-control" [(ngModel)]="k.executions" [ngModelOptions]="{standalone: true}" >
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label >Acurácia Geral</label>
+                            <input type="text" [disabled]="true" class="form-control" [(ngModel)]="k.generalAccuracy" [ngModelOptions]="{standalone: true}" >
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label>Acurácia binária</label>
+                            <input type="number" [disabled]="true" class="form-control" [(ngModel)]="k.binaryAccuracy" [ngModelOptions]="{standalone: true}" >
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group mb-3">
+
+                            <ngx-datatable
+                                    columnMode="force"
+                                    [footerHeight]="50"
+                                    [headerHeight]="50"
+                                    [messages]="{emptyMessage: 'Nenhuma amostra encontrado'}"
+                                    [rowHeight]="60"
+                                    [rows]="k.confusionMatrix"
+                                    class="material fullscreen"
+                                    [loadingIndicator]="false"
+                            >
+
+                                <ngx-datatable-column [minWidth]="100"
+                                                      [canAutoResize]="true"
+                                                      cellClass="fcom-selectable fcom-ellipsible">
+                                    <ng-template let-collumn="collumn"
+                                                 ngx-datatable-header-template>
+                                        Matrix Confusao total
+                                    </ng-template>
+                                    <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                            PREDITO/{{getLabelsOrdered(k)[rowIndex]}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column *ngFor="let j of getLabelsOrdered(k); let l = index" [minWidth]="100"
+                                                      [canAutoResize]="true"
+                                                      cellClass="fcom-selectable fcom-ellipsible">
+                                    <ng-template let-collumn="collumn"
+                                                 ngx-datatable-header-template>
+                                       REAL/{{j}}
+                                    </ng-template>
+                                    <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                            {{getFromRowMatrix( k.confusionMatrix, getCmOrdererFromRound(k)[getLabelsOrdered(k)[rowIndex]],getCmOrdererFromRound(k)[j], k.confusionMatrixTotalElements)}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

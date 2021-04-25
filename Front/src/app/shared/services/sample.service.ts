@@ -12,6 +12,9 @@ export class SampleService {
     constructor(private http: DataHttpService) {
     }
     static url = environment.apiUrlBack + '/samples';
+    getSamplesByDatasetId(id: string, page, size) {
+        return this.http.get(`${SampleService.url}` + '/?dataset_id=' + id + '&page=' + page + '&size=' + size).map(res => res.valueOf());
+    }
 
     deleteSample(id: string) {
         return this.http.delete(`${SampleService.url}` + '/' + id).map(res => res.valueOf());

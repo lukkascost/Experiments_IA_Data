@@ -1,0 +1,25 @@
+version: "3.5"
+services:
+  api-gateway:
+    image: api.gateway
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - internal
+      - external
+    environment:
+      BROKER_URL: activemq-artemis
+      BROKER_PORT: 61616
+      BROKER_USER: admin
+      BROKER_PASSWORD: admin
+      EUREKA_URI: http://cloud-discovery:8761/eureka
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    deploy:
+      replicas: 1
+
+networks:
+  internal: 
+  external:

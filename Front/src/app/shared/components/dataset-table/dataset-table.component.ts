@@ -4,20 +4,20 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {DatasetService} from '../../services/dataset.service';
 import {DatatableComponent} from '@swimlane/ngx-datatable';
 import {SampleRegisterDTO} from '../../../core/models/SampleDTO';
+import {PageDatasetDTOImpl} from '../../../core/models/Page';
 
 @Component({
     selector: 'app-dataset-table',
     templateUrl: './dataset-table.component.html'
 })
-export class DatasetTableComponent implements OnInit , OnChanges{
-    @Input() data: IDatasetDTO[] = [];
+export class DatasetTableComponent implements OnInit , OnChanges {
+    @Input() data: PageDatasetDTOImpl;
     @Input() loading: boolean;
     @Output() refreshData = new EventEmitter();
     @Output() dataChange = new EventEmitter();
+    @Output() pageChange = new EventEmitter();
 
     @ViewChild(DatatableComponent, null) table: DatatableComponent;
-    pageSize: number;
-    currentPage: number;
     rows = null;
     refreshRows = true;
 
@@ -26,16 +26,14 @@ export class DatasetTableComponent implements OnInit , OnChanges{
         private modalService: NgbModal,
         private datasetService: DatasetService
     ) { }
-    ngOnChanges(changes: SimpleChanges){
-        if(changes.data){
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.data) {
             this.rows  = changes.data.currentValue;
         }
     }
 
     ngOnInit() {
-        this.currentPage = 1;
-        this.pageSize = 10;
-        this.table.limit = 10;
         this.selectedDataset = new DatasetRegisterDTO();
         setTimeout(() => {
             window.dispatchEvent(new Event('resize'));
@@ -65,14 +63,13 @@ export class DatasetTableComponent implements OnInit , OnChanges{
         });
     }
     onPageChanged(pageNum) {
-        this.currentPage = pageNum;
-        this.table.offset = pageNum - 1;
+        this.pageChange.emit(pageNum);
     }
     updateFilter(event) {
         const val = event.target.value.toLowerCase();
 
         // filter our data
-        const temp = this.data.filter(function (d) {
+        const temp = this.data.content.filter(function (d) {
             return d.name.toLowerCase().indexOf(val) !== -1 || !val;
         });
 
@@ -95,21 +92,21 @@ export class DatasetTableComponent implements OnInit , OnChanges{
 
     download(row) {
         this.datasetService.downloadDataset(row.id).toPromise()
-            .then(data=>{
+            .then(data => {
                 console.log(data);
-                var url = window.URL.createObjectURL(data);
-                var a = document.createElement('a');
+                let url = window.URL.createObjectURL(data);
+                let a = document.createElement('a');
                 document.body.appendChild(a);
                 a.setAttribute('style', 'display: none');
                 a.href = url;
-                a.download = row.name+".txt";
+                a.download = row.name + '.txt';
                 a.click();
                 window.URL.revokeObjectURL(url);
                 a.remove(); // remove the element
             })
-            .catch(err=>{
+            .catch(err => {
                 console.log('download error:', JSON.stringify(err));
-            })
+            });
     }
 
     openEdit(row) {

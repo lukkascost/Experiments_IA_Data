@@ -18,6 +18,11 @@ const adminRoutes: Routes = [
         path: 'import',
         loadChildren: './views/import/import.module#ImportModule'
     }
+    ,
+    {
+        path: 'experiments',
+        loadChildren: './views/experiments/experiments.module#ExperimentsModule'
+    }
 ];
 
 const routes: Routes = [

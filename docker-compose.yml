@@ -1,0 +1,242 @@
+version: "3.5"
+services:
+  cloud-discovery:
+    image: lukkascost/cloud-discovery
+    restart: always
+    ports:
+      - "8761:8761"
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 700M
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+  api-gateway:
+    image: lukkascost/api-gateway
+    restart: always
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 700M
+    environment:
+      BROKER_URL: activemq-artemis
+      BROKER_PORT: 61616
+      BROKER_USER: admin
+      BROKER_PASSWORD: admin
+      EUREKA_URI: http://cloud-discovery:8761/eureka
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    depends_on:
+      - activemq
+      - cloud-discovery
+
+  attributes-module:
+    image: lukkascost/data-analyze-attributes-module
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 700M
+    environment:
+      BROKER_URL: activemq
+      BROKER_PORT: 61616
+      BROKER_USER: admin
+      BROKER_PASSWORD: admin
+      EUREKA_URI: http://cloud-discovery:8761/eureka
+      DATASOURCE_JDBC: jdbc:postgresql://postgres:5432/data_analyze_db
+      DATASOURCE_USERNAME: postgres
+      DATASOURCE_PASSWORD: postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    depends_on:
+      - activemq
+      - cloud-discovery
+  samples-module:
+    image: lukkascost/data-analyze-samples-module
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 700M
+    environment:
+      BROKER_URL: activemq
+      BROKER_PORT: 61616
+      BROKER_USER: admin
+      BROKER_PASSWORD: admin
+      EUREKA_URI: http://cloud-discovery:8761/eureka
+      DATASOURCE_JDBC: jdbc:postgresql://postgres:5432/data_analyze_db
+      DATASOURCE_USERNAME: postgres
+      DATASOURCE_PASSWORD: postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    depends_on:
+      - activemq
+      - cloud-discovery
+  dataset-module:
+    image: lukkascost/data-analyze-dataset-module
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 700M
+    environment:
+      BROKER_URL: activemq
+      BROKER_PORT: 61616
+      BROKER_USER: admin
+      BROKER_PASSWORD: admin
+      EUREKA_URI: http://cloud-discovery:8761/eureka
+      DATASOURCE_JDBC: jdbc:postgresql://postgres:5432/data_analyze_db
+      DATASOURCE_USERNAME: postgres
+      DATASOURCE_PASSWORD: postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    depends_on:
+      - activemq
+      - cloud-discovery
+
+  experiment-module:
+    image: lukkascost/data-analyze-experiments-module
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 700M
+    environment:
+      BROKER_URL: activemq
+      BROKER_PORT: 61616
+      BROKER_USER: admin
+      BROKER_PASSWORD: admin
+      EUREKA_URI: http://cloud-discovery:8761/eureka
+      DATASOURCE_JDBC: jdbc:postgresql://postgres:5432/data_analyze_db
+      DATASOURCE_USERNAME: postgres
+      DATASOURCE_PASSWORD: postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    depends_on:
+      - activemq
+      - cloud-discovery
+  round-module:
+    image: lukkascost/data-analyze-round-module
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 700M
+    environment:
+      BROKER_URL: activemq
+      BROKER_PORT: 61616
+      BROKER_USER: admin
+      BROKER_PASSWORD: admin
+      EUREKA_URI: http://cloud-discovery:8761/eureka
+      DATASOURCE_JDBC: jdbc:postgresql://postgres:5432/data_analyze_db
+      DATASOURCE_USERNAME: postgres
+      DATASOURCE_PASSWORD: postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    depends_on:
+      - activemq
+      - cloud-discovery
+  executions-module:
+    image: lukkascost/data-analyze-execution-module
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 700M
+    environment:
+      BROKER_URL: activemq
+      BROKER_PORT: 61616
+      BROKER_USER: admin
+      BROKER_PASSWORD: admin
+      EUREKA_URI: http://cloud-discovery:8761/eureka
+      DATASOURCE_JDBC: jdbc:postgresql://postgres:5432/data_analyze_db
+      DATASOURCE_USERNAME: postgres
+      DATASOURCE_PASSWORD: postgres
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    depends_on:
+      - activemq
+      - cloud-discovery
+
+  activemq:
+    image: webcenter/activemq
+    restart: always
+    ports:
+      - "61613:61613"
+      - "61616:61616"
+      - "8161:8161"
+  postgres:
+    image: postgres
+    command: postgres -c 'max_connections=1000'
+    restart: always
+    volumes:
+      - D:/OneDrive/Repository/bds/pg:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: data_analyze_db
+
+  redis:
+    image: redis
+    restart: always
+    command: redis-server /usr/local/etc/redis/redis.conf
+    ports:
+      - "8152:6379"
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - D:/OneDrive/Repository/bds/redis_data:/data
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
