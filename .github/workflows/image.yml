@@ -16,5 +16,5 @@ jobs:
         with:
           version: latest
       - name: build the image
-      run: |
+  run: |
         docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag lukkascost/data-analyze-commons:latest .
