@@ -13,13 +13,10 @@ FROM openjdk:8-jre-alpine
 COPY --from=build /home/app/target/cloud.discovery-0.0.1.jar /usr/local/lib/run.jar
 
 ENV SPRING_PROFILES_ACTIVE=docker
-ENV TZ 'America/Fortaleza'
-RUN echo $TZ > /etc/timezone && \
-    apt-get update && apt-get install -y tzdata && \
-    rm /etc/localtime && \
-    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
-    dpkg-reconfigure -f noninteractive tzdata && \
-    apt-get clean
+
+RUN apk add --no-cache tzdata
+ENV TZ America/Fortaleza
+
 WORKDIR /
 EXPOSE 8761
 ENTRYPOINT ["java","-jar", "/usr/local/lib/run.jar"]
