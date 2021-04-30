@@ -39,22 +39,20 @@ public class RoundDetailsDTO {
 
     public float getBinaryAccuracy(){
         String label = "Class-0";
-        Integer CP = this.getLabels().stream()
-                .map(x -> this.sumConfusionMatrix.getConfusionMatrix().get(x).get(label))
-                .reduce((o,n) -> o+n).get();
-        Integer CN = Math.toIntExact(this.sumConfusionMatrix.getTotalElements() - CP);
-        Integer TP = this.sumConfusionMatrix.getConfusionMatrix().get(label).get(label);
-        Integer FN = CP - TP;
-        Integer PP = this.getLabels().stream()
-                .map(x-> this.sumConfusionMatrix.getConfusionMatrix().get(label).get(x))
-                .reduce((o,n) -> o+n).get();
-        Integer FP = PP-TP;
-        Integer TN = CN - FP;
-        return (TP.floatValue()+TN.floatValue()) / this.sumConfusionMatrix.getTotalElements();
-
-
-
-
-
+        if(this.sumConfusionMatrix.getLabels().contains(label)) {
+            Integer CP = this.getLabels().stream()
+                    .map(x -> this.sumConfusionMatrix.getConfusionMatrix().get(x).get(label))
+                    .reduce((o, n) -> o + n).get();
+            Integer CN = Math.toIntExact(this.sumConfusionMatrix.getTotalElements() - CP);
+            Integer TP = this.sumConfusionMatrix.getConfusionMatrix().get(label).get(label);
+            Integer FN = CP - TP;
+            Integer PP = this.getLabels().stream()
+                    .map(x -> this.sumConfusionMatrix.getConfusionMatrix().get(label).get(x))
+                    .reduce((o, n) -> o + n).get();
+            Integer FP = PP - TP;
+            Integer TN = CN - FP;
+            return (TP.floatValue() + TN.floatValue()) / this.sumConfusionMatrix.getTotalElements();
+        }
+        return 0;
     }
 }
