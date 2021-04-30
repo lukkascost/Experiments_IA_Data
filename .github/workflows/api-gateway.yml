@@ -1,4 +1,4 @@
-name: build our image
+name: build api-gateway
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
       - name: build the commons image
         run: |
           docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag lukkascost/data-analyze-commons:latest commons.module/
-      - name: build the dataset image
+      - name: build the api-gateway image
         run: |
-          docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag lukkascost/data-analyze-dataset-module:latest dataset.module/
+          docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag lukkascost/api-gateway:latest api-gateways/
       
