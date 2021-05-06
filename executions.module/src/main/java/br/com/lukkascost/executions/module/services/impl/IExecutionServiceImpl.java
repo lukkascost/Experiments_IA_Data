@@ -50,7 +50,7 @@ public class IExecutionServiceImpl implements IExecutionService {
 
     @Override
     public ExecutionDetailsDTO create(ExecutionCreateDTO dto) {
-        RoundEntity roundEntity = roundRepository.getOne(dto.getRoundId());
+        RoundEntity roundEntity = roundRepository.findById(dto.getRoundId()).get();
         List<SampleEntity> sampleEntities = sampleRepository.findAllByDataset(roundEntity.getDataset());
 
         SplitterDataset splitterDataset = dto.getSplitterMode().split(sampleEntities);
