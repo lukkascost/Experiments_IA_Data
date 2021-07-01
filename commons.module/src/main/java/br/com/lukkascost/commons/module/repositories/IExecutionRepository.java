@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface IExecutionRepository extends JpaRepository<ExecutionEntity, UUID> , JpaSpecificationExecutor<ExecutionEntity> {
 
+    boolean existsByModelId(UUID modelId);
 }

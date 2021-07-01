@@ -47,4 +47,8 @@ private final IExecutionService executionService;
         return new ResponseEntity(executionService.insertModel(predictions, execution_id),HttpStatus.CREATED);
     }
 
+    @GetMapping("flush")
+    public void flushCache(){
+        executionService.flushCache();
+    }
 }

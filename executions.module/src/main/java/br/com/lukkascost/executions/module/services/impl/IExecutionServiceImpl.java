@@ -102,4 +102,19 @@ public class IExecutionServiceImpl implements IExecutionService {
         executionEntity = executionRepository.save(executionEntity);
         return executionMapper.convert(executionEntity);
     }
+
+    @Override
+    public void flushCache() {
+        List<ClassifierModelCacheEntity> toDelete = new ArrayList<>();
+
+        modelRepository.findAll().forEach(model -> {
+            if(model == null) return;
+            if(!executionRepository.existsByModelId(model.getId())){
+                toDelete.add(model);
+            }
+        });
+
+        modelRepository.deleteAll(toDelete);
+
+    }
 }

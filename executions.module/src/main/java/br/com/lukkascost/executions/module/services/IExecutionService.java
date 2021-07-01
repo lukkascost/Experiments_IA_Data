@@ -19,4 +19,6 @@ public interface IExecutionService {
 
     ExecutionDetailsDTO insertModel(ClassifierModelCacheEntity predictions, UUID execution_id);
 
+    void flushCache();
+
 }
