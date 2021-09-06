@@ -63,6 +63,16 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label >Desvio Geral</label>
+                            <input type="text" [disabled]="true" class="form-control" [(ngModel)]="k.generalAccuracyDeviation" [ngModelOptions]="{standalone: true}" >
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label>Desvio binário</label>
+                            <input type="number" [disabled]="true" class="form-control" [(ngModel)]="k.binaryAccuracyDeviation" [ngModelOptions]="{standalone: true}" >
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-12 form-group mb-3">
 
                             <ngx-datatable

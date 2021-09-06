@@ -56,6 +56,11 @@ export class ExperimentInfoComponent implements OnInit {
   }
 
   getFromRowMatrix(row: any, cmOrdererFromRoundElement: any, cmOrdererFromRoundElement2: any, max) {
-    return Math.round(row[cmOrdererFromRoundElement][cmOrdererFromRoundElement2] );
+    let total = 0;
+    for (let i = 0; i < row.length; i++) {
+      total += row[i][cmOrdererFromRoundElement2];
+    }
+    return Math.fround((row[cmOrdererFromRoundElement][cmOrdererFromRoundElement2] * 100 ) / total).toPrecision(4);
+    // return Math.fround(row[cmOrdererFromRoundElement][cmOrdererFromRoundElement2] );
   }
 }
