@@ -54,4 +54,28 @@ public class ConfusionMatrix {
         }
         return result;
     }
+
+    public float getGeneralAccuracy(){
+        return this.labels.stream().map(x->this.confusionMatrix.get(x).get(x)).reduce((o,n)-> o+n).get() /
+                ((float)this.totalElements);
+    }
+
+    public float getBinaryAccuracy(){
+        String label = "Class-0";
+        if(this.labels.contains(label)) {
+            Integer CP = this.labels.stream()
+                    .map(x -> this.confusionMatrix.get(x).get(label))
+                    .reduce((o, n) -> o + n).get();
+            Integer CN = Math.toIntExact(this.totalElements - CP);
+            Integer TP = this.confusionMatrix.get(label).get(label);
+            Integer FN = CP - TP;
+            Integer PP = this.getLabels().stream()
+                    .map(x -> this.confusionMatrix.get(label).get(x))
+                    .reduce((o, n) -> o + n).get();
+            Integer FP = PP - TP;
+            Integer TN = CN - FP;
+            return (TP.floatValue() + TN.floatValue()) / this.totalElements;
+        }
+        return 0;
+    }
 }
