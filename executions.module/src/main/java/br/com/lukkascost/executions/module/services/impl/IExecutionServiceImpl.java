@@ -73,6 +73,7 @@ public class IExecutionServiceImpl implements IExecutionService {
             ClassifierModelCacheEntity modelCacheEntity = modelRepository.findById(executionEntity.getModelId().toString()).get();
 
             if(modelCacheEntity.getSampleResult() == null ) modelCacheEntity.setSampleResult(new HashMap<>());
+            if(modelCacheEntity.getSampleResult().containsKey(prediction.getSample_id())) continue;
             modelCacheEntity.getSampleResult().put(prediction.getSample_id(),prediction.getPredicted());
 
             ConfusionMatrix cm = executionEntity.getConfusionMatrix();
@@ -96,6 +97,7 @@ public class IExecutionServiceImpl implements IExecutionService {
     @Override
     public ExecutionDetailsDTO insertModel(ClassifierModelCacheEntity predictions, UUID execution_id) {
         ExecutionEntity executionEntity = executionRepository.findById(execution_id).get();
+        if(executionEntity.getModelId() != null) return executionMapper.convert(executionEntity) ;
         predictions.setId(UUID.randomUUID());
         predictions = modelRepository.save(predictions);
         executionEntity.setModelId(predictions.getId());
